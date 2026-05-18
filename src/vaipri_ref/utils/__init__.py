@@ -1,0 +1,1 @@
+"""Utilitarios compartilhados pelo pacote."""
