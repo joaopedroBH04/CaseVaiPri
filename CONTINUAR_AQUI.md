@@ -6,30 +6,46 @@
 
 ---
 
+## ⚠️ REGRA DE OURO — ativar o virtualenv ANTES de cada comando
+
+**Toda vez que você abrir um terminal novo**, o virtualenv "esquece"
+que estava ativo. Você precisa reativar com:
+
+```cmd
+.venv\Scripts\activate
+```
+
+**Como saber se está ativo?** Olhe o início do prompt:
+
+| Prompt | Significado |
+|--------|-------------|
+| `PS C:\Users\costa\CaseVaiPri>` | ❌ NÃO está ativo. Vai falhar com `ModuleNotFoundError` |
+| `(.venv) PS C:\Users\costa\CaseVaiPri>` | ✅ ATIVO. Pode rodar comandos |
+
+Se você vir erro `No module named 'diskcache'` (ou qualquer outro),
+**a causa é quase sempre essa**. Solução: rode `.venv\Scripts\activate`
+e tente o comando de novo.
+
+---
+
 ## Antes de começar (10 segundos)
 
-Confirme onde você está:
+Confirme onde você está e que o venv está ativo:
 
 ```cmd
 cd C:\Users\costa\CaseVaiPri
+.venv\Scripts\activate
 git status
 ```
 
 **Esperado:**
 
 ```
+(.venv) PS C:\Users\costa\CaseVaiPri> git status
 On branch claude/develop-case-implementation-oumwk
 Your branch is up to date with 'origin/claude/develop-case-implementation-oumwk'.
 nothing to commit, working tree clean
 ```
-
-Se o virtualenv não estiver ativo, ative:
-
-```cmd
-.venv\Scripts\activate
-```
-
-Você sabe que está ativo quando o prompt vira `(.venv) C:\Users\costa\CaseVaiPri>`.
 
 ---
 
@@ -99,8 +115,14 @@ atualizados — sem problema.
 Em **uma janela do terminal separada** (não feche o que você está usando):
 
 ```cmd
+cd C:\Users\costa\CaseVaiPri
+.venv\Scripts\activate
 streamlit run app/streamlit_app.py
 ```
+
+> ⚠️ **As 2 primeiras linhas são obrigatórias** em todo terminal novo,
+> senão dá `ModuleNotFoundError: No module named 'diskcache'`. Não use
+> `python -m streamlit` — use só `streamlit run` (com o venv ativo).
 
 **O que acontece:**
 
@@ -273,6 +295,13 @@ Se os 5 estiverem OK, **manda.**
 ---
 
 ## Se algo der errado durante o Loom
+
+**Caso 0 (mais comum): "ModuleNotFoundError: No module named X"**
+O virtualenv não está ativo neste terminal. Solução:
+```cmd
+.venv\Scripts\activate
+```
+e rode o comando de novo. Confirma com `(.venv)` no início do prompt.
 
 **Caso 1: "tela ficou tremida quando alternei pra outra janela"**
 Pause 2 segundos antes de alternar. O Loom corta silêncios bem depois.
