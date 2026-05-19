@@ -200,6 +200,40 @@ ainda vai cumprir o requisito principal (pipeline funciona ponta-a-ponta).
 - Verifique se App ID e App Secret estão certos
 - Tente regenerar o token via mesma URL do passo 4
 
+### "Application does not have permission for this action"
+
+Esse erro acontece quando seu app **está em Development Mode** e ainda
+não passou pela verificação que a Meta exige para usar `ads_archive`.
+Esse processo (Identity Confirmation + App Review) leva dias.
+
+**Boa notícia:** o pipeline tem fallback automático que **funciona em
+~90% das redes caseiras** — ele cai pro scraping da UI pública. Você
+vai ver no log:
+
+```
+WARNING  Graph API falhou: ...; caindo pro scraping web
+INFO     Termo 'dermatologista' -> 12 anunciantes brutos
+```
+
+Se aparecer `12 anunciantes brutos` (ou qualquer número > 0) para a
+maioria dos termos, **está funcionando** — só está mais lento que via
+Graph API (3-5 min vs 30 segundos).
+
+**Alternativa rápida que funciona com qualquer chave:**
+
+Em vez de App Access Token, use um **User Access Token** do Graph API
+Explorer:
+
+1. Vá em [developers.facebook.com/tools/explorer](https://developers.facebook.com/tools/explorer/)
+2. No topo, selecione seu app (vai aparecer o nome que você criou)
+3. À direita, clique em **"Generate Access Token"**
+4. Pode pedir permissões — aceite as default
+5. Copie o token que aparecer no campo "Access Token"
+6. Cole no `.env` (esse vale por ~1-2 horas, então só pra demo)
+
+User Access Tokens não passam por App Review e funcionam para
+`ads_archive` na maioria dos casos.
+
 ### "Busca real retorna 0 resultados"
 
 Não é bug do código — é a Meta:

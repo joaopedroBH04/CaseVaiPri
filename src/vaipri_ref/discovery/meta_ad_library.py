@@ -97,8 +97,15 @@ class MetaAdLibraryScraper:
     # ------------- API publica ----------------
 
     def buscar(self, termos: list[str], limite_por_termo: int = 12) -> list[Candidato]:
-        """Roda buscas para todos os termos e devolve candidatos deduplicados."""
+        """Roda buscas para todos os termos e devolve candidatos deduplicados.
+
+        Importante: `termo_busca_origem` e' rastreado por candidato.
+        Esse campo serve como EVIDENCIA de especialidade: se a Meta
+        retornou um anunciante para o termo 'dermatologista', ele
+        provavelmente e' dermato — mesmo que o nome FB nao mencione.
+        """
         agregados: dict[str, _AdvertiserBruto] = {}
+        origem: dict[str, str] = {}  # page_id -> primeiro termo que retornou esse anunciante
         for termo in termos:
             try:
                 lote = self._buscar_termo(termo, limite=limite_por_termo)
@@ -113,6 +120,7 @@ class MetaAdLibraryScraper:
             for adv in lote:
                 if adv.fb_page_id not in agregados:
                     agregados[adv.fb_page_id] = adv
+                    origem[adv.fb_page_id] = termo  # primeiro termo que achou
                 else:
                     cur = agregados[adv.fb_page_id]
                     cur.n_anuncios_ativos = max(cur.n_anuncios_ativos, adv.n_anuncios_ativos)
@@ -129,7 +137,7 @@ class MetaAdLibraryScraper:
                         fb_page_url=adv.fb_page_url,  # pydantic valida URL
                         n_anuncios_ativos=adv.n_anuncios_ativos,
                         instagram_handle_hint=adv.ig_handle_hint,
-                        termo_busca_origem=None,
+                        termo_busca_origem=origem.get(adv.fb_page_id),
                     )
                 )
             except Exception as exc:

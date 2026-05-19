@@ -229,11 +229,14 @@ def _executar(
             perfil = ig_scraper.buscar_perfil(handle_res.handle)
 
         # 4) match de especialidade (usa bio do IG se houver, senao so nome FB)
+        # Passa termo_busca_origem: se a Meta retornou este anunciante para
+        # uma busca por termo da especialidade, isso e evidencia forte de match.
         match = matcher.avaliar(
             especialidade=especialidade_norm,
             nome=perfil.nome_completo if perfil else None,
             bio=perfil.bio if perfil else None,
             nome_fb_page=cand.fb_page_name,
+            termo_busca_origem=cand.termo_busca_origem,
         )
         if not match.match:
             n_filtrados_especialidade += 1

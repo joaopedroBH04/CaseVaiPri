@@ -89,8 +89,52 @@ class SpecialtyMatcher:
         nome: str | None,
         bio: str | None,
         nome_fb_page: str | None,
+        termo_busca_origem: str | None = None,
     ) -> ResultadoMatch:
-        """Classifica se o perfil corresponde a especialidade dada."""
+        """Classifica se o perfil corresponde a especialidade dada.
+
+        Args:
+            termo_busca_origem: termo da Ad Library que retornou este anunciante.
+                Quando bate com termos da especialidade, e' EVIDENCIA FORTE
+                de match — a Meta ja filtrou pra nos. Util quando o nome FB
+                e' generico (ex: "Dr Joao Silva" sem mencionar dermato).
+        """
+
+        # Anti-keywords sempre eliminam, mesmo com termo_busca_origem positivo.
+        contexto_full = " ".join(filter(None, [nome, bio, nome_fb_page]))
+        contexto_norm = _norm(contexto_full)
+        anti_keywords = [
+            "hospital", "rede de clinicas", "plano de saude", "sus",
+            "marca de", "loja de", "suplemento",
+            "personal trainer", "coach", "influencer", "lifestyle",
+            "sem medico", "nao sou medic",
+        ]
+        for ex in anti_keywords:
+            if ex in contexto_norm:
+                return ResultadoMatch(
+                    match=False,
+                    confianca=0.85,
+                    justificativa=f"Anti-keyword detectada: {ex!r} (institucional/nao-medico).",
+                )
+
+        # Se a Ad Library retornou este anunciante para uma busca por termo
+        # da especialidade, isso ja e evidencia forte que estamos certos.
+        if termo_busca_origem:
+            esp_norm = _norm(especialidade)
+            termo_norm = _norm(termo_busca_origem)
+            termos_especialidade = _HEURISTICAS_FALLBACK.get(esp_norm, [esp_norm])
+            # Se o termo de busca contem ou e' um dos termos canonicos da
+            # especialidade, aceita com alta confianca.
+            for canonico in termos_especialidade:
+                if canonico in termo_norm or termo_norm in canonico:
+                    return ResultadoMatch(
+                        match=True,
+                        confianca=0.85,
+                        justificativa=(
+                            f"Retornado pela Ad Library na busca por {termo_busca_origem!r}, "
+                            f"que e' termo direto de {especialidade!r}."
+                        ),
+                    )
 
         contexto_textual = "\n".join(
             f"{rotulo}: {valor!r}"
