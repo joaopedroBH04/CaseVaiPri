@@ -291,6 +291,11 @@ def _executar(
             f"sem anuncio ativo: {n_descartados_sem_anuncio}."
         )
 
+    # Se a chave Claude existia mas a API rejeitou em runtime (401/403),
+    # acrescenta aviso explicito pro usuario consertar o .env depois.
+    if claude.aviso_fatal:
+        avisos.append(claude.aviso_fatal)
+
     resultado = Resultado(
         handle_cliente=handle_cliente_norm,
         especialidade=especialidade_norm,

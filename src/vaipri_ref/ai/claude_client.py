@@ -4,6 +4,9 @@ Centraliza:
 - retry com backoff em rate limit / timeout
 - parsing tolerante de JSON na resposta
 - modo offline quando a chave nao esta configurada (retorna None)
+- modo degradado quando a chave existe mas e invalida/sem credito:
+  detectamos o erro fatal, desabilitamos o cliente e seguimos no
+  fallback heuristico sem explodir o pipeline.
 """
 
 from __future__ import annotations
@@ -25,23 +28,54 @@ logger = obter_logger()
 
 try:
     import anthropic
-    from anthropic import APIError, APITimeoutError, RateLimitError
+    from anthropic import (
+        APIError,
+        APITimeoutError,
+        RateLimitError,
+    )
+
+    # Erros transitorios — vale a pena retry com backoff.
+    _ERROS_RETRY: tuple = (RateLimitError, APITimeoutError)
+
+    # Erros FATAIS — chave invalida, sem credito, modelo nao existe.
+    # NAO retry: re-tentar e jogar dinheiro fora e atrasar o pipeline.
+    # Captura por status quando o SDK nao expoe subclasse especifica.
+    _ERROS_FATAIS_NOMES = {
+        "AuthenticationError",
+        "PermissionDeniedError",
+        "NotFoundError",
+        "BadRequestError",
+    }
 
     _SDK_DISPONIVEL = True
-    _ERROS_RETRY = (RateLimitError, APITimeoutError, APIError)
 except Exception:  # pragma: no cover
     anthropic = None  # type: ignore[assignment]
+    APIError = APITimeoutError = RateLimitError = Exception  # type: ignore[assignment,misc]
+    _ERROS_RETRY = ()
+    _ERROS_FATAIS_NOMES = set()
     _SDK_DISPONIVEL = False
-    _ERROS_RETRY = ()  # type: ignore[assignment]
+
+
+def _erro_fatal(exc: BaseException) -> bool:
+    """Retorna True para erros que NAO devem ser re-tentados nem propagados."""
+    nome = type(exc).__name__
+    if nome in _ERROS_FATAIS_NOMES:
+        return True
+    # Fallback por status HTTP, caso o SDK serialize diferente.
+    status = getattr(exc, "status_code", None)
+    return status in (400, 401, 403, 404)
 
 
 class ClaudeClient:
-    """Cliente Claude com modo degradado quando nao ha chave."""
+    """Cliente Claude com modo degradado quando nao ha chave OU
+    quando a chave existe mas e invalida em runtime.
+    """
 
     def __init__(self, api_key: str | None, model: str) -> None:
         self.model = model
         self.api_key = api_key
         self._client = None
+        self._aviso_fatal: str | None = None  # mensagem amigavel
         if _SDK_DISPONIVEL and api_key and api_key.startswith("sk-"):
             self._client = anthropic.Anthropic(api_key=api_key)
 
@@ -49,12 +83,22 @@ class ClaudeClient:
     def disponivel(self) -> bool:
         return self._client is not None
 
+    @property
+    def aviso_fatal(self) -> str | None:
+        """Mensagem amigavel quando a chave era valida no construtor mas
+        provou-se invalida na primeira chamada. None se nao houve."""
+        return self._aviso_fatal
+
     @retry(
         stop=stop_after_attempt(3),
         wait=wait_exponential(multiplier=1, min=2, max=15),
-        retry=retry_if_exception_type(_ERROS_RETRY) if _ERROS_RETRY else retry_if_exception_type(Exception),
+        retry=retry_if_exception_type(_ERROS_RETRY) if _ERROS_RETRY else retry_if_exception_type(()),
         reraise=True,
     )
+    def _chamar_com_retry(self, kwargs: dict[str, Any]) -> str:
+        resp = self._client.messages.create(**kwargs)  # type: ignore[union-attr]
+        return "".join(b.text for b in resp.content if b.type == "text").strip()
+
     def texto(
         self,
         prompt: str,
@@ -63,7 +107,7 @@ class ClaudeClient:
         max_tokens: int = 1024,
         temperature: float = 0.0,
     ) -> str | None:
-        """Retorna texto livre. None quando nao ha cliente."""
+        """Retorna texto livre. None se cliente indisponivel OU falha fatal."""
         if not self._client:
             return None
 
@@ -77,11 +121,19 @@ class ClaudeClient:
             kwargs["system"] = sistema
 
         try:
-            resp = self._client.messages.create(**kwargs)
-            return "".join(b.text for b in resp.content if b.type == "text").strip()
+            return self._chamar_com_retry(kwargs)
         except Exception as exc:
-            logger.warning(f"Claude falhou: {exc}")
-            raise
+            if _erro_fatal(exc):
+                # Desabilita o cliente: nao adianta tentar de novo.
+                msg = f"Chave Claude rejeitada pela API ({type(exc).__name__}). Caindo no modo heuristico."
+                logger.warning(msg)
+                self._client = None
+                self._aviso_fatal = msg
+                return None
+            # Erro transitorio que esgotou retries: melhor logar e cair,
+            # nao propagar (o pipeline tem fallback pra None).
+            logger.warning(f"Claude falhou apos retries: {exc}")
+            return None
 
     def json_objeto(
         self,
