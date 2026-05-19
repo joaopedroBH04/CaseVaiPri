@@ -49,6 +49,19 @@ Ele responde "o que faz uma boa referencia" e como busco, antes de qualquer codi
 **Para o Loom (5min):** [`docs/ROTEIRO_LOOM.md`](./docs/ROTEIRO_LOOM.md) — roteiro de
 gravacao bloco a bloco com tempos-alvo, falas e comandos prontos pra copy/paste.
 
+### Documentos por criterio de avaliacao
+
+O enunciado lista 5 criterios. Cada um tem um arquivo dedicado pra
+o avaliador conferir rapido:
+
+| Criterio do enunciado                                                | Documento                                                  |
+| -------------------------------------------------------------------- | ---------------------------------------------------------- |
+| 1. Definicao de produto antes de codigo                              | [`docs/DEFINICAO_DE_PRODUTO.md`](./docs/DEFINICAO_DE_PRODUTO.md) |
+| 2. Criterio para "bom medico" — tese clara?                          | [`docs/DEFINICAO_DE_PRODUTO.md`](./docs/DEFINICAO_DE_PRODUTO.md) §1 |
+| 3. Funciona — rodamos e entrega o esperado?                          | `make demo` + [`outputs/exemplos/`](./outputs/exemplos/)   |
+| 4. Uso de Claude Code estrategico (planejamento, debug, refator)     | [`docs/USO_DE_CLAUDE_CODE.md`](./docs/USO_DE_CLAUDE_CODE.md) |
+| 5. Robustez (@ inexistente, especialidade rara, sem anuncio)         | [`docs/ROBUSTEZ.md`](./docs/ROBUSTEZ.md) (53 testes especificos) |
+
 ---
 
 ## Instalacao em 3 passos

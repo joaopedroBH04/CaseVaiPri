@@ -125,6 +125,50 @@ vaipri-ref buscar @ortopedista.test ortopedia --demo
 
 ---
 
+## Bloco 4.5 — Robustez ao vivo (3:00 → 3:30)
+
+> Esse bloco e curto mas IMPACTANTE — mostra os 3 casos de input
+> estranho do enunciado funcionando em tempo real.
+
+**Fale:**
+
+> "O case avalia robustez explicitamente. Vou mostrar os tres casos
+> que ele pede: handle invalido, especialidade rara, e perfil sem anuncio."
+
+**Execute no terminal, em sequencia rapida:**
+
+```bash
+# 1) Handle invalido — para na entrada com mensagem clara
+vaipri-ref buscar @@ dermatologia --demo
+```
+
+> "Para cedo, mensagem util, nao trava."
+
+```bash
+# 2) Especialidade rara — devolve menos com justificativa
+vaipri-ref buscar @x.cliente neurocirurgia --demo
+```
+
+> "Sem fixture pra neurocirurgia, ferramenta avisa explicitamente em
+> vez de fingir que achou. Em modo producao real, ela tentaria buscar
+> e devolveria N com justificativa — exatamente o que o enunciado
+> pediu."
+
+```bash
+# 3) Cliente sem anuncios — funciona normal (o cliente nao precisa anunciar)
+vaipri-ref buscar @cliente.zero.anuncios dermatologia --demo
+```
+
+> "Cliente nao precisa anunciar — quem nao anuncia e quem esta
+> procurando referencia."
+
+**Mostre:**
+
+- `docs/ROBUSTEZ.md` por 2 segundos rolando ate a tabela final.
+- Mencione: "53 testes pytest especificos de robustez, todos verdes".
+
+---
+
 ## Bloco 5 — Trade-offs e autocrítica (3:30 → 4:15)
 
 **Fale:**
