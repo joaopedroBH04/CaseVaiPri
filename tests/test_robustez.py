@@ -24,7 +24,10 @@ from vaipri_ref.utils.normalize import limpar_handle
 
 @pytest.fixture
 def cfg_tmp():
-    with tempfile.TemporaryDirectory() as td:
+    # ignore_cleanup_errors=True: cinto de seguranca pro Windows.
+    # O pipeline ja fecha o diskcache em finally, mas se algum
+    # cenario futuro deixar handle aberto, o teardown nao quebra.
+    with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as td:
         yield Config(
             anthropic_api_key=None,
             claude_model="claude-haiku-4-5-20251001",

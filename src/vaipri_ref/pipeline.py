@@ -61,6 +61,33 @@ def buscar_referencias(
     })
 
     cache = Cache(cfg.cache_dir)
+    try:
+        return _executar(
+            cfg=cfg,
+            cache=cache,
+            handle_cliente_norm=handle_cliente_norm,
+            especialidade_norm=especialidade_norm,
+            on_progress=on_progress,
+            modo_demo=modo_demo,
+        )
+    finally:
+        # Fecha o SQLite do diskcache. Critico no Windows pra liberar
+        # o lock do arquivo cache.db antes de qualquer rmtree do
+        # diretorio (ex: TemporaryDirectory em testes).
+        cache.close()
+
+
+def _executar(
+    *,
+    cfg: Config,
+    cache: Cache,
+    handle_cliente_norm: str,
+    especialidade_norm: str,
+    on_progress,
+    modo_demo: bool,
+) -> Resultado:
+    """Corpo do pipeline. Separado de `buscar_referencias` para garantir
+    que o cache seja fechado mesmo em caso de excecao."""
     claude = ClaudeClient(api_key=cfg.anthropic_api_key, model=cfg.claude_model)
     avisos: list[str] = []
     if not claude.disponivel:

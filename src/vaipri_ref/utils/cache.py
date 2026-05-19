@@ -48,3 +48,12 @@ class Cache:
 
     def close(self) -> None:
         self._cache.close()
+
+    # Suporte a context manager: garante close() mesmo com excecao.
+    # Critico no Windows, onde diskcache mantem SQLite aberto e impede
+    # rmtree do diretorio enquanto o handle nao for liberado.
+    def __enter__(self) -> "Cache":
+        return self
+
+    def __exit__(self, exc_type, exc, tb) -> None:
+        self.close()

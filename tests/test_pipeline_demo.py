@@ -17,8 +17,13 @@ from vaipri_ref.pipeline import buscar_referencias
 
 @pytest.fixture
 def cfg_tmp():
-    """Config com cache temporario e sem chave API."""
-    with tempfile.TemporaryDirectory() as td:
+    """Config com cache temporario e sem chave API.
+
+    `ignore_cleanup_errors=True` evita que o teardown do tmp no Windows
+    quebre quando o diskcache deixou o cache.db com handle aberto. O
+    pipeline ja fecha o cache no finally; isso e cinto de seguranca.
+    """
+    with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as td:
         yield Config(
             anthropic_api_key=None,
             claude_model="claude-haiku-4-5-20251001",
