@@ -7,6 +7,9 @@ e score de 0–100.
 
 Construida para a case do **Analista de Automacao** da VaiPri.
 
+> **Vai rodar agora?** Siga o guia [`COMO_RODAR_AGORA.md`](./COMO_RODAR_AGORA.md)
+> (60 minutos do clone à entrega, incluindo gravacao do Loom).
+
 ```
 $ vaipri-ref buscar @clinica.exemplo dermatologia
 
