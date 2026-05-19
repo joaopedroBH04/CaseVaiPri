@@ -66,8 +66,17 @@ class Referencia(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     # Identificacao
-    instagram_handle: str = Field(..., description="Handle do IG sem @, ex: 'dra.fulana'.")
-    instagram_url: HttpUrl
+    instagram_handle: str | None = Field(
+        None,
+        description=(
+            "Handle do IG sem @, ex: 'dra.fulana'. None quando nao foi possivel "
+            "resolver automaticamente — nesse caso use fb_page_name + biblioteca_anuncios_url "
+            "para localizar manualmente."
+        ),
+    )
+    instagram_url: HttpUrl | None = Field(
+        None, description="URL do perfil IG. None quando handle nao foi resolvido."
+    )
     nome_exibicao: str | None = None
 
     # Anuncios

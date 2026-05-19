@@ -206,7 +206,7 @@ def _executar(
             n_descartados_sem_anuncio += 1
             continue
 
-        # 3a) resolve handle do IG
+        # 3a) resolve handle do IG (best-effort: pode falhar e nao impede entrega)
         handle_res = resolver.resolver(
             fb_page_id=cand.fb_page_id,
             fb_page_name=cand.fb_page_name,
@@ -214,69 +214,78 @@ def _executar(
             hint=cand.instagram_handle_hint,
         )
 
-        if not handle_res.handle:
-            logger.debug("Sem handle resolvido para %s, pulando", cand.fb_page_name)
-            continue
-        if handle_res.handle == handle_cliente_norm:
+        # Se o handle resolvido bate com o cliente, descarta — e a propria conta.
+        if handle_res.handle and handle_res.handle == handle_cliente_norm:
             logger.debug("Handle resolvido e o proprio cliente, pulando")
             continue
 
-        # 3b) enriquece IG (em demo, usa fixture pre-carregado)
-        if modo_demo and handle_res.handle in perfis_fixture:
+        # 3b) enriquece IG quando ha handle (em demo, usa fixture pre-carregado)
+        perfil: PerfilIG | None
+        if not handle_res.handle:
+            perfil = None
+        elif modo_demo and handle_res.handle in perfis_fixture:
             perfil = perfis_fixture[handle_res.handle]
         else:
             perfil = ig_scraper.buscar_perfil(handle_res.handle)
 
-        # 4) match de especialidade
+        # 4) match de especialidade (usa bio do IG se houver, senao so nome FB)
         match = matcher.avaliar(
             especialidade=especialidade_norm,
-            nome=perfil.nome_completo,
-            bio=perfil.bio,
+            nome=perfil.nome_completo if perfil else None,
+            bio=perfil.bio if perfil else None,
             nome_fb_page=cand.fb_page_name,
         )
         if not match.match:
             n_filtrados_especialidade += 1
             continue
 
-        # estima engajamento + cria metricas
-        engaj = estimar_engajamento(perfil.seguidores)
+        # estima engajamento + cria metricas (zeradas quando nao temos perfil IG)
+        engaj = estimar_engajamento(perfil.seguidores) if perfil else None
         metricas = Metricas(
-            seguidores=perfil.seguidores,
-            seguindo=perfil.seguindo,
-            total_posts=perfil.total_posts,
+            seguidores=perfil.seguidores if perfil else None,
+            seguindo=perfil.seguindo if perfil else None,
+            total_posts=perfil.total_posts if perfil else None,
             engajamento_estimado_percent=engaj,
-            posts_ultimos_30_dias=perfil.posts_ultimos_30_dias,
-            bio=perfil.bio,
-            nome_completo=perfil.nome_completo,
-            foto_url=perfil.foto_url,
-            metricas_completas=perfil.metricas_completas,
+            posts_ultimos_30_dias=perfil.posts_ultimos_30_dias if perfil else None,
+            bio=perfil.bio if perfil else None,
+            nome_completo=perfil.nome_completo if perfil else None,
+            foto_url=perfil.foto_url if perfil else None,
+            metricas_completas=bool(perfil and perfil.metricas_completas),
         )
 
-        bio_menciona = _bio_menciona(perfil.bio, especialidade_norm)
+        bio_para_match = perfil.bio if perfil else cand.fb_page_name
+        bio_menciona = _bio_menciona(bio_para_match, especialidade_norm)
         score, breakdown = calcular_score(
             EntradaScore(
                 n_anuncios_ativos=cand.n_anuncios_ativos,
-                seguidores=perfil.seguidores,
+                seguidores=perfil.seguidores if perfil else None,
                 engajamento_percent=engaj,
                 bio_menciona_especialidade=bio_menciona,
-                posts_ultimos_30_dias=perfil.posts_ultimos_30_dias,
+                posts_ultimos_30_dias=perfil.posts_ultimos_30_dias if perfil else None,
                 confianca_handle=handle_res.confianca,
             )
         )
 
         notas: list[str] = []
-        if perfil.erro:
+        if perfil and perfil.erro:
             notas.append(f"IG scraping parcial: {perfil.erro}")
+        if handle_res.fonte == "heuristica_nome":
+            notas.append("Handle do Instagram inferido pela heuristica do nome (validado por HEAD).")
         if handle_res.fonte == "claude_inferencia":
             notas.append("Handle do Instagram foi inferido pela IA e validado por HEAD request.")
-        if not perfil.metricas_completas:
+        if not handle_res.handle:
+            notas.append(
+                "Handle do Instagram NAO foi auto-resolvido. Use o link da Biblioteca de "
+                "Anuncios e a Pagina do Facebook para localizar o perfil manualmente."
+            )
+        if perfil and not perfil.metricas_completas:
             notas.append("Algumas metricas de IG nao foram obtidas; ver `metricas.metricas_completas`.")
 
         try:
             ref = Referencia(
                 instagram_handle=handle_res.handle,
-                instagram_url=url_perfil_ig(handle_res.handle),
-                nome_exibicao=perfil.nome_completo or cand.fb_page_name,
+                instagram_url=url_perfil_ig(handle_res.handle) if handle_res.handle else None,
+                nome_exibicao=(perfil.nome_completo if perfil else None) or cand.fb_page_name,
                 fb_page_id=cand.fb_page_id,
                 fb_page_name=cand.fb_page_name,
                 n_anuncios_ativos=cand.n_anuncios_ativos,

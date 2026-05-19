@@ -184,7 +184,7 @@ def _imprimir_sumario(res, paths) -> None:
     for i, ref in enumerate(res.referencias, start=1):
         table.add_row(
             str(i),
-            f"@{ref.instagram_handle}",
+            f"@{ref.instagram_handle}" if ref.instagram_handle else "(via Ad Library)",
             (ref.nome_exibicao or "")[:32],
             str(ref.n_anuncios_ativos),
             _fmt_int(ref.metricas.seguidores),

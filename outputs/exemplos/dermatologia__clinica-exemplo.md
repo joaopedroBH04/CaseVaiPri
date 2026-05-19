@@ -1,7 +1,7 @@
 # Referencias para `clinica.exemplo` — Dermatologia
 
 - Pais: **BR**
-- Gerado em (UTC): **2026-05-19T03:37:59.373615+00:00**
+- Gerado em (UTC): **2026-05-19T19:22:36.848312+00:00**
 - Candidatos brutos da Ad Library: **15**
 - Filtrados por especialidade errada: **4**
 - Sem anuncio ativo: **0**
@@ -19,6 +19,7 @@
 ### 1. Dra. Ana Lima
 
 - **Instagram**: [@draanalima.derm](https://www.instagram.com/draanalima.derm/)
+- **Facebook Page**: Dra. Ana Lima — Dermatologia (`id=1000010001`)
 - **Anuncios ativos agora**: 22
 - **Biblioteca de Anuncios**: [abrir](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=BR&view_all_page_id=1000010001&media_type=all)
 - **Seguidores**: 187.5k
@@ -31,6 +32,7 @@
 ### 2. Dr. Pedro Salles
 
 - **Instagram**: [@dr.pedrosalles](https://www.instagram.com/dr.pedrosalles/)
+- **Facebook Page**: Dr. Pedro Salles — Dermato (`id=1000010003`)
 - **Anuncios ativos agora**: 14
 - **Biblioteca de Anuncios**: [abrir](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=BR&view_all_page_id=1000010003&media_type=all)
 - **Seguidores**: 85.4k
@@ -43,6 +45,7 @@
 ### 3. Dr. Felipe Ribas
 
 - **Instagram**: [@dr.feliperibas](https://www.instagram.com/dr.feliperibas/)
+- **Facebook Page**: Dr. Felipe Ribas — Botox e Preenchimento (`id=1000010007`)
 - **Anuncios ativos agora**: 12
 - **Biblioteca de Anuncios**: [abrir](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=BR&view_all_page_id=1000010007&media_type=all)
 - **Seguidores**: 72.8k
@@ -55,6 +58,7 @@
 ### 4. Dra. Beatriz Couto
 
 - **Instagram**: [@dra.beatrizcouto](https://www.instagram.com/dra.beatrizcouto/)
+- **Facebook Page**: Dra. Beatriz Couto Dermatologia (`id=1000010004`)
 - **Anuncios ativos agora**: 11
 - **Biblioteca de Anuncios**: [abrir](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=BR&view_all_page_id=1000010004&media_type=all)
 - **Seguidores**: 64.2k
@@ -67,6 +71,7 @@
 ### 5. Dr. Lucas Yamamoto
 
 - **Instagram**: [@dr.lucasy.derma](https://www.instagram.com/dr.lucasy.derma/)
+- **Facebook Page**: Dr. Lucas Yamamoto Tricologia (`id=1000010014`)
 - **Anuncios ativos agora**: 10
 - **Biblioteca de Anuncios**: [abrir](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=BR&view_all_page_id=1000010014&media_type=all)
 - **Seguidores**: 44.2k
@@ -79,6 +84,7 @@
 ### 6. Espaco Derma
 
 - **Instagram**: [@espaco.derma](https://www.instagram.com/espaco.derma/)
+- **Facebook Page**: Espaco Derma Renato Vidal (`id=1000010005`)
 - **Anuncios ativos agora**: 9
 - **Biblioteca de Anuncios**: [abrir](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=BR&view_all_page_id=1000010005&media_type=all)
 - **Seguidores**: 48.9k
@@ -91,6 +97,7 @@
 ### 7. Lume Dermato
 
 - **Instagram**: [@lume.derma](https://www.instagram.com/lume.derma/)
+- **Facebook Page**: Clinica Lume Dermato (`id=1000010002`)
 - **Anuncios ativos agora**: 18
 - **Biblioteca de Anuncios**: [abrir](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=BR&view_all_page_id=1000010002&media_type=all)
 - **Seguidores**: 112.3k
@@ -103,6 +110,7 @@
 ### 8. Dra. Helena Oka
 
 - **Instagram**: [@dra.helenaoka](https://www.instagram.com/dra.helenaoka/)
+- **Facebook Page**: Dra. Helena Oka — Dermatologia Funcional (`id=1000010010`)
 - **Anuncios ativos agora**: 7
 - **Biblioteca de Anuncios**: [abrir](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=BR&view_all_page_id=1000010010&media_type=all)
 - **Seguidores**: 28.7k
@@ -115,6 +123,7 @@
 ### 9. Dra. Yara Sales
 
 - **Instagram**: [@dra.yarasales](https://www.instagram.com/dra.yarasales/)
+- **Facebook Page**: Dra. Yara Sales Dermato (`id=1000010012`)
 - **Anuncios ativos agora**: 5
 - **Biblioteca de Anuncios**: [abrir](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=BR&view_all_page_id=1000010012&media_type=all)
 - **Seguidores**: 21.4k
@@ -127,6 +136,7 @@
 ### 10. Dra. Camila Saito
 
 - **Instagram**: [@dra.camilasaito](https://www.instagram.com/dra.camilasaito/)
+- **Facebook Page**: Dra. Camila Saito Skin (`id=1000010015`)
 - **Anuncios ativos agora**: 13
 - **Biblioteca de Anuncios**: [abrir](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=BR&view_all_page_id=1000010015&media_type=all)
 - **Seguidores**: 68.9k

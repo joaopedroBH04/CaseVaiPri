@@ -1,7 +1,7 @@
 # Referencias para `ortopedista.test` — Ortopedia
 
 - Pais: **BR**
-- Gerado em (UTC): **2026-05-19T03:38:01.220060+00:00**
+- Gerado em (UTC): **2026-05-19T19:22:38.886916+00:00**
 - Candidatos brutos da Ad Library: **12**
 - Filtrados por especialidade errada: **2**
 - Sem anuncio ativo: **0**
@@ -19,6 +19,7 @@
 ### 1. Dr. Marcos Sanches
 
 - **Instagram**: [@dr.marcossanches](https://www.instagram.com/dr.marcossanches/)
+- **Facebook Page**: Dr. Marcos Sanches — Ortopedia do Joelho (`id=3000030001`)
 - **Anuncios ativos agora**: 16
 - **Biblioteca de Anuncios**: [abrir](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=BR&view_all_page_id=3000030001&media_type=all)
 - **Seguidores**: 98.4k
@@ -31,6 +32,7 @@
 ### 2. Dra. Luana Aoki
 
 - **Instagram**: [@dra.luanaaoki](https://www.instagram.com/dra.luanaaoki/)
+- **Facebook Page**: Dra. Luana Aoki Coluna (`id=3000030002`)
 - **Anuncios ativos agora**: 12
 - **Biblioteca de Anuncios**: [abrir](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=BR&view_all_page_id=3000030002&media_type=all)
 - **Seguidores**: 72.3k
@@ -43,6 +45,7 @@
 ### 3. Dr. Fabricio Otsuka
 
 - **Instagram**: [@dr.fabriciootsuka](https://www.instagram.com/dr.fabriciootsuka/)
+- **Facebook Page**: Dr. Fabricio Otsuka Joelho (`id=3000030008`)
 - **Anuncios ativos agora**: 11
 - **Biblioteca de Anuncios**: [abrir](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=BR&view_all_page_id=3000030008&media_type=all)
 - **Seguidores**: 62.3k
@@ -55,6 +58,7 @@
 ### 4. Ortotrauma BH
 
 - **Instagram**: [@ortotrauma.bh](https://www.instagram.com/ortotrauma.bh/)
+- **Facebook Page**: Clinica Ortotrauma BH (`id=3000030003`)
 - **Anuncios ativos agora**: 10
 - **Biblioteca de Anuncios**: [abrir](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=BR&view_all_page_id=3000030003&media_type=all)
 - **Seguidores**: 54.7k
@@ -67,6 +71,7 @@
 ### 5. Dr. Diego Almeida
 
 - **Instagram**: [@dr.diegoalmeida](https://www.instagram.com/dr.diegoalmeida/)
+- **Facebook Page**: Dr. Diego Almeida — Pe e Tornozelo (`id=3000030009`)
 - **Anuncios ativos agora**: 9
 - **Biblioteca de Anuncios**: [abrir](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=BR&view_all_page_id=3000030009&media_type=all)
 - **Seguidores**: 44.1k
@@ -79,6 +84,7 @@
 ### 6. Dr. Rodrigo Volpato
 
 - **Instagram**: [@dr.rodrigovolpato](https://www.instagram.com/dr.rodrigovolpato/)
+- **Facebook Page**: Dr. Rodrigo Volpato Ombro (`id=3000030004`)
 - **Anuncios ativos agora**: 8
 - **Biblioteca de Anuncios**: [abrir](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=BR&view_all_page_id=3000030004&media_type=all)
 - **Seguidores**: 41.2k
@@ -91,6 +97,7 @@
 ### 7. Dra. Patricia Mariano
 
 - **Instagram**: [@dra.patriciamariano](https://www.instagram.com/dra.patriciamariano/)
+- **Facebook Page**: Dra. Patricia Mariano Quadril (`id=3000030006`)
 - **Anuncios ativos agora**: 7
 - **Biblioteca de Anuncios**: [abrir](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=BR&view_all_page_id=3000030006&media_type=all)
 - **Seguidores**: 32.4k
@@ -103,6 +110,7 @@
 ### 8. Dra. Tamires Inacio
 
 - **Instagram**: [@dra.tamiresinacio](https://www.instagram.com/dra.tamiresinacio/)
+- **Facebook Page**: Dra. Tamires Inacio — Esporte e Trauma (`id=3000030011`)
 - **Anuncios ativos agora**: 6
 - **Biblioteca de Anuncios**: [abrir](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=BR&view_all_page_id=3000030011&media_type=all)
 - **Seguidores**: 28.4k
@@ -115,6 +123,7 @@
 ### 9. Dr. Bruno Quezada
 
 - **Instagram**: [@dr.brunoquezada](https://www.instagram.com/dr.brunoquezada/)
+- **Facebook Page**: Dr. Bruno Quezada — Maos (`id=3000030012`)
 - **Anuncios ativos agora**: 5
 - **Biblioteca de Anuncios**: [abrir](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=BR&view_all_page_id=3000030012&media_type=all)
 - **Seguidores**: 18.7k
@@ -127,6 +136,7 @@
 ### 10. Dr. Andre Saito
 
 - **Instagram**: [@dr.andresaito](https://www.instagram.com/dr.andresaito/)
+- **Facebook Page**: Dr. Andre Saito — Coluna sem Cirurgia (`id=3000030005`)
 - **Anuncios ativos agora**: 14
 - **Biblioteca de Anuncios**: [abrir](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=BR&view_all_page_id=3000030005&media_type=all)
 - **Seguidores**: 86.5k

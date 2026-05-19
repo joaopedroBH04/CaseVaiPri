@@ -54,9 +54,13 @@ def gerar_markdown(res: Resultado) -> str:
     L.append("")
     for i, ref in enumerate(res.referencias, start=1):
         m = ref.metricas
-        L.append(f"### {i}. {ref.nome_exibicao or ref.instagram_handle}")
+        L.append(f"### {i}. {ref.nome_exibicao or ref.instagram_handle or ref.fb_page_name}")
         L.append("")
-        L.append(f"- **Instagram**: [@{ref.instagram_handle}]({ref.instagram_url})")
+        if ref.instagram_handle:
+            L.append(f"- **Instagram**: [@{ref.instagram_handle}]({ref.instagram_url})")
+        else:
+            L.append("- **Instagram**: _nao resolvido automaticamente — abra a Biblioteca de Anuncios para localizar_")
+        L.append(f"- **Facebook Page**: {ref.fb_page_name} (`id={ref.fb_page_id}`)")
         L.append(f"- **Anuncios ativos agora**: {ref.n_anuncios_ativos}")
         L.append(f"- **Biblioteca de Anuncios**: [abrir]({ref.biblioteca_anuncios_url})")
         L.append(f"- **Seguidores**: {_fmt_int(m.seguidores)}")
@@ -212,12 +216,16 @@ _HTML_TEMPLATE = """<!doctype html>
         <div class="avatar">
           {% if ref.metricas.foto_url %}
             <img src="{{ ref.metricas.foto_url }}" alt=""/>
-          {% else %}{{ (ref.nome_exibicao or ref.instagram_handle)[0]|upper }}{% endif %}
+          {% else %}{{ (ref.nome_exibicao or ref.instagram_handle or ref.fb_page_name)[0]|upper }}{% endif %}
         </div>
         <div class="meta">
-          <h3>{{ ref.nome_exibicao or ref.instagram_handle }}</h3>
+          <h3>{{ ref.nome_exibicao or ref.instagram_handle or ref.fb_page_name }}</h3>
           <div class="handle">
-            <a href="{{ ref.instagram_url }}" target="_blank" rel="noopener">@{{ ref.instagram_handle }}</a>
+            {% if ref.instagram_handle %}
+              <a href="{{ ref.instagram_url }}" target="_blank" rel="noopener">@{{ ref.instagram_handle }}</a>
+            {% else %}
+              <span style="color:var(--muted)">[Instagram nao resolvido — ver Ad Library]</span>
+            {% endif %}
             <span class="badge ok">match {{ "%.0f"|format(ref.especialidade_confianca * 100) }}%</span>
             {% if ref.confianca_handle != "alta" %}
               <span class="badge warn">handle: {{ ref.confianca_handle }}</span>
