@@ -567,6 +567,24 @@ A chave só vale se você quer mostrar o scraping real funcionando ao
 vivo da sua rede caseira, e topa o risco de a Meta bloquear na hora
 do teste. Pra entregar a case com qualidade, não precisa.
 
+### "Recebi erro 401 ou 'invalid x-api-key'"
+
+Quer dizer que existe um `.env` com algo no campo `ANTHROPIC_API_KEY`,
+e esse "algo" é um placeholder (provavelmente `sk-ant-xxxxxx...`) ou
+chave inválida. **Solução: apague o `.env`**:
+
+```bash
+# macOS / Linux:
+rm .env
+
+# Windows:
+del .env
+```
+
+A ferramenta vai detectar placeholder automaticamente agora, mas se
+ainda assim quiser remover qualquer chance de confusão, apagar o
+`.env` resolve. Em seguida rode `vaipri-ref buscar ... --demo` normal.
+
 ---
 
 ## Resumo cronológico

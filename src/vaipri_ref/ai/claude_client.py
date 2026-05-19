@@ -72,12 +72,29 @@ class ClaudeClient:
     """
 
     def __init__(self, api_key: str | None, model: str) -> None:
+        # Import local pra evitar dependencia circular config <-> ai.
+        from vaipri_ref.config import _chave_parece_real
+
         self.model = model
         self.api_key = api_key
         self._client = None
         self._aviso_fatal: str | None = None  # mensagem amigavel
-        if _SDK_DISPONIVEL and api_key and api_key.startswith("sk-"):
-            self._client = anthropic.Anthropic(api_key=api_key)
+
+        if not _SDK_DISPONIVEL or not api_key:
+            return
+
+        if not _chave_parece_real(api_key):
+            # Provavelmente placeholder do .env.example. Nao tenta chamar
+            # a API — evita 401 desnecessario e mensagens de erro confusas.
+            self._aviso_fatal = (
+                "ANTHROPIC_API_KEY parece um placeholder (xxxxx, <cole-aqui>, "
+                "ou muito curta). Nao chamei a API. Rodando em modo heuristico. "
+                "Para ativar o Claude, apague o .env ou cole sua chave real."
+            )
+            logger.warning(self._aviso_fatal)
+            return
+
+        self._client = anthropic.Anthropic(api_key=api_key)
 
     @property
     def disponivel(self) -> bool:

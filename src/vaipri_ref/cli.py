@@ -67,7 +67,15 @@ def buscar(
         os.environ["VAIPRI_TOP_N"] = str(n_max)
 
     cfg = carregar()
-    if not cfg.tem_chave_anthropic:
+    if cfg.chave_anthropic_parece_placeholder:
+        console.print(
+            "[yellow]>> Sua ANTHROPIC_API_KEY parece um placeholder do .env.example "
+            "(contem 'xxx' ou e muito curta).\n"
+            "   A ferramenta vai rodar em modo heuristico (sem Claude) "
+            "— isso e suficiente para o modo --demo.\n"
+            "   Se quiser ativar o Claude, edite o .env ou apague o arquivo.[/]"
+        )
+    elif not cfg.tem_chave_anthropic:
         console.print(
             "[yellow]>> ANTHROPIC_API_KEY nao detectada. A ferramenta vai rodar em modo "
             "heuristico (sem Claude). Configure o .env para qualidade maxima.[/]"

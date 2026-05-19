@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+import re
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -13,6 +14,36 @@ _DEFAULT_COUNTRY = "BR"
 _DEFAULT_MAX_CANDIDATOS = 40
 _DEFAULT_TOP_N = 10
 _DEFAULT_CACHE_DIR = ".cache"
+
+
+# Padroes que indicam que o valor e um PLACEHOLDER do .env.example,
+# nao uma chave real. Chaves Anthropic reais nao tem 'xxx', sao longas
+# (>40 chars) e nao contem palavras como 'cole', 'sua', 'aqui'.
+_PLACEHOLDER_PATTERNS = [
+    re.compile(r"x{4,}", re.IGNORECASE),         # 'xxxx'
+    re.compile(r"<[^>]+>"),                       # '<cole-sua-chave>'
+    re.compile(r"\b(cole|sua|aqui|exemplo|placeholder)\b", re.IGNORECASE),
+]
+
+
+def _chave_parece_real(key: str | None) -> bool:
+    """True se a string parece uma chave Anthropic genuina.
+
+    Genuino: comeca com 'sk-', tem >= 40 chars, nao bate em padrao
+    de placeholder. Conservador: ainda pode aceitar chave invalida
+    (so a API sabe ao certo), mas filtra os falso-positivos obvios.
+    """
+    if not key:
+        return False
+    key = key.strip()
+    if not key.startswith("sk-"):
+        return False
+    if len(key) < 40:
+        return False
+    for pat in _PLACEHOLDER_PATTERNS:
+        if pat.search(key):
+            return False
+    return True
 
 
 @dataclass(frozen=True)
@@ -28,7 +59,12 @@ class Config:
 
     @property
     def tem_chave_anthropic(self) -> bool:
-        return bool(self.anthropic_api_key and self.anthropic_api_key.startswith("sk-"))
+        return _chave_parece_real(self.anthropic_api_key)
+
+    @property
+    def chave_anthropic_parece_placeholder(self) -> bool:
+        """True quando ha algo configurado mas e claramente placeholder."""
+        return bool(self.anthropic_api_key) and not _chave_parece_real(self.anthropic_api_key)
 
 
 def _bool(value: str | None, default: bool = False) -> bool:
