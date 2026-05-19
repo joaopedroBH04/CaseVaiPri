@@ -32,13 +32,37 @@ sua conta Facebook pessoal. Aceita os termos.
 
 ### 2) Crie uma App (2 min)
 
-1. Em developers.facebook.com, clique em **"My Apps"** → **"Create App"**.
-2. Tipo de app: escolha **"Other"** → **"Next"**.
-3. Tipo: **"Business"** → **"Next"**.
-4. Nome do app: qualquer coisa, ex: `VaiPri Ad Library`.
-5. Email: o seu.
-6. Business account: pode deixar em branco.
-7. Clique **"Create app"**. Pode pedir senha de novo.
+**A interface da Meta muda às vezes.** O caminho mais confiável:
+
+**Caminho rápido:** cole na barra do navegador:
+```
+https://developers.facebook.com/apps
+```
+
+Se você está logado, cai direto no dashboard das suas apps (vazio).
+Se não estiver logado, vai pedir login antes.
+
+**Caminhos alternativos** (se o de cima não funcionar):
+
+- Em developers.facebook.com, canto superior direito: **"Começar"**
+- Após logar, clique na sua **foto de perfil** (canto superior direito)
+  → **"My Apps"** / **"Meus Apps"**
+
+**Já no dashboard, clique em "+ Create App"** (botão verde) e siga:
+
+1. **Use case / Caso de uso**: escolha **"Other"** (Outro)
+   > A Ad Library não está nas categorias pré-definidas, então
+   > "Other" é o caminho.
+2. Clique **"Next"**.
+3. **App Type**: **"Business"** → **"Next"**.
+4. **Nome do app**: qualquer coisa, ex: `vaipri-ref`.
+5. **Email de contato**: o seu.
+6. **Business account**: pode deixar em branco.
+7. Clique **"Create app"** (pode pedir senha do Facebook de novo).
+
+> **Se pedir verificação:** Meta às vezes pede confirmar email,
+> adicionar telefone, ou ativar 2FA. Faz tudo isso — leva 2-3 min
+> e libera a criação.
 
 ### 3) Pegue o App ID e o App Secret (1 min)
 
