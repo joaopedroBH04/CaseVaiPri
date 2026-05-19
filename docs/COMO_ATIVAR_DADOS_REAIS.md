@@ -99,19 +99,54 @@ Esse é o seu **token de App**, vale para sempre, não expira.
 
 Na pasta do projeto, crie/edite o arquivo `.env`:
 
-**No Windows:**
+> ⚠️ **Atenção Windows:** o token contém o caractere `|`, que o CMD
+> interpreta como pipe de comando. Não use `echo TOKEN > .env`
+> diretamente — vai dar erro `'XYZ' não é reconhecido como um
+> comando`. Use uma das opções abaixo:
+
+**Opção A — Notepad (mais simples, funciona em qualquer sistema):**
 
 ```cmd
-echo META_ACCESS_TOKEN=COLE-AQUI-O-TOKEN > .env
+notepad .env
 ```
 
-**No macOS/Linux:**
+No editor que abrir, cole **uma linha** com seu token completo:
+
+```
+META_ACCESS_TOKEN=COLE-AQUI-O-TOKEN-INTEIRO-COM-O-PIPE
+```
+
+Salve com Ctrl+S e feche.
+
+**Opção B — Windows CMD escapando o `|`:**
+
+```cmd
+echo META_ACCESS_TOKEN=123456789^|abcdef... > .env
+```
+
+O `^` antes do `|` escapa o pipe. Substitua pelos seus valores reais.
+
+**Opção C — PowerShell (aspas simples tratam tudo como literal):**
+
+```powershell
+Set-Content -Path .env -Value 'META_ACCESS_TOKEN=COLE-AQUI-TOKEN-COMPLETO'
+```
+
+**Opção D — macOS / Linux:**
 
 ```bash
 echo "META_ACCESS_TOKEN=COLE-AQUI-O-TOKEN" > .env
 ```
 
-Substitua `COLE-AQUI-O-TOKEN` pelo token real que você copiou do passo 4.
+### 5.1) Confirma que ficou certo
+
+```cmd
+type .env       :: Windows
+cat .env        # macOS/Linux
+```
+
+Deve aparecer uma única linha começando com `META_ACCESS_TOKEN=` e
+tendo o `|` preservado no meio do valor.
 
 ### 6) Teste
 
