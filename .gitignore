@@ -48,9 +48,10 @@ test-results/
 .env.local
 
 # Saidas geradas (mantemos exemplos curados em outputs/exemplos/)
-outputs/runtime/
-outputs/*.html
+# Ignora tudo dentro de outputs/, exceto a pasta exemplos/.
+outputs/*
 !outputs/exemplos/
+!outputs/exemplos/**
 
 # Streamlit
 .streamlit/secrets.toml
