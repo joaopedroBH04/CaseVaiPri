@@ -223,11 +223,22 @@ if rodar:
             with st.container():
                 cols = st.columns([0.55, 0.3, 0.15])
                 with cols[0]:
+                    if ref.instagram_handle:
+                        link_html = (
+                            f'<a href="{ref.instagram_url}" target="_blank">'
+                            f'@{ref.instagram_handle}</a>'
+                        )
+                    else:
+                        link_html = (
+                            f'<a href="{ref.biblioteca_anuncios_url}" target="_blank" '
+                            f'style="color:#fbbf24">[ver na Ad Library]</a>'
+                        )
+                    nome_card = ref.nome_exibicao or ref.instagram_handle or ref.fb_page_name
                     st.markdown(
                         f"""
                         <div class="ref-card">
-                            <div class="ref-name">#{i} {ref.nome_exibicao or ref.instagram_handle}</div>
-                            <div class="ref-handle"><a href="{ref.instagram_url}" target="_blank">@{ref.instagram_handle}</a></div>
+                            <div class="ref-name">#{i} {nome_card}</div>
+                            <div class="ref-handle">{link_html}</div>
                             <div style="margin-top:8px;">
                                 <span class="metric-mini">seguidores <b>{_fmt_int(ref.metricas.seguidores)}</b></span>
                                 <span class="metric-mini">posts <b>{_fmt_int(ref.metricas.total_posts)}</b></span>
@@ -298,8 +309,8 @@ if rodar:
     for r in resultado.referencias:
         rows.append(
             {
-                "instagram": "@" + r.instagram_handle,
-                "instagram_url": str(r.instagram_url),
+                "instagram": ("@" + r.instagram_handle) if r.instagram_handle else "(via Ad Library)",
+                "instagram_url": str(r.instagram_url) if r.instagram_url else "",
                 "anuncios_ativos": r.n_anuncios_ativos,
                 "biblioteca_url": str(r.biblioteca_anuncios_url),
                 "seguidores": r.metricas.seguidores,

@@ -37,8 +37,9 @@ def _resultado_exemplo() -> Resultado:
         especialidade_match=True,
         especialidade_confianca=0.95,
         especialidade_justificativa="Bio menciona dermatologia.",
-        score=85.0,
-        score_breakdown={"volume_anuncios": 25.0, "seguidores": 12.0},
+        score=8.5,
+        score_breakdown={"Volume de anúncios rodando": 2.5, "Tração no Instagram": 1.2},
+        score_rotulo="Excelente",
         confianca_handle="alta",
         notas=[],
     )
@@ -59,7 +60,7 @@ def test_gerar_markdown_contem_handle_e_score():
     res = _resultado_exemplo()
     md = gerar_markdown(res)
     assert "@dra.teste" in md
-    assert "85.0/100" in md
+    assert "8.5/10" in md
     assert "dermatologia" in md.lower()
 
 
@@ -68,7 +69,7 @@ def test_gerar_html_renderiza_e_e_html_valido():
     html = gerar_html(res)
     assert "<!doctype html>" in html.lower()
     assert "@dra.teste" in html
-    assert "85" in html
+    assert "8.5" in html
     # nao deve sair com tags Jinja nao renderizadas
     assert "{{" not in html
     assert "}}" not in html

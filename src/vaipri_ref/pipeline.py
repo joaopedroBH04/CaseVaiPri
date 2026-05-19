@@ -18,7 +18,7 @@ from vaipri_ref.instagram.scraper import (
     estimar_engajamento,
 )
 from vaipri_ref.models import Candidato, Metricas, Referencia, Resultado
-from vaipri_ref.scorer import EntradaScore, calcular as calcular_score
+from vaipri_ref.scorer import EntradaScore, calcular as calcular_score, rotulo_qualitativo
 from vaipri_ref.utils.cache import Cache
 from vaipri_ref.utils.logger import configurar as configurar_logger, obter as obter_logger
 from vaipri_ref.utils.normalize import limpar_handle, url_biblioteca_anuncios, url_perfil_ig
@@ -142,26 +142,39 @@ def _executar(
                 )
     else:
         _emitir(on_progress, "ad_library", {"termos": termos})
-        # Avisa o usuario que tipo de fonte estamos tentando.
-        if cfg.tem_meta_token:
-            avisos.append(
-                "Usando Meta Ad Library Graph API oficial (caminho recomendado "
-                "para dados reais)."
-            )
-        else:
-            avisos.append(
-                "META_ACCESS_TOKEN nao configurado. Vou tentar scraping da UI "
-                "publica, mas a Meta bloqueia esse caminho na maioria das redes. "
-                "Para dados reais garantidos, configure o token (ver "
-                "docs/COMO_ATIVAR_DADOS_REAIS.md). Como alternativa, use --demo."
-            )
         scraper_meta = MetaAdLibraryScraper(
             cache=cache,
             country=cfg.country,
             headless=cfg.headless,
             graph_api_token=cfg.meta_access_token if cfg.tem_meta_token else None,
+            apify_token=cfg.apify_api_token if cfg.tem_apify_token else None,
         )
         candidatos = scraper_meta.buscar(termos, limite_por_termo=12)
+
+        # Aviso honesto sobre o que efetivamente trouxe os dados.
+        if cfg.tem_apify_token and scraper_meta.apify_efetiva:
+            avisos.append(
+                f"Apify usado com sucesso em {scraper_meta.stats_apify_ok} de "
+                f"{scraper_meta.stats_apify_ok + scraper_meta.stats_apify_falhou} buscas. "
+                "Dados reais — médicos que anunciam no Meta agora."
+            )
+        elif cfg.tem_meta_token and scraper_meta.graph_api_efetiva:
+            avisos.append(
+                f"Meta Ad Library Graph API oficial usada com sucesso em "
+                f"{scraper_meta.stats_graph_ok} de {scraper_meta.stats_graph_ok + scraper_meta.stats_graph_falhou} buscas."
+            )
+        elif cfg.tem_meta_token and not scraper_meta.graph_api_efetiva:
+            avisos.append(
+                "META_ACCESS_TOKEN configurado mas Graph API rejeitou todas as chamadas "
+                "(app em Development Mode da Meta precisa de App Review). Caiu pro scraping. "
+                "Para dados reais completos, configure APIFY_API_TOKEN."
+            )
+        elif not cfg.tem_apify_token and not cfg.tem_meta_token:
+            avisos.append(
+                "Sem APIFY_API_TOKEN nem META_ACCESS_TOKEN. Tentei scraping HTTP, mas a "
+                "Meta bloqueia em muitas redes. Recomendado: APIFY_API_TOKEN (grátis em "
+                "apify.com) ou rode em --demo."
+            )
 
     logger.info("Total de %d candidatos brutos da %s",
                 len(candidatos),
@@ -191,9 +204,23 @@ def _executar(
     ig_scraper = InstagramScraper(cache=cache)
     matcher = SpecialtyMatcher(claude=claude)
 
+    # Apify IG client (so cria se token disponivel + nao-demo).
+    apify_ig_client = None
+    if not modo_demo and cfg.tem_apify_token:
+        try:
+            from vaipri_ref.discovery.apify_client import ApifyClient
+            apify_ig_client = ApifyClient(api_token=cfg.apify_api_token)
+        except Exception as exc:
+            logger.warning("Falha criando Apify IG client: %s", exc)
+
     referencias: list[Referencia] = []
     n_filtrados_especialidade = 0
     n_descartados_sem_anuncio = 0
+
+    # PRIMEIRA PASSADA: descarta sem ads, resolve handles e ja escolhe o
+    # cliente. Acumula handles pra fazer 1 unico batch call no Apify.
+    candidatos_validos: list[tuple] = []  # (candidato, handle_res)
+    handles_para_apify: list[str] = []
 
     for i, cand in enumerate(candidatos, start=1):
         _emitir(
@@ -206,7 +233,6 @@ def _executar(
             n_descartados_sem_anuncio += 1
             continue
 
-        # 3a) resolve handle do IG (best-effort: pode falhar e nao impede entrega)
         handle_res = resolver.resolver(
             fb_page_id=cand.fb_page_id,
             fb_page_name=cand.fb_page_name,
@@ -214,15 +240,37 @@ def _executar(
             hint=cand.instagram_handle_hint,
         )
 
-        # Se o handle resolvido bate com o cliente, descarta — e a propria conta.
         if handle_res.handle and handle_res.handle == handle_cliente_norm:
             logger.debug("Handle resolvido e o proprio cliente, pulando")
             continue
 
-        # 3b) enriquece IG quando ha handle (em demo, usa fixture pre-carregado)
+        candidatos_validos.append((cand, handle_res))
+        if handle_res.handle:
+            handles_para_apify.append(handle_res.handle)
+
+    # BATCH: 1 chamada Apify pega TODOS os perfis IG de uma vez.
+    perfis_apify: dict[str, PerfilIG] = {}
+    if apify_ig_client and handles_para_apify:
+        try:
+            from vaipri_ref.instagram.apify_ig import enriquecer_perfis
+            _emitir(on_progress, "apify_ig", {"n_handles": len(handles_para_apify)})
+            perfis_apify = enriquecer_perfis(apify_ig_client, handles_para_apify)
+            if perfis_apify:
+                avisos.append(
+                    f"Apify Instagram trouxe metricas reais de {len(perfis_apify)} de "
+                    f"{len(handles_para_apify)} perfis (seguidores, engajamento real, posts)."
+                )
+        except Exception as exc:
+            logger.warning("Apify IG batch falhou: %s", exc)
+
+    # SEGUNDA PASSADA: enriquece, matcha, scoreia.
+    for cand, handle_res in candidatos_validos:
+        # 3b) enriquece IG: prioridade Apify > fixture (demo) > scraper publico
         perfil: PerfilIG | None
         if not handle_res.handle:
             perfil = None
+        elif handle_res.handle in perfis_apify:
+            perfil = perfis_apify[handle_res.handle]
         elif modo_demo and handle_res.handle in perfis_fixture:
             perfil = perfis_fixture[handle_res.handle]
         else:
@@ -301,6 +349,7 @@ def _executar(
                 especialidade_justificativa=match.justificativa,
                 score=score,
                 score_breakdown=breakdown,
+                score_rotulo=rotulo_qualitativo(score),
                 confianca_handle=handle_res.confianca,
                 notas=notas,
             )

@@ -283,11 +283,11 @@ class TestScorerDadosAusentes:
                 confianca_handle="media",
             )
         )
-        assert 0 <= score <= 100
+        assert 0 <= score <= 10
         # com tudo None, ainda tem credito parcial de "postagem recente" + handle media
-        assert bd["seguidores"] == 0.0
-        assert bd["engajamento"] == 0.0
-        assert bd["postagem_recente"] > 0  # credito parcial, nao zerar
+        assert bd["Tração no Instagram"] == 0.0
+        assert bd["Engajamento real"] == 0.0
+        assert bd["Perfil ativo (posts recentes)"] > 0  # credito parcial, nao zerar
 
     def test_score_nunca_explode(self):
         """Mesmo com valores absurdos, score fica em [0, 100]."""
@@ -302,7 +302,7 @@ class TestScorerDadosAusentes:
                     confianca_handle="baixa",
                 )
             )
-            assert 0 <= score <= 100
+            assert 0 <= score <= 10
 
 
 # ============================================================

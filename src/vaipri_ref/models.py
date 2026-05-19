@@ -102,8 +102,23 @@ class Referencia(BaseModel):
     especialidade_justificativa: str | None = None
 
     # Score extra
-    score: float = Field(..., ge=0.0, le=100.0)
-    score_breakdown: dict[str, float] = Field(default_factory=dict)
+    score: float = Field(
+        ...,
+        ge=0.0,
+        le=10.0,
+        description="Nota 0 (ruim) a 10 (excelente) — soma das parcelas em score_breakdown.",
+    )
+    score_breakdown: dict[str, float] = Field(
+        default_factory=dict,
+        description=(
+            "Composicao do score por criterio, com nomes em portugues. "
+            "Cada valor e quanto aquela parcela contribuiu, em escala 0-peso."
+        ),
+    )
+    score_rotulo: str = Field(
+        default="",
+        description="Rotulo humano: Excelente / Muito boa / Boa / Razoavel / Fraca.",
+    )
 
     # Procedencia
     confianca_handle: Literal["alta", "media", "baixa"] = "media"

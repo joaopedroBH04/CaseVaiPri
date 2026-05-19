@@ -1,262 +1,184 @@
-# Como ativar busca de dados REAIS
+# Como ativar busca de DADOS REAIS
 
-> O Fin confirmou: a VaiPri quer testar com **médicos reais** que
-> anunciam de verdade. Este guia te leva do zero ao token funcionando
-> em **~5 minutos**, **gratuito**.
-
----
-
-## Por que essa configuração
-
-A Meta protege a Biblioteca de Anúncios contra scraping anônimo. O
-caminho oficial e estável pra acessar é a **Graph API Ad Library**,
-que é gratuita mas exige um **access token** de um app do Facebook
-Developer.
-
-Com o token configurado, a ferramenta busca diretamente na API oficial
-e retorna anúncios reais de médicos reais — funciona em qualquer rede,
-sem captcha, sem 403.
+> O Fin (avaliador VaiPri) confirmou: a entrega precisa retornar
+> **médicos reais** que anunciam no Meta agora, com **métricas reais**
+> do Instagram (seguidores, engajamento, posts).
+>
+> A maneira mais confiável e gratuita: **Apify**. ~5 minutos de setup.
 
 ---
 
-## Passo a passo (5 min)
+## TL;DR — caminho recomendado (Apify)
 
-### 1) Cadastre-se como desenvolvedor Facebook (1 min)
+1. **Cria conta** em [apify.com/sign-up](https://apify.com/sign-up) (Google ok)
+2. **Pega token** em Settings → Integrations → Personal API tokens
+3. **Cola no `.env`**: `APIFY_API_TOKEN=apify_api_xxxxxxxxxxxx`
+4. **Roda**: `vaipri-ref buscar @clinica.exemplo dermatologia`
 
-Vá em **[developers.facebook.com](https://developers.facebook.com)**
-e clique em **"Get Started"** (canto superior direito). Login com
-sua conta Facebook pessoal. Aceita os termos.
+Custo: **$5 grátis no primeiro cadastro** = ~10 buscas completas. Mais
+que suficiente para a avaliação da VaiPri.
 
-> **Não tem conta Facebook?** Crie uma. Não precisa preencher perfil
-> nem nada — apenas serve como autenticação do Developer.
+---
 
-### 2) Crie uma App (2 min)
+## Por que Apify resolve TUDO
 
-**A interface da Meta muda às vezes.** O caminho mais confiável:
+A entrega precisa de 3 coisas que estão bloqueadas para scraping anônimo:
 
-**Caminho rápido:** cole na barra do navegador:
-```
-https://developers.facebook.com/apps
-```
+| Item do enunciado | Bloqueado por | Como Apify resolve |
+|------------------|---------------|---------------------|
+| Anúncios reais com nome real da página | Meta serve HTML vazio | Actor `facebook-ads-library-scraper` renderiza igual o browser |
+| Handle Instagram de cada anunciante | Meta não dá no JSON inicial | Actor extrai do anúncio renderizado |
+| Métricas IG (seguidores, engajamento) | IG bloqueia desde 2022 sem login | Actor `instagram-profile-scraper` pega tudo |
 
-Se você está logado, cai direto no dashboard das suas apps (vazio).
-Se não estiver logado, vai pedir login antes.
+**Sem Apify**, a entrega só consegue lista parcial sem métricas. **Com
+Apify**, atende 100% do que o enunciado pede.
 
-**Caminhos alternativos** (se o de cima não funcionar):
+---
 
-- Em developers.facebook.com, canto superior direito: **"Começar"**
-- Após logar, clique na sua **foto de perfil** (canto superior direito)
-  → **"My Apps"** / **"Meus Apps"**
+## Passo a passo detalhado
 
-**Já no dashboard, clique em "+ Create App"** (botão verde) e siga:
+### 1) Cria conta na Apify (2 min)
 
-1. **Use case / Caso de uso**: role a página até o final e selecione
-   **"Crie um app sem um caso de uso"** (último item da lista, ícone
-   de lápis preto).
-   > **Por quê:** a Ad Library API é pública e não exige nenhum caso
-   > de uso específico. Todos os outros (Marketing API, Login do Facebook,
-   > etc.) adicionam permissões que você não precisa. Não confunda com
-   > "Outro" — esse tem aviso "This option is going away soon".
-2. Clique **"Próximo"** / **"Next"**.
-3. **App Type / Tipo de app**: **"Business"** → **"Next"**.
-4. **Nome do app**: qualquer coisa, ex: `vaipri-ref`.
-5. **Email de contato**: o seu.
-6. **Business account**: pode deixar em branco / "I don't want to
-   connect a Business Account".
-7. Clique **"Criar app"** (pode pedir senha do Facebook de novo).
+Vai em [apify.com/sign-up](https://apify.com/sign-up).
 
-> **Se pedir verificação:** Meta às vezes pede confirmar email,
-> adicionar telefone, ou ativar 2FA. Faz tudo isso — leva 2-3 min
-> e libera a criação.
+- "Sign up with Google" é o mais rápido — usa sua conta Gmail
+- Pode pular tour inicial
 
-### 3) Pegue o App ID e o App Secret (1 min)
+Você cai no dashboard. **Importante**: na lateral direita, confira
+"$5.00 free credit" — esse é seu crédito inicial.
 
-Você cai no painel da app. No menu esquerdo:
+### 2) Pega o API token (1 min)
 
-- **"App settings"** → **"Basic"**
-- Anote o **App ID** (número longo no topo)
-- Clique em **"Show"** ao lado do **App Secret** → copia o valor
+No dashboard:
 
-### 4) Gere o Access Token de App (30 segundos)
+1. Clica na **foto de perfil** (canto superior direito)
+2. **Settings** → **Integrations**
+3. Aba **Personal API tokens** (geralmente já vem selecionada)
+4. Você verá um token gerado automaticamente. Copia o valor inteiro
+   (começa com `apify_api_`).
 
-Abra esta URL no navegador, substituindo `APP_ID` e `APP_SECRET` pelos
-valores que você acabou de copiar:
+Se não tiver nenhum token visível:
+- Clica **Create new token**
+- Nome: qualquer coisa, ex: `vaipri-ref`
+- Permissions: deixa default
+- Copia
 
-```
-https://graph.facebook.com/oauth/access_token?client_id=APP_ID&client_secret=APP_SECRET&grant_type=client_credentials
-```
+### 3) Cola no `.env` (30 segundos)
 
-A resposta vai ser um JSON tipo:
+Na pasta do projeto, abre o `.env` (cria se não existir):
 
-```json
-{"access_token":"123456789|abcdef...","token_type":"bearer"}
-```
-
-**Copie o valor de `access_token`** inteiro (incluindo o `|` no meio).
-Esse é o seu **token de App**, vale para sempre, não expira.
-
-### 5) Cole o token no `.env` (30 segundos)
-
-Na pasta do projeto, crie/edite o arquivo `.env`:
-
-> ⚠️ **Atenção Windows:** o token contém o caractere `|`, que o CMD
-> interpreta como pipe de comando. Não use `echo TOKEN > .env`
-> diretamente — vai dar erro `'XYZ' não é reconhecido como um
-> comando`. Use uma das opções abaixo:
-
-**Opção A — Notepad (mais simples, funciona em qualquer sistema):**
-
+**Windows (notepad):**
 ```cmd
 notepad .env
 ```
 
-No editor que abrir, cole **uma linha** com seu token completo:
-
-```
-META_ACCESS_TOKEN=COLE-AQUI-O-TOKEN-INTEIRO-COM-O-PIPE
-```
-
-Salve com Ctrl+S e feche.
-
-**Opção B — Windows CMD escapando o `|`:**
-
-```cmd
-echo META_ACCESS_TOKEN=123456789^|abcdef... > .env
-```
-
-O `^` antes do `|` escapa o pipe. Substitua pelos seus valores reais.
-
-**Opção C — PowerShell (aspas simples tratam tudo como literal):**
-
-```powershell
-Set-Content -Path .env -Value 'META_ACCESS_TOKEN=COLE-AQUI-TOKEN-COMPLETO'
-```
-
-**Opção D — macOS / Linux:**
-
+**macOS / Linux:**
 ```bash
-echo "META_ACCESS_TOKEN=COLE-AQUI-O-TOKEN" > .env
+nano .env   # ou code .env, vim .env
 ```
 
-### 5.1) Confirma que ficou certo
+Adiciona a linha:
 
-```cmd
-type .env       :: Windows
-cat .env        # macOS/Linux
+```
+APIFY_API_TOKEN=apify_api_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
-Deve aparecer uma única linha começando com `META_ACCESS_TOKEN=` e
-tendo o `|` preservado no meio do valor.
+Substitui pelo token real. Salva e fecha.
 
-### 6) Teste
+### 4) Testa
 
 ```cmd
-.venv\Scripts\activate
 vaipri-ref buscar @clinica.exemplo dermatologia
 ```
 
-> **Sem o `--demo`!** É a busca real agora.
+**O que deve aparecer no topo:**
 
-**O que você deve ver:**
+```
+>> Modo PRODUCAO com Apify (caminho recomendado — dados reais completos).
+```
 
-1. Linha verde: `>> Modo PRODUCAO com Graph API oficial (META_ACCESS_TOKEN OK).`
-2. Progresso "consultando Meta Ad Library"
-3. Tabela com referências de **médicos reais** que anunciam agora
+Aguarda ~1-2 min (Apify roda actor na infra deles). No fim, você vê
+a tabela com **médicos reais** que anunciam, com:
 
-✅ **Checkpoint:** se aparecer a tabela com nomes plausíveis (Dr./Dra.
-fulano de tal, clinicas, etc.) e scores, está funcionando.
+- Handle Instagram real (não inferido)
+- Seguidores reais
+- Engajamento real (calculado dos últimos posts)
+- Nota 0-10 com avaliação ("Excelente", "Muito boa", etc.)
+
+✅ **Checkpoint:** se aparecer @ válido + número de seguidores
+verdadeiro pra pelo menos algumas referências, **está funcionando**.
 
 ---
 
-## Quanto custa
+## Quanto vai custar na prática
 
-**Zero.** Tudo gratuito:
+Apify cobra por **uso de actor** (compute time + tráfego). Estimativas:
 
-- Conta Facebook: gratuita
-- Facebook Developer: gratuita
-- App: gratuita
-- Access Token de App: gratuito, não expira
-- Chamadas à Ad Library API: gratuitas (rate limit ~200 chamadas/hora,
-  suficiente para a demo da case)
+| Operação | Custo aprox. |
+|---------|-------------|
+| 1 keyword na Ad Library (50 ads) | $0.02-0.05 |
+| 1 perfil Instagram com posts | $0.02-0.05 |
+| 1 busca completa (10 keywords + 10 perfis) | **$0.40-0.70** |
+| $5 grátis ÷ $0.50 médio | **~10 buscas completas** |
+
+Mais que suficiente pra:
+- Você testar (3-4 buscas)
+- A VaiPri testar com 3 inputs (3 buscas)
+- Sobra reserva
+
+**Se acabar o crédito grátis**, é só:
+- Pause/cancele os actors (não cobra recorrente)
+- Ou adicione método de pagamento (cobrança por uso)
+
+---
+
+## Custo Apify vs Anthropic
+
+Você não precisa dos **dois**. Comparativo:
+
+| Caminho | Custo | Resolve |
+|---------|-------|---------|
+| Só Apify | **$0** (grátis no cadastro) | ✅ Dados reais + métricas (100% do enunciado) |
+| Só Anthropic | $5 (mínimo de pagamento) | ❌ Match melhor mas SEM dados reais |
+| Os dois | $5 | ✅ Tudo + qualidade máxima |
+
+**Recomendação:** Apify primeiro (grátis, resolve o essencial). Se
+sobrar tempo/grana, Anthropic depois.
 
 ---
 
 ## Se algo der errado
 
-### "O App não me deixa criar / pede verificação"
+### "Token Apify inválido"
 
-Pode acontecer pra contas Facebook muito novas. Soluções:
+- Confirma que copiou inteiro (começa com `apify_api_`, ~40 chars)
+- Verifica que está no `.env` na pasta correta
+- Rode `type .env` (Windows) ou `cat .env` (mac/linux)
 
-1. Adicionar telefone à conta Facebook
-2. Confirmar email
-3. Esperar 24h e tentar de novo
+### "Apify retornou 402 Payment Required"
 
-Se nada disso funcionar, **use modo `--demo`** — a entrega da case
-ainda vai cumprir o requisito principal (pipeline funciona ponta-a-ponta).
+Acabou o crédito grátis. Opções:
+- Esperar próximo mês (renova mensal? — depende)
+- Adicionar cartão pra pagar por uso
+- Voltar pro modo `--demo` (sempre funciona)
 
-### "Token retorna 'Invalid OAuth access token'"
+### "Apify deu timeout"
 
-- Confira que copiou o token **inteiro** (com o `|`)
-- Verifique se App ID e App Secret estão certos
-- Tente regenerar o token via mesma URL do passo 4
+Actors complexos podem demorar. Mitigações:
+- O `_run_sync` tem timeout de 180s
+- Tente em horário de menos uso (off-peak)
+- Verifique o painel da Apify para ver runs travados
 
-### "Application does not have permission for this action"
+### "Actor não encontrado"
 
-Esse erro acontece quando seu app **está em Development Mode** e ainda
-não passou pela verificação que a Meta exige para usar `ads_archive`.
-Esse processo (Identity Confirmation + App Review) leva dias.
-
-**Boa notícia:** o pipeline tem fallback automático que **funciona em
-~90% das redes caseiras** — ele cai pro scraping da UI pública. Você
-vai ver no log:
+A Apify às vezes muda nome ou remove actors. Pode trocar via env:
 
 ```
-WARNING  Graph API falhou: ...; caindo pro scraping web
-INFO     Termo 'dermatologista' -> 12 anunciantes brutos
+APIFY_AD_LIBRARY_ACTOR=outro/actor-name
+APIFY_IG_ACTOR=outro/ig-scraper
 ```
 
-Se aparecer `12 anunciantes brutos` (ou qualquer número > 0) para a
-maioria dos termos, **está funcionando** — só está mais lento que via
-Graph API (3-5 min vs 30 segundos).
-
-**Alternativa rápida que funciona com qualquer chave:**
-
-Em vez de App Access Token, use um **User Access Token** do Graph API
-Explorer:
-
-1. Vá em [developers.facebook.com/tools/explorer](https://developers.facebook.com/tools/explorer/)
-2. No topo, selecione seu app (vai aparecer o nome que você criou)
-3. À direita, clique em **"Generate Access Token"**
-4. Pode pedir permissões — aceite as default
-5. Copie o token que aparecer no campo "Access Token"
-6. Cole no `.env` (esse vale por ~1-2 horas, então só pra demo)
-
-User Access Tokens não passam por App Review e funcionam para
-`ads_archive` na maioria dos casos.
-
-### "Busca real retorna 0 resultados"
-
-Não é bug do código — é a Meta:
-
-1. Especialidade muito específica? Tente termos mais amplos
-2. País errado no `.env`? Confira `VAIPRI_COUNTRY=BR`
-3. Categoria restrita? Algumas categorias da Meta têm filtros próprios.
-
-**Solução prática:** rode com `--demo` no Loom (sem riscos) e mencione
-no vídeo que a busca real funciona com token configurado.
-
-### "Quero usar a busca real mas não quero pedir o token pra VaiPri"
-
-Inclua na sua mensagem de entrega:
-
-```
-Para testar com DADOS REAIS, criem um token em 5 min seguindo
-docs/COMO_ATIVAR_DADOS_REAIS.md, ou usem `--demo` para validar
-o pipeline.
-```
-
-Isso transfere a responsabilidade do token pra eles, mantendo a
-ferramenta funcional em ambos os modos.
+Verifique [apify.com/store](https://apify.com/store) os actors disponíveis.
 
 ---
 
@@ -264,14 +186,17 @@ ferramenta funcional em ambos os modos.
 
 | Modo | Comando | Dados | Quando usar |
 |------|---------|-------|-------------|
-| **`--demo`** | `vaipri-ref buscar @x dermatologia --demo` | Fixtures sintéticas (perfis fictícios) | Demonstrar pipeline; rede bloqueia Meta; sem token |
-| **Produção (Graph API)** | `vaipri-ref buscar @x dermatologia` (com `META_ACCESS_TOKEN`) | Médicos reais que anunciam agora | Avaliação real da VaiPri |
-| **Produção (scraping)** | `vaipri-ref buscar @x dermatologia` (sem token) | Real, mas Meta bloqueia frequentemente | Não recomendado — só pra testar caminho de fallback |
+| **Apify (recomendado)** | `vaipri-ref buscar @x dermatologia` (com `APIFY_API_TOKEN`) | **Dados REAIS de médicos reais com métricas** | Avaliação da VaiPri |
+| `--demo` | `vaipri-ref buscar @x dermatologia --demo` | Fixtures sintéticas | Sem chave, sem rede |
+| Meta Graph API | (com `META_ACCESS_TOKEN` sem App Review) | Apenas page IDs | Não recomendado (rejeitado pela Meta) |
+| Scraping HTTP | (sem nenhum token) | Page IDs sem nomes | Último fallback |
 
 ---
 
-## Referências oficiais Meta
+## Referências
 
-- [Ad Library API docs](https://www.facebook.com/ads/library/api/)
-- [Graph API reference for ads_archive](https://developers.facebook.com/docs/graph-api/reference/ads_archive)
-- [App Access Tokens](https://developers.facebook.com/docs/facebook-login/guides/access-tokens#apptokens)
+- [Apify Platform](https://apify.com)
+- [Apify Store — Actors](https://apify.com/store)
+- [API REST docs](https://docs.apify.com/api/v2)
+- [Actor Facebook Ads Library Scraper](https://apify.com/curious_coder/facebook-ads-library-scraper)
+- [Actor Instagram Profile Scraper](https://apify.com/apify/instagram-profile-scraper)

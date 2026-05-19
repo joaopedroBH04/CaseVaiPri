@@ -58,6 +58,8 @@ class Config:
     verbose: bool
     # Meta Ad Library Graph API (caminho oficial para dados reais)
     meta_access_token: str | None = None
+    # Apify (resolve cenarios em que Meta Graph API rejeita ou IG bloqueia)
+    apify_api_token: str | None = None
 
     @property
     def tem_chave_anthropic(self) -> bool:
@@ -71,15 +73,32 @@ class Config:
     @property
     def tem_meta_token(self) -> bool:
         """True se ha um token Meta Graph API configurado e nao-placeholder."""
-        if not self.meta_access_token:
+        return _token_parece_real(self.meta_access_token, min_len=20)
+
+    @property
+    def tem_apify_token(self) -> bool:
+        """True se ha um token Apify configurado e nao-placeholder.
+
+        Tokens Apify comecam com 'apify_api_' e tem ~40 chars.
+        """
+        if not self.apify_api_token:
             return False
-        t = self.meta_access_token.strip()
-        if len(t) < 20:
+        t = self.apify_api_token.strip()
+        if not t.startswith("apify_api_"):
             return False
-        for pat in _PLACEHOLDER_PATTERNS:
-            if pat.search(t):
-                return False
-        return True
+        return _token_parece_real(t, min_len=30)
+
+
+def _token_parece_real(t: str | None, *, min_len: int = 20) -> bool:
+    if not t:
+        return False
+    t = t.strip()
+    if len(t) < min_len:
+        return False
+    for pat in _PLACEHOLDER_PATTERNS:
+        if pat.search(t):
+            return False
+    return True
 
 
 def _bool(value: str | None, default: bool = False) -> bool:
@@ -106,4 +125,5 @@ def carregar(env_file: Path | str | None = None) -> Config:
         headless=_bool(os.environ.get("VAIPRI_HEADLESS"), default=True),
         verbose=_bool(os.environ.get("VAIPRI_VERBOSE"), default=False),
         meta_access_token=os.environ.get("META_ACCESS_TOKEN"),
+        apify_api_token=os.environ.get("APIFY_API_TOKEN"),
     )

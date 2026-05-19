@@ -81,20 +81,23 @@ def buscar(
             "heuristico (sem Claude). Configure o .env para qualidade maxima.[/]"
         )
 
-    # Aviso sobre fonte de dados (Graph API vs scraping vs demo).
-    if not demo and not cfg.tem_meta_token:
-        console.print(
-            "[yellow]>> Modo PRODUCAO sem META_ACCESS_TOKEN configurado.\n"
-            "   Vou tentar scraping da UI publica, mas a Meta bloqueia esse caminho "
-            "em quase todas as redes.\n"
-            "   Recomendado: configure o token (gratuito, 5 min) — ver "
-            "docs/COMO_ATIVAR_DADOS_REAIS.md\n"
-            "   Alternativa: rode com --demo para validar pipeline com fixtures.[/]"
-        )
-    elif not demo and cfg.tem_meta_token:
-        console.print(
-            "[green]>> Modo PRODUCAO com Graph API oficial (META_ACCESS_TOKEN OK).[/]"
-        )
+    # Aviso sobre fonte de dados (Apify > Graph API > scraping > demo).
+    if not demo:
+        if cfg.tem_apify_token:
+            console.print(
+                "[green]>> Modo PRODUCAO com Apify (caminho recomendado — dados reais completos).[/]"
+            )
+        elif cfg.tem_meta_token:
+            console.print(
+                "[yellow]>> Modo PRODUCAO com Meta Graph API (sem Apify).\n"
+                "   Tentando ads_archive. Se Meta rejeitar, cai pro scraping.[/]"
+            )
+        else:
+            console.print(
+                "[yellow]>> Modo PRODUCAO sem APIFY_API_TOKEN nem META_ACCESS_TOKEN.\n"
+                "   Vou tentar scraping da UI publica, mas a Meta bloqueia em muitas redes.\n"
+                "   Recomendado: APIFY_API_TOKEN ($5 grátis em apify.com) ou rode --demo.[/]"
+            )
 
     estado = {"etapa": "iniciando", "candidato": 0, "total": 0, "fb_page": ""}
 
@@ -172,22 +175,21 @@ def _imprimir_sumario(res, paths) -> None:
             )
         )
 
-    # Bloco didatico: como o score e calculado
+    # Bloco didatico: como o score e calculado (escala 0-10, com nomes humanos)
     console.print(
         Panel(
             (
-                "[bold]Score 0-100 (extra escolhido do enunciado).[/]\n"
-                "[dim]Formula transparente, mesma para todos os candidatos:[/]\n\n"
-                "  25 pts -> volume de anuncios ativos (piso 1, teto 30)\n"
-                "  20 pts -> seguidores Instagram (piso 1k, teto 200k)\n"
-                "  15 pts -> engajamento estimado >= 1%\n"
-                "  15 pts -> postou nos ultimos 30 dias\n"
-                "  15 pts -> bio menciona especialidade / CRM\n"
-                "  10 pts -> confianca alta no handle Instagram\n\n"
-                "[dim]Quando uma metrica nao esta disponivel (ex: IG bloqueado),\n"
-                "aplicamos credito parcial em vez de zerar a parcela.[/]"
+                "[bold]Nota 0 a 10 (0 = ruim, 10 = excelente).[/]\n"
+                "[dim]Cada referencia recebe uma nota composta por 6 criterios:[/]\n\n"
+                "  2.5 pts -> [bold]Volume de anuncios rodando[/]      (mais ads = mais aprendizado)\n"
+                "  2.0 pts -> [bold]Tracao no Instagram[/]              (seguidores)\n"
+                "  1.5 pts -> [bold]Engajamento real[/]                 (likes/comentarios reais)\n"
+                "  1.5 pts -> [bold]Perfil ativo[/]                     (postou nos ultimos 30 dias)\n"
+                "  1.5 pts -> [bold]Identidade medica clara[/]          (bio cita especialidade/CRM)\n"
+                "  1.0 pts -> [bold]Confiabilidade do match[/]          (quao certo do handle IG)\n\n"
+                "[dim]Rotulos: 8.5+ Excelente | 7.0+ Muito boa | 5.5+ Boa | 4.0+ Razoavel | <4 Fraca[/]"
             ),
-            title="[bold cyan]Como o score e calculado[/]",
+            title="[bold cyan]Como a nota e calculada[/]",
             border_style="cyan",
         )
     )
@@ -198,7 +200,8 @@ def _imprimir_sumario(res, paths) -> None:
     table.add_column("Nome / Página FB", min_width=22)
     table.add_column("Ads", justify="right")
     table.add_column("Seguidores", justify="right")
-    table.add_column("Score", justify="right")
+    table.add_column("Nota", justify="right")
+    table.add_column("Avaliação")
     table.add_column("Match", justify="right")
 
     for i, ref in enumerate(res.referencias, start=1):
@@ -208,7 +211,8 @@ def _imprimir_sumario(res, paths) -> None:
             (ref.nome_exibicao or "")[:40],
             str(ref.n_anuncios_ativos),
             _fmt_int(ref.metricas.seguidores),
-            f"{ref.score:.0f}",
+            f"[bold]{ref.score:.1f}[/]",
+            ref.score_rotulo or "-",
             f"{int(ref.especialidade_confianca * 100)}%",
         )
 
@@ -228,36 +232,35 @@ def _imprimir_sumario(res, paths) -> None:
             )
         )
 
-    # Score breakdown por referencia — responde "por que ESTA referencia
-    # tem ESSE score". Mostra so as top 5 pra nao poluir.
+    # Breakdown por referencia (top 5) — mostra POR QUE cada nota foi essa
     if res.referencias:
         bd_table = Table(
-            title=f"Breakdown do score — explica nota por referencia (top 5)",
-            show_lines=False,
+            title="Composição da nota — por que cada referência ganhou essa avaliação (top 5)",
+            show_lines=True,
         )
         bd_table.add_column("#", style="bold", width=3)
-        bd_table.add_column("Referencia", style="cyan", min_width=24)
-        bd_table.add_column("Ads", justify="right")
-        bd_table.add_column("Seg.", justify="right")
-        bd_table.add_column("Eng.", justify="right")
-        bd_table.add_column("Post30d", justify="right")
-        bd_table.add_column("Bio", justify="right")
-        bd_table.add_column("Handle", justify="right")
-        bd_table.add_column("Total", justify="right", style="bold")
+        bd_table.add_column("Referência", style="cyan", min_width=22)
+        bd_table.add_column("Volume\nanúncios", justify="right")
+        bd_table.add_column("Tração\nInstagram", justify="right")
+        bd_table.add_column("Engaj.\nreal", justify="right")
+        bd_table.add_column("Perfil\nativo", justify="right")
+        bd_table.add_column("Bio\nmédica", justify="right")
+        bd_table.add_column("Conf.\nmatch", justify="right")
+        bd_table.add_column("Nota\nfinal", justify="right", style="bold")
 
         for i, ref in enumerate(res.referencias[:5], start=1):
             bd = ref.score_breakdown or {}
             ident = f"@{ref.instagram_handle}" if ref.instagram_handle else (ref.nome_exibicao or "?")
             bd_table.add_row(
                 str(i),
-                ident[:24],
-                f"{bd.get('volume_anuncios', 0):.0f}/25",
-                f"{bd.get('seguidores', 0):.0f}/20",
-                f"{bd.get('engajamento', 0):.0f}/15",
-                f"{bd.get('postagem_recente', 0):.0f}/15",
-                f"{bd.get('bio_coerente', 0):.0f}/15",
-                f"{bd.get('confianca_handle', 0):.0f}/10",
-                f"{ref.score:.0f}",
+                ident[:22],
+                f"{bd.get('Volume de anúncios rodando', 0):.1f}/2.5",
+                f"{bd.get('Tração no Instagram', 0):.1f}/2.0",
+                f"{bd.get('Engajamento real', 0):.1f}/1.5",
+                f"{bd.get('Perfil ativo (posts recentes)', 0):.1f}/1.5",
+                f"{bd.get('Identidade médica clara', 0):.1f}/1.5",
+                f"{bd.get('Confiabilidade do match', 0):.1f}/1.0",
+                f"{ref.score:.1f}",
             )
         console.print(bd_table)
 

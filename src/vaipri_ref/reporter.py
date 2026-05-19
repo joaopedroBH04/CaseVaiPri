@@ -68,8 +68,11 @@ def gerar_markdown(res: Resultado) -> str:
         L.append(f"- **Posts totais**: {_fmt_int(m.total_posts)}")
         L.append(f"- **Match de especialidade**: {ref.especialidade_match} "
                  f"({ref.especialidade_confianca * 100:.0f}% — {ref.especialidade_justificativa})")
-        L.append(f"- **Score**: **{ref.score:.1f}/100**")
-        L.append(f"  - breakdown: {ref.score_breakdown}")
+        L.append(f"- **Nota**: **{ref.score:.1f}/10** ({ref.score_rotulo or '-'})")
+        if ref.score_breakdown:
+            L.append("  - Composição (cada parcela mostra quanto contribuiu):")
+            for criterio, valor in ref.score_breakdown.items():
+                L.append(f"    - {criterio}: {valor:.1f}")
         if ref.notas:
             L.append("- **Notas**:")
             for n in ref.notas:
@@ -248,7 +251,7 @@ _HTML_TEMPLATE = """<!doctype html>
             </div>
           {% endif %}
           <details>
-            <summary>breakdown do score</summary>
+            <summary>Composição da nota — por que recebeu essa avaliação</summary>
             <ul class="bd-list">
               {% for k, v in ref.score_breakdown.items() %}
                 <li>{{ k }}: <b>{{ "%.1f"|format(v) }}</b></li>
@@ -257,7 +260,10 @@ _HTML_TEMPLATE = """<!doctype html>
           </details>
         </div>
         <div class="score-box">
-          <div class="score">{{ "%.0f"|format(ref.score) }}<small> / 100</small></div>
+          <div class="score">{{ "%.1f"|format(ref.score) }}<small> / 10</small></div>
+          <div style="font-size:12px; color:var(--muted); margin-top:4px;">
+            {{ ref.score_rotulo or '-' }}
+          </div>
           <a href="{{ ref.biblioteca_anuncios_url }}" target="_blank" rel="noopener">ver anuncios &rarr;</a>
         </div>
       </div>

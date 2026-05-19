@@ -2,7 +2,7 @@
   "handle_cliente": "ortopedista.test",
   "especialidade": "ortopedia",
   "pais": "BR",
-  "gerado_em": "2026-05-19T20:51:46.223528Z",
+  "gerado_em": "2026-05-19T23:55:45.346527Z",
   "referencias": [
     {
       "instagram_handle": "dr.marcossanches",
@@ -28,15 +28,16 @@
       "especialidade_match": true,
       "especialidade_confianca": 0.9,
       "especialidade_justificativa": "Fallback heuristico: 3 termos de 'ortopedia' encontrados.",
-      "score": 77.72,
+      "score": 7.77,
       "score_breakdown": {
-        "volume_anuncios": 12.931034482758621,
-        "seguidores": 9.78894472361809,
-        "engajamento": 15.0,
-        "postagem_recente": 15.0,
-        "bio_coerente": 15.0,
-        "confianca_handle": 10.0
+        "Volume de anúncios rodando": 1.293103448275862,
+        "Tração no Instagram": 0.978894472361809,
+        "Engajamento real": 1.5,
+        "Perfil ativo (posts recentes)": 1.5,
+        "Identidade médica clara": 1.5,
+        "Confiabilidade do match": 1.0
       },
+      "score_rotulo": "Muito boa",
       "confianca_handle": "alta",
       "notas": []
     },
@@ -64,15 +65,16 @@
       "especialidade_match": true,
       "especialidade_confianca": 0.8,
       "especialidade_justificativa": "Fallback heuristico: 2 termos de 'ortopedia' encontrados.",
-      "score": 71.65,
+      "score": 7.16,
       "score_breakdown": {
-        "volume_anuncios": 9.482758620689655,
-        "seguidores": 7.165829145728643,
-        "engajamento": 15.0,
-        "postagem_recente": 15.0,
-        "bio_coerente": 15.0,
-        "confianca_handle": 10.0
+        "Volume de anúncios rodando": 0.9482758620689655,
+        "Tração no Instagram": 0.7165829145728643,
+        "Engajamento real": 1.5,
+        "Perfil ativo (posts recentes)": 1.5,
+        "Identidade médica clara": 1.5,
+        "Confiabilidade do match": 1.0
       },
+      "score_rotulo": "Muito boa",
       "confianca_handle": "alta",
       "notas": []
     },
@@ -100,15 +102,16 @@
       "especialidade_match": true,
       "especialidade_confianca": 0.8,
       "especialidade_justificativa": "Fallback heuristico: 2 termos de 'ortopedia' encontrados.",
-      "score": 69.78,
+      "score": 6.98,
       "score_breakdown": {
-        "volume_anuncios": 8.620689655172415,
-        "seguidores": 6.160804020100502,
-        "engajamento": 15.0,
-        "postagem_recente": 15.0,
-        "bio_coerente": 15.0,
-        "confianca_handle": 10.0
+        "Volume de anúncios rodando": 0.8620689655172414,
+        "Tração no Instagram": 0.6160804020100502,
+        "Engajamento real": 1.5,
+        "Perfil ativo (posts recentes)": 1.5,
+        "Identidade médica clara": 1.5,
+        "Confiabilidade do match": 1.0
       },
+      "score_rotulo": "Boa",
       "confianca_handle": "alta",
       "notas": []
     },
@@ -136,15 +139,16 @@
       "especialidade_match": true,
       "especialidade_confianca": 0.8,
       "especialidade_justificativa": "Fallback heuristico: 2 termos de 'ortopedia' encontrados.",
-      "score": 68.16,
+      "score": 6.82,
       "score_breakdown": {
-        "volume_anuncios": 7.758620689655173,
-        "seguidores": 5.396984924623116,
-        "engajamento": 15.0,
-        "postagem_recente": 15.0,
-        "bio_coerente": 15.0,
-        "confianca_handle": 10.0
+        "Volume de anúncios rodando": 0.7758620689655172,
+        "Tração no Instagram": 0.5396984924623116,
+        "Engajamento real": 1.5,
+        "Perfil ativo (posts recentes)": 1.5,
+        "Identidade médica clara": 1.5,
+        "Confiabilidade do match": 1.0
       },
+      "score_rotulo": "Boa",
       "confianca_handle": "alta",
       "notas": []
     },
@@ -172,15 +176,16 @@
       "especialidade_match": true,
       "especialidade_confianca": 0.7,
       "especialidade_justificativa": "Fallback heuristico: 1 termos de 'ortopedia' encontrados.",
-      "score": 66.23,
+      "score": 6.62,
       "score_breakdown": {
-        "volume_anuncios": 6.896551724137931,
-        "seguidores": 4.331658291457287,
-        "engajamento": 15.0,
-        "postagem_recente": 15.0,
-        "bio_coerente": 15.0,
-        "confianca_handle": 10.0
+        "Volume de anúncios rodando": 0.6896551724137931,
+        "Tração no Instagram": 0.43316582914572865,
+        "Engajamento real": 1.5,
+        "Perfil ativo (posts recentes)": 1.5,
+        "Identidade médica clara": 1.5,
+        "Confiabilidade do match": 1.0
       },
+      "score_rotulo": "Boa",
       "confianca_handle": "alta",
       "notas": []
     },
@@ -208,15 +213,16 @@
       "especialidade_match": true,
       "especialidade_confianca": 0.8,
       "especialidade_justificativa": "Fallback heuristico: 2 termos de 'ortopedia' encontrados.",
-      "score": 65.07,
+      "score": 6.51,
       "score_breakdown": {
-        "volume_anuncios": 6.0344827586206895,
-        "seguidores": 4.040201005025126,
-        "engajamento": 15.0,
-        "postagem_recente": 15.0,
-        "bio_coerente": 15.0,
-        "confianca_handle": 10.0
+        "Volume de anúncios rodando": 0.603448275862069,
+        "Tração no Instagram": 0.4040201005025126,
+        "Engajamento real": 1.5,
+        "Perfil ativo (posts recentes)": 1.5,
+        "Identidade médica clara": 1.5,
+        "Confiabilidade do match": 1.0
       },
+      "score_rotulo": "Boa",
       "confianca_handle": "alta",
       "notas": []
     },
@@ -244,15 +250,16 @@
       "especialidade_match": true,
       "especialidade_confianca": 0.8,
       "especialidade_justificativa": "Fallback heuristico: 2 termos de 'ortopedia' encontrados.",
-      "score": 63.33,
+      "score": 6.33,
       "score_breakdown": {
-        "volume_anuncios": 5.172413793103448,
-        "seguidores": 3.1557788944723617,
-        "engajamento": 15.0,
-        "postagem_recente": 15.0,
-        "bio_coerente": 15.0,
-        "confianca_handle": 10.0
+        "Volume de anúncios rodando": 0.5172413793103449,
+        "Tração no Instagram": 0.3155778894472362,
+        "Engajamento real": 1.5,
+        "Perfil ativo (posts recentes)": 1.5,
+        "Identidade médica clara": 1.5,
+        "Confiabilidade do match": 1.0
       },
+      "score_rotulo": "Boa",
       "confianca_handle": "alta",
       "notas": []
     },
@@ -280,15 +287,16 @@
       "especialidade_match": true,
       "especialidade_confianca": 0.7,
       "especialidade_justificativa": "Fallback heuristico: 1 termos de 'ortopedia' encontrados.",
-      "score": 62.06,
+      "score": 6.21,
       "score_breakdown": {
-        "volume_anuncios": 4.310344827586207,
-        "seguidores": 2.7537688442211055,
-        "engajamento": 15.0,
-        "postagem_recente": 15.0,
-        "bio_coerente": 15.0,
-        "confianca_handle": 10.0
+        "Volume de anúncios rodando": 0.4310344827586207,
+        "Tração no Instagram": 0.27537688442211056,
+        "Engajamento real": 1.5,
+        "Perfil ativo (posts recentes)": 1.5,
+        "Identidade médica clara": 1.5,
+        "Confiabilidade do match": 1.0
       },
+      "score_rotulo": "Boa",
       "confianca_handle": "alta",
       "notas": []
     },
@@ -316,15 +324,16 @@
       "especialidade_match": true,
       "especialidade_confianca": 0.7,
       "especialidade_justificativa": "Fallback heuristico: 1 termos de 'ortopedia' encontrados.",
-      "score": 60.23,
+      "score": 6.02,
       "score_breakdown": {
-        "volume_anuncios": 3.4482758620689653,
-        "seguidores": 1.7788944723618092,
-        "engajamento": 15.0,
-        "postagem_recente": 15.0,
-        "bio_coerente": 15.0,
-        "confianca_handle": 10.0
+        "Volume de anúncios rodando": 0.3448275862068966,
+        "Tração no Instagram": 0.17788944723618091,
+        "Engajamento real": 1.5,
+        "Perfil ativo (posts recentes)": 1.5,
+        "Identidade médica clara": 1.5,
+        "Confiabilidade do match": 1.0
       },
+      "score_rotulo": "Boa",
       "confianca_handle": "alta",
       "notas": []
     },
@@ -352,15 +361,16 @@
       "especialidade_match": true,
       "especialidade_confianca": 0.7,
       "especialidade_justificativa": "Fallback heuristico: 1 termos de 'ortopedia' encontrados.",
-      "score": 59.8,
+      "score": 5.98,
       "score_breakdown": {
-        "volume_anuncios": 11.206896551724139,
-        "seguidores": 8.592964824120603,
-        "engajamento": 15.0,
-        "postagem_recente": 15.0,
-        "bio_coerente": 0.0,
-        "confianca_handle": 10.0
+        "Volume de anúncios rodando": 1.1206896551724137,
+        "Tração no Instagram": 0.8592964824120602,
+        "Engajamento real": 1.5,
+        "Perfil ativo (posts recentes)": 1.5,
+        "Identidade médica clara": 0.0,
+        "Confiabilidade do match": 1.0
       },
+      "score_rotulo": "Boa",
       "confianca_handle": "alta",
       "notas": []
     }

@@ -1,7 +1,7 @@
 # Referencias para `clinica.exemplo` — Dermatologia
 
 - Pais: **BR**
-- Gerado em (UTC): **2026-05-19T20:51:44.158376+00:00**
+- Gerado em (UTC): **2026-05-19T23:55:43.002956+00:00**
 - Candidatos brutos da Ad Library: **15**
 - Filtrados por especialidade errada: **4**
 - Sem anuncio ativo: **0**
@@ -26,8 +26,14 @@
 - **Engajamento estimado**: 0.9%
 - **Posts totais**: 1.2k
 - **Match de especialidade**: True (90% — Fallback heuristico: 6 termos de 'dermatologia' encontrados.)
-- **Score**: **76.8/100**
-  - breakdown: {'volume_anuncios': 18.103448275862068, 'seguidores': 18.743718592964825, 'engajamento': 0.0, 'postagem_recente': 15.0, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
+- **Nota**: **7.7/10** (Muito boa)
+  - Composição (cada parcela mostra quanto contribuiu):
+    - Volume de anúncios rodando: 1.8
+    - Tração no Instagram: 1.9
+    - Engajamento real: 0.0
+    - Perfil ativo (posts recentes): 1.5
+    - Identidade médica clara: 1.5
+    - Confiabilidade do match: 1.0
 
 ### 2. Dr. Pedro Salles
 
@@ -39,8 +45,14 @@
 - **Engajamento estimado**: 1.5%
 - **Posts totais**: 634
 - **Match de especialidade**: True (90% — Fallback heuristico: 4 termos de 'dermatologia' encontrados.)
-- **Score**: **74.7/100**
-  - breakdown: {'volume_anuncios': 11.206896551724139, 'seguidores': 8.482412060301508, 'engajamento': 15.0, 'postagem_recente': 15.0, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
+- **Nota**: **7.5/10** (Muito boa)
+  - Composição (cada parcela mostra quanto contribuiu):
+    - Volume de anúncios rodando: 1.1
+    - Tração no Instagram: 0.8
+    - Engajamento real: 1.5
+    - Perfil ativo (posts recentes): 1.5
+    - Identidade médica clara: 1.5
+    - Confiabilidade do match: 1.0
 
 ### 3. Dr. Felipe Ribas
 
@@ -52,8 +64,14 @@
 - **Engajamento estimado**: 1.5%
 - **Posts totais**: 701
 - **Match de especialidade**: True (90% — Fallback heuristico: 3 termos de 'dermatologia' encontrados.)
-- **Score**: **71.7/100**
-  - breakdown: {'volume_anuncios': 9.482758620689655, 'seguidores': 7.21608040201005, 'engajamento': 15.0, 'postagem_recente': 15.0, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
+- **Nota**: **7.2/10** (Muito boa)
+  - Composição (cada parcela mostra quanto contribuiu):
+    - Volume de anúncios rodando: 0.9
+    - Tração no Instagram: 0.7
+    - Engajamento real: 1.5
+    - Perfil ativo (posts recentes): 1.5
+    - Identidade médica clara: 1.5
+    - Confiabilidade do match: 1.0
 
 ### 4. Dra. Beatriz Couto
 
@@ -65,8 +83,14 @@
 - **Engajamento estimado**: 1.5%
 - **Posts totais**: 523
 - **Match de especialidade**: True (90% — Fallback heuristico: 4 termos de 'dermatologia' encontrados.)
-- **Score**: **70.0/100**
-  - breakdown: {'volume_anuncios': 8.620689655172415, 'seguidores': 6.351758793969849, 'engajamento': 15.0, 'postagem_recente': 15.0, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
+- **Nota**: **7.0/10** (Muito boa)
+  - Composição (cada parcela mostra quanto contribuiu):
+    - Volume de anúncios rodando: 0.9
+    - Tração no Instagram: 0.6
+    - Engajamento real: 1.5
+    - Perfil ativo (posts recentes): 1.5
+    - Identidade médica clara: 1.5
+    - Confiabilidade do match: 1.0
 
 ### 5. Dr. Lucas Yamamoto
 
@@ -78,8 +102,14 @@
 - **Engajamento estimado**: 1.5%
 - **Posts totais**: 412
 - **Match de especialidade**: True (70% — Fallback heuristico: 1 termos de 'dermatologia' encontrados.)
-- **Score**: **67.1/100**
-  - breakdown: {'volume_anuncios': 7.758620689655173, 'seguidores': 4.341708542713568, 'engajamento': 15.0, 'postagem_recente': 15.0, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
+- **Nota**: **6.7/10** (Boa)
+  - Composição (cada parcela mostra quanto contribuiu):
+    - Volume de anúncios rodando: 0.8
+    - Tração no Instagram: 0.4
+    - Engajamento real: 1.5
+    - Perfil ativo (posts recentes): 1.5
+    - Identidade médica clara: 1.5
+    - Confiabilidade do match: 1.0
 
 ### 6. Espaco Derma
 
@@ -91,8 +121,14 @@
 - **Engajamento estimado**: 1.5%
 - **Posts totais**: 412
 - **Match de especialidade**: True (90% — Fallback heuristico: 3 termos de 'dermatologia' encontrados.)
-- **Score**: **66.7/100**
-  - breakdown: {'volume_anuncios': 6.896551724137931, 'seguidores': 4.814070351758794, 'engajamento': 15.0, 'postagem_recente': 15.0, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
+- **Nota**: **6.7/10** (Boa)
+  - Composição (cada parcela mostra quanto contribuiu):
+    - Volume de anúncios rodando: 0.7
+    - Tração no Instagram: 0.5
+    - Engajamento real: 1.5
+    - Perfil ativo (posts recentes): 1.5
+    - Identidade médica clara: 1.5
+    - Confiabilidade do match: 1.0
 
 ### 7. Lume Dermato
 
@@ -104,8 +140,14 @@
 - **Engajamento estimado**: 0.9%
 - **Posts totais**: 789
 - **Match de especialidade**: True (80% — Fallback heuristico: 2 termos de 'dermatologia' encontrados.)
-- **Score**: **65.8/100**
-  - breakdown: {'volume_anuncios': 14.655172413793101, 'seguidores': 11.185929648241206, 'engajamento': 0.0, 'postagem_recente': 15.0, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
+- **Nota**: **6.6/10** (Boa)
+  - Composição (cada parcela mostra quanto contribuiu):
+    - Volume de anúncios rodando: 1.5
+    - Tração no Instagram: 1.1
+    - Engajamento real: 0.0
+    - Perfil ativo (posts recentes): 1.5
+    - Identidade médica clara: 1.5
+    - Confiabilidade do match: 1.0
 
 ### 8. Dra. Helena Oka
 
@@ -117,8 +159,14 @@
 - **Engajamento estimado**: 1.5%
 - **Posts totais**: 276
 - **Match de especialidade**: True (90% — Fallback heuristico: 3 termos de 'dermatologia' encontrados.)
-- **Score**: **63.0/100**
-  - breakdown: {'volume_anuncios': 5.172413793103448, 'seguidores': 2.7839195979899496, 'engajamento': 15.0, 'postagem_recente': 15.0, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
+- **Nota**: **6.3/10** (Boa)
+  - Composição (cada parcela mostra quanto contribuiu):
+    - Volume de anúncios rodando: 0.5
+    - Tração no Instagram: 0.3
+    - Engajamento real: 1.5
+    - Perfil ativo (posts recentes): 1.5
+    - Identidade médica clara: 1.5
+    - Confiabilidade do match: 1.0
 
 ### 9. Dra. Yara Sales
 
@@ -130,8 +178,14 @@
 - **Engajamento estimado**: 1.5%
 - **Posts totais**: 234
 - **Match de especialidade**: True (90% — Fallback heuristico: 3 termos de 'dermatologia' encontrados.)
-- **Score**: **60.5/100**
-  - breakdown: {'volume_anuncios': 3.4482758620689653, 'seguidores': 2.050251256281407, 'engajamento': 15.0, 'postagem_recente': 15.0, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
+- **Nota**: **6.0/10** (Boa)
+  - Composição (cada parcela mostra quanto contribuiu):
+    - Volume de anúncios rodando: 0.3
+    - Tração no Instagram: 0.2
+    - Engajamento real: 1.5
+    - Perfil ativo (posts recentes): 1.5
+    - Identidade médica clara: 1.5
+    - Confiabilidade do match: 1.0
 
 ### 10. Dra. Camila Saito
 
@@ -143,5 +197,11 @@
 - **Engajamento estimado**: 1.5%
 - **Posts totais**: 587
 - **Match de especialidade**: True (80% — Fallback heuristico: 2 termos de 'dermatologia' encontrados.)
-- **Score**: **57.2/100**
-  - breakdown: {'volume_anuncios': 10.344827586206897, 'seguidores': 6.824120603015076, 'engajamento': 15.0, 'postagem_recente': 15.0, 'bio_coerente': 0.0, 'confianca_handle': 10.0}
+- **Nota**: **5.7/10** (Boa)
+  - Composição (cada parcela mostra quanto contribuiu):
+    - Volume de anúncios rodando: 1.0
+    - Tração no Instagram: 0.7
+    - Engajamento real: 1.5
+    - Perfil ativo (posts recentes): 1.5
+    - Identidade médica clara: 0.0
+    - Confiabilidade do match: 1.0

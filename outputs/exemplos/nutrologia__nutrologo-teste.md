@@ -1,7 +1,7 @@
 # Referencias para `nutrologo.teste` — Nutrologia
 
 - Pais: **BR**
-- Gerado em (UTC): **2026-05-19T20:51:45.145169+00:00**
+- Gerado em (UTC): **2026-05-19T23:55:44.307457+00:00**
 - Candidatos brutos da Ad Library: **12**
 - Filtrados por especialidade errada: **3**
 - Sem anuncio ativo: **0**
@@ -30,8 +30,14 @@
 - **Engajamento estimado**: 1.5%
 - **Posts totais**: 623
 - **Match de especialidade**: True (80% — Fallback heuristico: 2 termos de 'nutrologia' encontrados.)
-- **Score**: **74.9/100**
-  - breakdown: {'volume_anuncios': 11.206896551724139, 'seguidores': 8.693467336683417, 'engajamento': 15.0, 'postagem_recente': 15.0, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
+- **Nota**: **7.5/10** (Muito boa)
+  - Composição (cada parcela mostra quanto contribuiu):
+    - Volume de anúncios rodando: 1.1
+    - Tração no Instagram: 0.9
+    - Engajamento real: 1.5
+    - Perfil ativo (posts recentes): 1.5
+    - Identidade médica clara: 1.5
+    - Confiabilidade do match: 1.0
 
 ### 2. Dra. Sara Cavalcanti
 
@@ -43,8 +49,14 @@
 - **Engajamento estimado**: 1.5%
 - **Posts totais**: 612
 - **Match de especialidade**: True (80% — Fallback heuristico: 2 termos de 'nutrologia' encontrados.)
-- **Score**: **71.7/100**
-  - breakdown: {'volume_anuncios': 9.482758620689655, 'seguidores': 7.175879396984924, 'engajamento': 15.0, 'postagem_recente': 15.0, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
+- **Nota**: **7.2/10** (Muito boa)
+  - Composição (cada parcela mostra quanto contribuiu):
+    - Volume de anúncios rodando: 0.9
+    - Tração no Instagram: 0.7
+    - Engajamento real: 1.5
+    - Perfil ativo (posts recentes): 1.5
+    - Identidade médica clara: 1.5
+    - Confiabilidade do match: 1.0
 
 ### 3. Dr. Rafael Pinheiro
 
@@ -56,8 +68,14 @@
 - **Engajamento estimado**: 0.9%
 - **Posts totais**: 890
 - **Match de especialidade**: True (90% — Fallback heuristico: 3 termos de 'nutrologia' encontrados.)
-- **Score**: **71.3/100**
-  - breakdown: {'volume_anuncios': 15.517241379310345, 'seguidores': 15.77889447236181, 'engajamento': 0.0, 'postagem_recente': 15.0, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
+- **Nota**: **7.1/10** (Muito boa)
+  - Composição (cada parcela mostra quanto contribuiu):
+    - Volume de anúncios rodando: 1.6
+    - Tração no Instagram: 1.6
+    - Engajamento real: 0.0
+    - Perfil ativo (posts recentes): 1.5
+    - Identidade médica clara: 1.5
+    - Confiabilidade do match: 1.0
 
 ### 4. Dra. Tatiana Brito
 
@@ -69,8 +87,14 @@
 - **Engajamento estimado**: 1.5%
 - **Posts totais**: 521
 - **Match de especialidade**: True (90% — Fallback heuristico: 3 termos de 'nutrologia' encontrados.)
-- **Score**: **70.0/100**
-  - breakdown: {'volume_anuncios': 8.620689655172415, 'seguidores': 6.4120603015075375, 'engajamento': 15.0, 'postagem_recente': 15.0, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
+- **Nota**: **7.0/10** (Muito boa)
+  - Composição (cada parcela mostra quanto contribuiu):
+    - Volume de anúncios rodando: 0.9
+    - Tração no Instagram: 0.6
+    - Engajamento real: 1.5
+    - Perfil ativo (posts recentes): 1.5
+    - Identidade médica clara: 1.5
+    - Confiabilidade do match: 1.0
 
 ### 5. Dra. Paloma Diniz
 
@@ -82,8 +106,14 @@
 - **Engajamento estimado**: 1.5%
 - **Posts totais**: 489
 - **Match de especialidade**: True (80% — Fallback heuristico: 2 termos de 'nutrologia' encontrados.)
-- **Score**: **68.5/100**
-  - breakdown: {'volume_anuncios': 7.758620689655173, 'seguidores': 5.768844221105528, 'engajamento': 15.0, 'postagem_recente': 15.0, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
+- **Nota**: **6.8/10** (Boa)
+  - Composição (cada parcela mostra quanto contribuiu):
+    - Volume de anúncios rodando: 0.8
+    - Tração no Instagram: 0.6
+    - Engajamento real: 1.5
+    - Perfil ativo (posts recentes): 1.5
+    - Identidade médica clara: 1.5
+    - Confiabilidade do match: 1.0
 
 ### 6. Dr. Henrique Lobo
 
@@ -95,8 +125,14 @@
 - **Engajamento estimado**: 1.5%
 - **Posts totais**: 387
 - **Match de especialidade**: True (70% — Fallback heuristico: 1 termos de 'nutrologia' encontrados.)
-- **Score**: **66.1/100**
-  - breakdown: {'volume_anuncios': 6.0344827586206895, 'seguidores': 5.045226130653266, 'engajamento': 15.0, 'postagem_recente': 15.0, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
+- **Nota**: **6.6/10** (Boa)
+  - Composição (cada parcela mostra quanto contribuiu):
+    - Volume de anúncios rodando: 0.6
+    - Tração no Instagram: 0.5
+    - Engajamento real: 1.5
+    - Perfil ativo (posts recentes): 1.5
+    - Identidade médica clara: 1.5
+    - Confiabilidade do match: 1.0
 
 ### 7. Dr. Vitor Cardoso
 
@@ -108,8 +144,14 @@
 - **Engajamento estimado**: 1.5%
 - **Posts totais**: 298
 - **Match de especialidade**: True (80% — Fallback heuristico: 2 termos de 'nutrologia' encontrados.)
-- **Score**: **66.0/100**
-  - breakdown: {'volume_anuncios': 6.896551724137931, 'seguidores': 4.150753768844221, 'engajamento': 15.0, 'postagem_recente': 15.0, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
+- **Nota**: **6.6/10** (Boa)
+  - Composição (cada parcela mostra quanto contribuiu):
+    - Volume de anúncios rodando: 0.7
+    - Tração no Instagram: 0.4
+    - Engajamento real: 1.5
+    - Perfil ativo (posts recentes): 1.5
+    - Identidade médica clara: 1.5
+    - Confiabilidade do match: 1.0
 
 ### 8. Dr. Eduardo Macedo
 
@@ -121,8 +163,14 @@
 - **Engajamento estimado**: 1.5%
 - **Posts totais**: 276
 - **Match de especialidade**: True (70% — Fallback heuristico: 1 termos de 'nutrologia' encontrados.)
-- **Score**: **47.4/100**
-  - breakdown: {'volume_anuncios': 4.310344827586207, 'seguidores': 3.0954773869346734, 'engajamento': 15.0, 'postagem_recente': 15.0, 'bio_coerente': 0.0, 'confianca_handle': 10.0}
+- **Nota**: **4.7/10** (Razoável)
+  - Composição (cada parcela mostra quanto contribuiu):
+    - Volume de anúncios rodando: 0.4
+    - Tração no Instagram: 0.3
+    - Engajamento real: 1.5
+    - Perfil ativo (posts recentes): 1.5
+    - Identidade médica clara: 0.0
+    - Confiabilidade do match: 1.0
 
 ### 9. Dra. Carla Yamada
 
@@ -134,5 +182,11 @@
 - **Engajamento estimado**: 1.5%
 - **Posts totais**: 234
 - **Match de especialidade**: True (90% — Fallback heuristico: 3 termos de 'nutrologia' encontrados.)
-- **Score**: **45.8/100**
-  - breakdown: {'volume_anuncios': 3.4482758620689653, 'seguidores': 2.321608040201005, 'engajamento': 15.0, 'postagem_recente': 15.0, 'bio_coerente': 0.0, 'confianca_handle': 10.0}
+- **Nota**: **4.6/10** (Razoável)
+  - Composição (cada parcela mostra quanto contribuiu):
+    - Volume de anúncios rodando: 0.3
+    - Tração no Instagram: 0.2
+    - Engajamento real: 1.5
+    - Perfil ativo (posts recentes): 1.5
+    - Identidade médica clara: 0.0
+    - Confiabilidade do match: 1.0

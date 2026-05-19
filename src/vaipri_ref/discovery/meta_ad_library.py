@@ -77,22 +77,46 @@ class MetaAdLibraryScraper:
         headless: bool = True,
         max_termo_timeout_s: int = 25,
         graph_api_token: str | None = None,
+        apify_token: str | None = None,
     ) -> None:
         self.cache = cache
         self.country = country
         self.headless = headless
         self.timeout = max_termo_timeout_s
-        # Quando ha token, o caminho preferido e a Graph API oficial.
-        # Funciona em qualquer rede (nao depende do IP ser aceito pela
-        # UI publica do facebook.com).
+        # Caminho 0 (preferido): Apify. Funciona em qualquer rede com
+        # dados completos (incluindo handle IG quando disponivel).
+        self._apify = None
+        if apify_token:
+            from vaipri_ref.discovery.apify_client import ApifyClient
+            self._apify = ApifyClient(api_token=apify_token)
+        # Caminho 1: Graph API oficial — funciona se app tiver permissoes.
         self._graph: "MetaGraphAPI | None" = None
         if graph_api_token:
             from vaipri_ref.discovery.meta_graph_api import MetaGraphAPI
             self._graph = MetaGraphAPI(access_token=graph_api_token, country=country)
+        # Estatisticas para feedback honesto no pipeline.
+        self.stats_apify_ok = 0
+        self.stats_apify_falhou = 0
+        self.stats_graph_ok = 0
+        self.stats_graph_falhou = 0
+        self.stats_scraping_usado = 0
+
+    @property
+    def usando_apify(self) -> bool:
+        return self._apify is not None
+
+    @property
+    def apify_efetiva(self) -> bool:
+        return self.stats_apify_ok > 0
 
     @property
     def usando_graph_api(self) -> bool:
         return self._graph is not None
+
+    @property
+    def graph_api_efetiva(self) -> bool:
+        """True se a Graph API REALMENTE retornou dados pelo menos uma vez."""
+        return self.stats_graph_ok > 0
 
     # ------------- API publica ----------------
 
@@ -148,7 +172,10 @@ class MetaAdLibraryScraper:
     # ------------- caminhos ----------------
 
     def _buscar_termo(self, termo: str, *, limite: int) -> list[_AdvertiserBruto]:
-        chave = self.cache.chave("ad_library", self.country, termo, bool(self._graph))
+        chave = self.cache.chave(
+            "ad_library", self.country, termo,
+            bool(self._apify), bool(self._graph),
+        )
         cached = self.cache.get(chave)
         if cached is not None:
             try:
@@ -158,8 +185,36 @@ class MetaAdLibraryScraper:
 
         resultado: list[_AdvertiserBruto] = []
 
-        # Caminho 1 (preferido): Graph API oficial — funciona em qualquer rede.
-        if self._graph is not None:
+        # Caminho 0 (preferido total): Apify — dados reais completos,
+        # com nome real da pagina e (quando disponivel) handle IG.
+        if self._apify is not None:
+            try:
+                from vaipri_ref.discovery.apify_ad_library import buscar_anunciantes
+                agregados = buscar_anunciantes(
+                    self._apify,
+                    termo,
+                    country=self.country,
+                    max_resultados=limite * 3,
+                )
+                for agg in agregados:
+                    resultado.append(
+                        _AdvertiserBruto(
+                            fb_page_id=agg["page_id"],
+                            fb_page_name=agg["page_name"],
+                            n_anuncios_ativos=agg["n_anuncios"],
+                            ig_handle_hint=agg.get("ig_handle_hint"),
+                        )
+                    )
+                logger.info("Apify Ad Library: termo %r -> %d paginas", termo, len(resultado))
+                if resultado:
+                    self.stats_apify_ok += 1
+            except Exception as exc:
+                logger.warning("Apify Ad Library falhou em %r (%s); caindo pro proximo caminho", termo, exc)
+                self.stats_apify_falhou += 1
+                resultado = []
+
+        # Caminho 1: Graph API oficial — funciona em qualquer rede.
+        if not resultado and self._graph is not None:
             try:
                 anuncios = self._graph.buscar_termo(termo, limite=limite * 3)
                 agregado = self._graph.agrupar_por_pagina(anuncios)
@@ -172,12 +227,16 @@ class MetaAdLibraryScraper:
                         )
                     )
                 logger.info("Graph API: termo %r -> %d paginas", termo, len(resultado))
+                if resultado:
+                    self.stats_graph_ok += 1
             except Exception as exc:
                 logger.warning("Graph API falhou em %r (%s); caindo pro scraping web", termo, exc)
+                self.stats_graph_falhou += 1
                 resultado = []
 
         # Caminho 2 (fallback): scraping da UI publica.
         if not resultado:
+            self.stats_scraping_usado += 1
             url = url_busca_biblioteca(termo, country=self.country)
             try:
                 resultado = _scrape_rapido_http(url) or []

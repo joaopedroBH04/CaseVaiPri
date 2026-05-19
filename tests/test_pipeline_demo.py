@@ -58,7 +58,7 @@ def test_demo_gera_referencias_validas(cfg_tmp, especialidade):
         assert ref.n_anuncios_ativos >= 1
         assert ref.especialidade_match is True
         assert 0.0 <= ref.especialidade_confianca <= 1.0
-        assert 0.0 <= ref.score <= 100.0
+        assert 0.0 <= ref.score <= 10.0
         # contrato: campos obrigatorios estao preenchidos
         assert ref.instagram_handle
         assert str(ref.biblioteca_anuncios_url).startswith("https://www.facebook.com/ads/library/")

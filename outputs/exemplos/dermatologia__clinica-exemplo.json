@@ -2,7 +2,7 @@
   "handle_cliente": "clinica.exemplo",
   "especialidade": "dermatologia",
   "pais": "BR",
-  "gerado_em": "2026-05-19T20:51:44.158376Z",
+  "gerado_em": "2026-05-19T23:55:43.002956Z",
   "referencias": [
     {
       "instagram_handle": "draanalima.derm",
@@ -28,15 +28,16 @@
       "especialidade_match": true,
       "especialidade_confianca": 0.9,
       "especialidade_justificativa": "Fallback heuristico: 6 termos de 'dermatologia' encontrados.",
-      "score": 76.85,
+      "score": 7.68,
       "score_breakdown": {
-        "volume_anuncios": 18.103448275862068,
-        "seguidores": 18.743718592964825,
-        "engajamento": 0.0,
-        "postagem_recente": 15.0,
-        "bio_coerente": 15.0,
-        "confianca_handle": 10.0
+        "Volume de anúncios rodando": 1.8103448275862069,
+        "Tração no Instagram": 1.8743718592964824,
+        "Engajamento real": 0.0,
+        "Perfil ativo (posts recentes)": 1.5,
+        "Identidade médica clara": 1.5,
+        "Confiabilidade do match": 1.0
       },
+      "score_rotulo": "Muito boa",
       "confianca_handle": "alta",
       "notas": []
     },
@@ -64,15 +65,16 @@
       "especialidade_match": true,
       "especialidade_confianca": 0.9,
       "especialidade_justificativa": "Fallback heuristico: 4 termos de 'dermatologia' encontrados.",
-      "score": 74.69,
+      "score": 7.47,
       "score_breakdown": {
-        "volume_anuncios": 11.206896551724139,
-        "seguidores": 8.482412060301508,
-        "engajamento": 15.0,
-        "postagem_recente": 15.0,
-        "bio_coerente": 15.0,
-        "confianca_handle": 10.0
+        "Volume de anúncios rodando": 1.1206896551724137,
+        "Tração no Instagram": 0.8482412060301507,
+        "Engajamento real": 1.5,
+        "Perfil ativo (posts recentes)": 1.5,
+        "Identidade médica clara": 1.5,
+        "Confiabilidade do match": 1.0
       },
+      "score_rotulo": "Muito boa",
       "confianca_handle": "alta",
       "notas": []
     },
@@ -100,15 +102,16 @@
       "especialidade_match": true,
       "especialidade_confianca": 0.9,
       "especialidade_justificativa": "Fallback heuristico: 3 termos de 'dermatologia' encontrados.",
-      "score": 71.7,
+      "score": 7.17,
       "score_breakdown": {
-        "volume_anuncios": 9.482758620689655,
-        "seguidores": 7.21608040201005,
-        "engajamento": 15.0,
-        "postagem_recente": 15.0,
-        "bio_coerente": 15.0,
-        "confianca_handle": 10.0
+        "Volume de anúncios rodando": 0.9482758620689655,
+        "Tração no Instagram": 0.721608040201005,
+        "Engajamento real": 1.5,
+        "Perfil ativo (posts recentes)": 1.5,
+        "Identidade médica clara": 1.5,
+        "Confiabilidade do match": 1.0
       },
+      "score_rotulo": "Muito boa",
       "confianca_handle": "alta",
       "notas": []
     },
@@ -136,15 +139,16 @@
       "especialidade_match": true,
       "especialidade_confianca": 0.9,
       "especialidade_justificativa": "Fallback heuristico: 4 termos de 'dermatologia' encontrados.",
-      "score": 69.97,
+      "score": 7.0,
       "score_breakdown": {
-        "volume_anuncios": 8.620689655172415,
-        "seguidores": 6.351758793969849,
-        "engajamento": 15.0,
-        "postagem_recente": 15.0,
-        "bio_coerente": 15.0,
-        "confianca_handle": 10.0
+        "Volume de anúncios rodando": 0.8620689655172414,
+        "Tração no Instagram": 0.6351758793969849,
+        "Engajamento real": 1.5,
+        "Perfil ativo (posts recentes)": 1.5,
+        "Identidade médica clara": 1.5,
+        "Confiabilidade do match": 1.0
       },
+      "score_rotulo": "Muito boa",
       "confianca_handle": "alta",
       "notas": []
     },
@@ -172,15 +176,16 @@
       "especialidade_match": true,
       "especialidade_confianca": 0.7,
       "especialidade_justificativa": "Fallback heuristico: 1 termos de 'dermatologia' encontrados.",
-      "score": 67.1,
+      "score": 6.71,
       "score_breakdown": {
-        "volume_anuncios": 7.758620689655173,
-        "seguidores": 4.341708542713568,
-        "engajamento": 15.0,
-        "postagem_recente": 15.0,
-        "bio_coerente": 15.0,
-        "confianca_handle": 10.0
+        "Volume de anúncios rodando": 0.7758620689655172,
+        "Tração no Instagram": 0.43417085427135677,
+        "Engajamento real": 1.5,
+        "Perfil ativo (posts recentes)": 1.5,
+        "Identidade médica clara": 1.5,
+        "Confiabilidade do match": 1.0
       },
+      "score_rotulo": "Boa",
       "confianca_handle": "alta",
       "notas": []
     },
@@ -208,15 +213,16 @@
       "especialidade_match": true,
       "especialidade_confianca": 0.9,
       "especialidade_justificativa": "Fallback heuristico: 3 termos de 'dermatologia' encontrados.",
-      "score": 66.71,
+      "score": 6.67,
       "score_breakdown": {
-        "volume_anuncios": 6.896551724137931,
-        "seguidores": 4.814070351758794,
-        "engajamento": 15.0,
-        "postagem_recente": 15.0,
-        "bio_coerente": 15.0,
-        "confianca_handle": 10.0
+        "Volume de anúncios rodando": 0.6896551724137931,
+        "Tração no Instagram": 0.4814070351758794,
+        "Engajamento real": 1.5,
+        "Perfil ativo (posts recentes)": 1.5,
+        "Identidade médica clara": 1.5,
+        "Confiabilidade do match": 1.0
       },
+      "score_rotulo": "Boa",
       "confianca_handle": "alta",
       "notas": []
     },
@@ -244,15 +250,16 @@
       "especialidade_match": true,
       "especialidade_confianca": 0.8,
       "especialidade_justificativa": "Fallback heuristico: 2 termos de 'dermatologia' encontrados.",
-      "score": 65.84,
+      "score": 6.58,
       "score_breakdown": {
-        "volume_anuncios": 14.655172413793101,
-        "seguidores": 11.185929648241206,
-        "engajamento": 0.0,
-        "postagem_recente": 15.0,
-        "bio_coerente": 15.0,
-        "confianca_handle": 10.0
+        "Volume de anúncios rodando": 1.4655172413793103,
+        "Tração no Instagram": 1.1185929648241206,
+        "Engajamento real": 0.0,
+        "Perfil ativo (posts recentes)": 1.5,
+        "Identidade médica clara": 1.5,
+        "Confiabilidade do match": 1.0
       },
+      "score_rotulo": "Boa",
       "confianca_handle": "alta",
       "notas": []
     },
@@ -280,15 +287,16 @@
       "especialidade_match": true,
       "especialidade_confianca": 0.9,
       "especialidade_justificativa": "Fallback heuristico: 3 termos de 'dermatologia' encontrados.",
-      "score": 62.96,
+      "score": 6.3,
       "score_breakdown": {
-        "volume_anuncios": 5.172413793103448,
-        "seguidores": 2.7839195979899496,
-        "engajamento": 15.0,
-        "postagem_recente": 15.0,
-        "bio_coerente": 15.0,
-        "confianca_handle": 10.0
+        "Volume de anúncios rodando": 0.5172413793103449,
+        "Tração no Instagram": 0.27839195979899495,
+        "Engajamento real": 1.5,
+        "Perfil ativo (posts recentes)": 1.5,
+        "Identidade médica clara": 1.5,
+        "Confiabilidade do match": 1.0
       },
+      "score_rotulo": "Boa",
       "confianca_handle": "alta",
       "notas": []
     },
@@ -316,15 +324,16 @@
       "especialidade_match": true,
       "especialidade_confianca": 0.9,
       "especialidade_justificativa": "Fallback heuristico: 3 termos de 'dermatologia' encontrados.",
-      "score": 60.5,
+      "score": 6.05,
       "score_breakdown": {
-        "volume_anuncios": 3.4482758620689653,
-        "seguidores": 2.050251256281407,
-        "engajamento": 15.0,
-        "postagem_recente": 15.0,
-        "bio_coerente": 15.0,
-        "confianca_handle": 10.0
+        "Volume de anúncios rodando": 0.3448275862068966,
+        "Tração no Instagram": 0.2050251256281407,
+        "Engajamento real": 1.5,
+        "Perfil ativo (posts recentes)": 1.5,
+        "Identidade médica clara": 1.5,
+        "Confiabilidade do match": 1.0
       },
+      "score_rotulo": "Boa",
       "confianca_handle": "alta",
       "notas": []
     },
@@ -352,15 +361,16 @@
       "especialidade_match": true,
       "especialidade_confianca": 0.8,
       "especialidade_justificativa": "Fallback heuristico: 2 termos de 'dermatologia' encontrados.",
-      "score": 57.17,
+      "score": 5.72,
       "score_breakdown": {
-        "volume_anuncios": 10.344827586206897,
-        "seguidores": 6.824120603015076,
-        "engajamento": 15.0,
-        "postagem_recente": 15.0,
-        "bio_coerente": 0.0,
-        "confianca_handle": 10.0
+        "Volume de anúncios rodando": 1.0344827586206897,
+        "Tração no Instagram": 0.6824120603015076,
+        "Engajamento real": 1.5,
+        "Perfil ativo (posts recentes)": 1.5,
+        "Identidade médica clara": 0.0,
+        "Confiabilidade do match": 1.0
       },
+      "score_rotulo": "Boa",
       "confianca_handle": "alta",
       "notas": []
     }
