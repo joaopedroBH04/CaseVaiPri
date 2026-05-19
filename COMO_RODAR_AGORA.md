@@ -5,21 +5,37 @@
 
 ---
 
+## ⚠️ Antes de tudo: você NÃO precisa pagar nada
+
+**A chave da API Anthropic ($5 mínimo) é totalmente opcional**. A
+ferramenta entrega 100% do que o enunciado pede sem ela. Os 3 outputs
+em `outputs/exemplos/` foram gerados **sem chave**, em modo heurístico,
+e os 100 testes pytest passam **sem chave**.
+
+A chave melhora qualidade em apenas 2 pontos pequenos quando você roda
+em **modo produção real** (sem `--demo`), e o que vai ser apresentado
+no Loom é o **modo `--demo`** — que não usa a chave de jeito nenhum.
+
+**Recomendação direta: pule a Fase 3.** Se mais tarde a VaiPri pedir
+modo produção real, você compra a chave naquele momento.
+
+---
+
 ## Cronograma (referência)
 
-| Fase | O que acontece                          | Tempo  |
-| ---: | --------------------------------------- | ------ |
-|   0  | Pré-requisitos do laptop                | 2 min  |
-|   1  | Baixar o repositório                    | 1 min  |
-|   2  | Configurar ambiente Python              | 4 min  |
-|   3  | Adicionar chave Claude (opcional)       | 2 min  |
-|   4  | Validar instalação (rodar testes)       | 1 min  |
-|   5  | Rodar os 3 casos de teste               | 1 min  |
-|   6  | Abrir a UI web (Streamlit)              | 1 min  |
-|   7  | Gravar o Loom seguindo o roteiro        | 20 min |
-|   8  | Empacotar e entregar                    | 5 min  |
+| Fase | O que acontece                                | Tempo  |
+| ---: | --------------------------------------------- | ------ |
+|   0  | Pré-requisitos do laptop                      | 2 min  |
+|   1  | Baixar o repositório                          | 1 min  |
+|   2  | Configurar ambiente Python                    | 4 min  |
+|   3  | ~~Chave Claude~~ (pule — não precisa)         | 0 min  |
+|   4  | Validar instalação (rodar testes)             | 1 min  |
+|   5  | Rodar os 3 casos de teste                     | 1 min  |
+|   6  | Abrir a UI web (Streamlit)                    | 1 min  |
+|   7  | Gravar o Loom seguindo o roteiro              | 20 min |
+|   8  | Empacotar e entregar                          | 5 min  |
 
-**Total realista: 35-45 min** (sem o Loom). Com Loom: 60 min.
+**Total realista: 30-35 min** (sem o Loom). Com Loom: 50-55 min.
 
 ---
 
@@ -27,6 +43,7 @@
 
 Abra um terminal e cole **um por um** os comandos abaixo. Se algum falhar,
 vá na seção "Plano B" no fim deste arquivo antes de continuar.
+
 
 ```bash
 # 1. Python 3.10 ou superior
@@ -110,34 +127,44 @@ python -m playwright install chromium
 
 ---
 
-## Fase 3 — Adicionar chave Claude (2 min, opcional mas recomendado)
+## Fase 3 — Chave Claude (PULE — não precisa)
 
-> **Se não tiver chave Anthropic, pule para Fase 4** — a ferramenta roda no
-> modo heurístico (qualidade um pouco menor) e ainda assim entrega o esperado.
+> **Resumo:** essa fase existe para quem quer rodar em **modo produção
+> real** (scraping ao vivo da Meta). Para entregar a case, **você NÃO
+> precisa fazer nada aqui.**
+
+### Por que pular
+
+| Pergunta                                                                | Resposta                                                              |
+| ----------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| A ferramenta funciona sem chave?                                        | **Sim.** 100 testes passam sem chave.                                 |
+| Os 3 outputs em `outputs/exemplos/` foram gerados sem chave?            | **Sim**, em modo heurístico.                                          |
+| O Loom usa `--demo`. Demo usa a chave?                                   | **Não.** Em modo `--demo` a chave é literalmente ignorada.            |
+| A chave evita a Meta me bloquear?                                       | **Não.** A chave é da Anthropic; o bloqueio é da Meta. Coisas diferentes. |
+| Posso entregar a case sem pagar nada?                                   | **Sim.** Pule esta fase e siga para a Fase 4.                         |
+
+### Se mesmo assim quiser configurar (modo produção real depois)
+
+Faz sentido se você (a) tem rede caseira aberta, (b) quer mostrar a
+ferramenta indo na Meta ao vivo, (c) tem 30min sobrando para testar
+fora do escopo da case.
 
 ```bash
-# 1. Copiar o template
+# 1. Copia o template
 cp .env.example .env
 
-# 2. Editar o .env (use seu editor preferido)
-nano .env       # ou: code .env, vim .env, gedit .env
-```
+# 2. Edita o .env e cola sua chave
+nano .env       # ou: code .env, vim .env
 
-Dentro do `.env`, cole sua chave da Anthropic (peça em
-[console.anthropic.com](https://console.anthropic.com), criar API key,
-copiar). A linha deve ficar:
+# Linha que você vai modificar:
+# ANTHROPIC_API_KEY=sk-ant-api03-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-```
-ANTHROPIC_API_KEY=sk-ant-api03-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-```
-
-Salve e feche.
-
-✅ **Checkpoint:** rode o comando abaixo e veja a chave detectada:
-
-```bash
+# 3. Checa se foi detectada
 python3 -c "from vaipri_ref.config import carregar; c=carregar(); print('Claude:', 'OK' if c.tem_chave_anthropic else 'NAO CONFIGURADA')"
 ```
+
+✅ **Checkpoint (se pulou):** o arquivo `.env` não existe ou está
+sem chave válida. **Tudo bem.** Siga para a Fase 4.
 
 ---
 
@@ -379,7 +406,7 @@ Repositorio (publico): https://github.com/joaopedroBH04/CaseVaiPri
 Branch: claude/develop-case-implementation-oumwk
 Loom (4m30s): [SEU LINK AQUI]
 
-Como rodar em 60 segundos:
+Como rodar em 60 segundos (sem precisar de nenhuma chave de API):
 
   git clone https://github.com/joaopedroBH04/CaseVaiPri.git
   cd CaseVaiPri
@@ -399,6 +426,14 @@ Os 5 criterios de avaliacao tem documento dedicado em `docs/`:
 
 Saidas dos 3 testes pre-gerados em outputs/exemplos/.
 100 testes pytest, todos verdes.
+
+Observacao: a ferramenta tem dois modos.
+- `--demo` (default na demonstracao): roda com fixtures sinteticas,
+  nao precisa de internet aberta para Meta nem chave de API. Pipeline
+  e logica reais — apenas a fonte de candidatos e local.
+- Sem `--demo`: scraping real da Meta Ad Library. Opcionalmente usa
+  ANTHROPIC_API_KEY para melhorar match de especialidade. Trade-offs
+  detalhados em `docs/TRADE_OFFS.md`.
 
 Qualquer duvida, eu defendo cada decisao.
 
@@ -489,8 +524,13 @@ streamlit run app/streamlit_app.py --server.port 8888
 
 ### "Tenho rede aberta — quero rodar SEM --demo"
 
+> Esse caminho é **opcional** e só vale o esforço se você quiser
+> demonstrar o scraping real ao vivo. **Não é necessário para entregar
+> a case** — o modo `--demo` cobre 100% do que o enunciado pede.
+
 ```bash
-# 1. Garanta que tem chave Claude no .env (Fase 3)
+# 1. (Opcional) Configure ANTHROPIC_API_KEY no .env — melhora o match
+#    de especialidade. Funciona sem também, em modo heurístico.
 # 2. Instale o Chromium do Playwright
 python -m playwright install chromium
 
@@ -516,18 +556,31 @@ gerais da case.
 
 ---
 
+### "Devo pagar a chave da Anthropic?"
+
+**Não para entregar a case.** A chave custa no mínimo $5 e não dá
+garantia de nada — o que pode dar errado em produção (bloqueio da
+Meta, captcha, mudança de layout) **não tem relação com a chave**, é
+risco da Meta. O modo `--demo` é determinístico e funciona sempre.
+
+A chave só vale se você quer mostrar o scraping real funcionando ao
+vivo da sua rede caseira, e topa o risco de a Meta bloquear na hora
+do teste. Pra entregar a case com qualidade, não precisa.
+
+---
+
 ## Resumo cronológico
 
 ```
 0:00 → 0:02   Pre-requisitos
 0:02 → 0:03   Clone do repo
 0:03 → 0:07   Instalar deps
-0:07 → 0:09   Configurar .env (opcional)
-0:09 → 0:10   Rodar testes (100 verdes)
-0:10 → 0:11   Rodar 3 casos de teste
-0:11 → 0:12   Abrir Streamlit
-0:12 → 0:32   Gravar Loom de 4m30s
-0:32 → 0:37   Empacotar + enviar
+0:07 → 0:07   Fase 3 PULADA (chave Claude nao e necessaria)
+0:07 → 0:08   Rodar testes (100 verdes)
+0:08 → 0:09   Rodar 3 casos de teste
+0:09 → 0:10   Abrir Streamlit
+0:10 → 0:30   Gravar Loom de 4m30s
+0:30 → 0:35   Empacotar + enviar
 ```
 
-**Pronto. Você acabou de entregar a case.**
+**Pronto. Você acabou de entregar a case — gastando R$ 0.**
