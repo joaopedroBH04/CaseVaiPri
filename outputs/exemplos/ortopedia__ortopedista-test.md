@@ -1,7 +1,7 @@
 # Referencias para `ortopedista.test` — Ortopedia
 
 - Pais: **BR**
-- Gerado em (UTC): **2026-05-19T00:04:00.288275+00:00**
+- Gerado em (UTC): **2026-05-19T03:38:01.220060+00:00**
 - Candidatos brutos da Ad Library: **12**
 - Filtrados por especialidade errada: **2**
 - Sem anuncio ativo: **0**
