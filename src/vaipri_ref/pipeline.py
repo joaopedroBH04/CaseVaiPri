@@ -142,8 +142,24 @@ def _executar(
                 )
     else:
         _emitir(on_progress, "ad_library", {"termos": termos})
+        # Avisa o usuario que tipo de fonte estamos tentando.
+        if cfg.tem_meta_token:
+            avisos.append(
+                "Usando Meta Ad Library Graph API oficial (caminho recomendado "
+                "para dados reais)."
+            )
+        else:
+            avisos.append(
+                "META_ACCESS_TOKEN nao configurado. Vou tentar scraping da UI "
+                "publica, mas a Meta bloqueia esse caminho na maioria das redes. "
+                "Para dados reais garantidos, configure o token (ver "
+                "docs/COMO_ATIVAR_DADOS_REAIS.md). Como alternativa, use --demo."
+            )
         scraper_meta = MetaAdLibraryScraper(
-            cache=cache, country=cfg.country, headless=cfg.headless
+            cache=cache,
+            country=cfg.country,
+            headless=cfg.headless,
+            graph_api_token=cfg.meta_access_token if cfg.tem_meta_token else None,
         )
         candidatos = scraper_meta.buscar(termos, limite_por_termo=12)
 
@@ -155,11 +171,18 @@ def _executar(
     candidatos = candidatos[: cfg.max_candidatos]
 
     if not candidatos and not modo_demo:
-        avisos.append(
-            "Nenhum candidato retornou da Ad Library. Possiveis causas: "
-            "termos muito raros, bloqueio temporario da Meta ou rede offline. "
-            "Tente novamente em alguns minutos, ou rode em modo --demo."
-        )
+        if cfg.tem_meta_token:
+            avisos.append(
+                "Meta Graph API retornou 0 anuncios para os termos buscados. "
+                "Possiveis causas: termos muito raros, especialidade pouco "
+                "anunciada, ou rate limit. Tente outra especialidade ou rode --demo."
+            )
+        else:
+            avisos.append(
+                "Nenhum candidato retornou da Ad Library (scraping bloqueado pela "
+                "Meta). Configure META_ACCESS_TOKEN (5 min, gratuito) — ver "
+                "docs/COMO_ATIVAR_DADOS_REAIS.md — ou rode em --demo."
+            )
 
     # 3) resolucao de handle + 4) enriquecimento IG + 5) match especialidade + 6) score
     resolver = HandleResolver(

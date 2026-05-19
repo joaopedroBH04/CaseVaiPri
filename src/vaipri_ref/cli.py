@@ -81,6 +81,21 @@ def buscar(
             "heuristico (sem Claude). Configure o .env para qualidade maxima.[/]"
         )
 
+    # Aviso sobre fonte de dados (Graph API vs scraping vs demo).
+    if not demo and not cfg.tem_meta_token:
+        console.print(
+            "[yellow]>> Modo PRODUCAO sem META_ACCESS_TOKEN configurado.\n"
+            "   Vou tentar scraping da UI publica, mas a Meta bloqueia esse caminho "
+            "em quase todas as redes.\n"
+            "   Recomendado: configure o token (gratuito, 5 min) — ver "
+            "docs/COMO_ATIVAR_DADOS_REAIS.md\n"
+            "   Alternativa: rode com --demo para validar pipeline com fixtures.[/]"
+        )
+    elif not demo and cfg.tem_meta_token:
+        console.print(
+            "[green]>> Modo PRODUCAO com Graph API oficial (META_ACCESS_TOKEN OK).[/]"
+        )
+
     estado = {"etapa": "iniciando", "candidato": 0, "total": 0, "fb_page": ""}
 
     with Progress(

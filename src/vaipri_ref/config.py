@@ -56,6 +56,8 @@ class Config:
     cache_dir: Path
     headless: bool
     verbose: bool
+    # Meta Ad Library Graph API (caminho oficial para dados reais)
+    meta_access_token: str | None = None
 
     @property
     def tem_chave_anthropic(self) -> bool:
@@ -65,6 +67,19 @@ class Config:
     def chave_anthropic_parece_placeholder(self) -> bool:
         """True quando ha algo configurado mas e claramente placeholder."""
         return bool(self.anthropic_api_key) and not _chave_parece_real(self.anthropic_api_key)
+
+    @property
+    def tem_meta_token(self) -> bool:
+        """True se ha um token Meta Graph API configurado e nao-placeholder."""
+        if not self.meta_access_token:
+            return False
+        t = self.meta_access_token.strip()
+        if len(t) < 20:
+            return False
+        for pat in _PLACEHOLDER_PATTERNS:
+            if pat.search(t):
+                return False
+        return True
 
 
 def _bool(value: str | None, default: bool = False) -> bool:
@@ -90,4 +105,5 @@ def carregar(env_file: Path | str | None = None) -> Config:
         cache_dir=Path(os.environ.get("VAIPRI_CACHE_DIR", _DEFAULT_CACHE_DIR)),
         headless=_bool(os.environ.get("VAIPRI_HEADLESS"), default=True),
         verbose=_bool(os.environ.get("VAIPRI_VERBOSE"), default=False),
+        meta_access_token=os.environ.get("META_ACCESS_TOKEN"),
     )

@@ -76,11 +76,23 @@ class MetaAdLibraryScraper:
         country: str = "BR",
         headless: bool = True,
         max_termo_timeout_s: int = 25,
+        graph_api_token: str | None = None,
     ) -> None:
         self.cache = cache
         self.country = country
         self.headless = headless
         self.timeout = max_termo_timeout_s
+        # Quando ha token, o caminho preferido e a Graph API oficial.
+        # Funciona em qualquer rede (nao depende do IP ser aceito pela
+        # UI publica do facebook.com).
+        self._graph: "MetaGraphAPI | None" = None
+        if graph_api_token:
+            from vaipri_ref.discovery.meta_graph_api import MetaGraphAPI
+            self._graph = MetaGraphAPI(access_token=graph_api_token, country=country)
+
+    @property
+    def usando_graph_api(self) -> bool:
+        return self._graph is not None
 
     # ------------- API publica ----------------
 
@@ -128,7 +140,7 @@ class MetaAdLibraryScraper:
     # ------------- caminhos ----------------
 
     def _buscar_termo(self, termo: str, *, limite: int) -> list[_AdvertiserBruto]:
-        chave = self.cache.chave("ad_library", self.country, termo)
+        chave = self.cache.chave("ad_library", self.country, termo, bool(self._graph))
         cached = self.cache.get(chave)
         if cached is not None:
             try:
@@ -136,21 +148,43 @@ class MetaAdLibraryScraper:
             except Exception:
                 pass
 
-        url = url_busca_biblioteca(termo, country=self.country)
+        resultado: list[_AdvertiserBruto] = []
 
-        # Tenta caminho rapido primeiro.
-        try:
-            resultado = _scrape_rapido_http(url)
-        except Exception as exc:
-            logger.debug("HTTP rapido falhou (%s); caindo pro Playwright", exc)
-            resultado = None
-
-        if not resultado:
+        # Caminho 1 (preferido): Graph API oficial — funciona em qualquer rede.
+        if self._graph is not None:
             try:
-                resultado = asyncio.run(_scrape_playwright(url, headless=self.headless, timeout_s=self.timeout))
+                anuncios = self._graph.buscar_termo(termo, limite=limite * 3)
+                agregado = self._graph.agrupar_por_pagina(anuncios)
+                for page_id, page_name, n in agregado:
+                    resultado.append(
+                        _AdvertiserBruto(
+                            fb_page_id=page_id,
+                            fb_page_name=page_name,
+                            n_anuncios_ativos=n,
+                        )
+                    )
+                logger.info("Graph API: termo %r -> %d paginas", termo, len(resultado))
             except Exception as exc:
-                logger.warning("Playwright tambem falhou: %s", exc)
+                logger.warning("Graph API falhou em %r (%s); caindo pro scraping web", termo, exc)
                 resultado = []
+
+        # Caminho 2 (fallback): scraping da UI publica.
+        if not resultado:
+            url = url_busca_biblioteca(termo, country=self.country)
+            try:
+                resultado = _scrape_rapido_http(url) or []
+            except Exception as exc:
+                logger.debug("HTTP rapido falhou (%s); caindo pro Playwright", exc)
+                resultado = []
+
+            if not resultado:
+                try:
+                    resultado = asyncio.run(
+                        _scrape_playwright(url, headless=self.headless, timeout_s=self.timeout)
+                    )
+                except Exception as exc:
+                    logger.warning("Playwright tambem falhou: %s", exc)
+                    resultado = []
 
         resultado = resultado[:limite]
         self.cache.set(chave, [r.__dict__ for r in resultado])

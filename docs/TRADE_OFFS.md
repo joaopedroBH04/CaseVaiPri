@@ -21,39 +21,46 @@ escolheu."* Este documento é honesto sobre cada um.
 
 **O que existe:**
 
-- **API oficial** (`graph.facebook.com/.../ads_archive`) — mas restringe
-  a maioria dos campos a anúncios "de tópicos sociais, eleições ou
-  política". Anúncio médico não cai aí.
-- **Ad Library UI** (`facebook.com/ads/library/`) — pública, sem login.
-  Esse é o caminho.
+- **Graph API oficial** (`graph.facebook.com/v19.0/ads_archive`) —
+  requer access token de Facebook Developer App (gratuito, 5 min de
+  setup). Funciona em qualquer rede, retorna JSON estruturado.
+- **Ad Library UI** (`facebook.com/ads/library/`) — pública, mas a
+  Meta bloqueia agressivamente IPs de datacenter, VPN e até redes
+  caseiras quando detecta automação.
 
-**O que escolhi:** Scraping da UI pública com Playwright (Chromium headless),
-filtrando por `country=BR` e `active_status=active`.
+**O que escolhi (atualizado):** ordem de tentativa em camadas:
 
-**Por quê:**
+1. **Graph API oficial** se `META_ACCESS_TOKEN` está configurado.
+   É o caminho recomendado e padrão pra entrega da case.
+2. **Scraping HTTP rápido** da UI pública (fallback se API não disponível).
+3. **Scraping Playwright** (fallback final, mais lento e frágil).
 
-- API oficial não cobre o vertical de saúde.
-- A UI pública já entrega tudo que precisamos: nome da página,
-  link da página, número de anúncios ativos, link para a coleção
-  de anúncios.
-- Playwright lida com o JS pesado da página.
+**Por que esta ordem:**
+
+- A Graph API é o caminho **oficial e estável** — funciona em qualquer
+  rede, sem captcha, sem 403. É o que a Meta endossa.
+- O scraping da UI ainda existe como fallback porque alguns avaliadores
+  podem não querer configurar token (ex: ambientes restritos).
+- Em modo `--demo`, fixtures sintéticas garantem que o pipeline roda
+  ponta-a-ponta mesmo sem nenhum acesso à Meta.
+
+**Setup do token:** ver [`COMO_ATIVAR_DADOS_REAIS.md`](./COMO_ATIVAR_DADOS_REAIS.md)
+(passo a passo de 5 min, gratuito).
 
 **Riscos conhecidos:**
 
-1. **Bloqueio por IP** — se rodar muitas buscas seguidas, a Meta serve
-   captcha. Mitigação: cache em disco (rerodar não custa) + sleep
-   randômico entre requests + retry com backoff.
-2. **Mudança de layout** — a Meta mexe na UI ocasionalmente. Mitigação:
-   parser usa duas estratégias (JSON embedded em `<script>` e seletores
-   DOM) e cai do JSON pro DOM se a primeira falhar. Logs claros.
-3. **Carga assíncrona** — alguns dados aparecem só depois de scroll.
-   Mitigação: o scraper faz scroll programado até a contagem de itens
-   estabilizar.
+1. **Rate limit da Graph API** — ~200 chamadas/hora por app. Mitigação:
+   cache em disco (rerodar não custa); 1 busca completa usa ~10 chamadas.
+2. **Especialidades muito restritas** — alguns verticais médicos
+   (ex: pediatria oncológica) podem ter poucos anúncios na biblioteca.
+   Mitigação: `Resultado.lista_incompleta=True` + justificativa.
+3. **Mudança de layout (caminho scraping)** — a Meta mexe na UI
+   ocasionalmente. Mitigação: parser tem duas estratégias (JSON embedded
+   e seletores DOM).
 
 **Alternativa descartada:** serviços de scraping pagos (Apify,
-Bright Data). Funcionam, mas adicionam custo recorrente e
-dependência externa. O case pediu pra rodar de verdade, não pra
-montar uma stack de SaaS.
+Bright Data). Funcionam, mas adicionam custo recorrente e dependência
+externa. A Graph API oficial cobre o caso real sem custo.
 
 ---
 

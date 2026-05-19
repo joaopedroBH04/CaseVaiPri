@@ -98,11 +98,14 @@ Para `python -m vaipri_ref buscar @clinica.exemplo dermatologia`:
 1. **`config.load()`** — lê `.env`, valida `ANTHROPIC_API_KEY`.
 2. **`SearchTermsGenerator.gerar("dermatologia")`** — chama Claude com
    prompt curado, recebe ~10 termos em pt-BR.
-3. **`MetaAdLibraryScraper.buscar_por_termos(termos, pais="BR")`** — para
-   cada termo, abre Playwright, navega para a URL pública da Ad Library
-   filtrando por status ativo, faz parsing do JSON inicial embedded no
-   HTML (mais rápido que esperar render completo). Extrai `(page_id,
-   page_name, page_url, ig_handle_hint, n_anuncios_ativos)`.
+3. **`MetaAdLibraryScraper.buscar(termos)`** — para cada termo, tenta
+   em ordem:
+   a. **Graph API oficial** (`graph.facebook.com/v19.0/ads_archive`)
+      se `META_ACCESS_TOKEN` está configurado. **Caminho recomendado**
+      pra dados reais — funciona em qualquer rede, retorna JSON limpo.
+   b. **Scraping HTTP** da UI pública (fallback rápido).
+   c. **Scraping Playwright** (fallback final, frágil).
+   Extrai `(page_id, page_name, page_url, ig_handle_hint, n_anuncios_ativos)`.
 4. **`CandidateAggregator.dedup(candidatos)`** — agrupa por `page_id`,
    soma n_anuncios, ordena.
 5. **`InstagramEnricher.enriquecer(candidato)`** — resolve @ do IG

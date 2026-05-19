@@ -49,7 +49,7 @@ nothing to commit, working tree clean
 
 ---
 
-## Passo 1 — Apagar o `.env` (5 segundos)
+## Passo 1 — Apagar o `.env` antigo (5 segundos)
 
 ```cmd
 del .env
@@ -61,6 +61,33 @@ del .env
 >
 > Se aparecer "Não foi possível encontrar o arquivo C:\Users\costa\CaseVaiPri\.env",
 > está perfeito — significa que já estava apagado.
+
+---
+
+## Passo 1.5 — IMPORTANTE: Ativar dados reais (5 minutos, gratuito)
+
+> **Por que esse passo é NOVO e crítico:** o Fin (avaliador da VaiPri)
+> confirmou que a entrega precisa retornar **médicos reais**. O modo
+> `--demo` é só pra demonstração — pra a avaliação real, a ferramenta
+> precisa buscar na **Meta Ad Library Graph API oficial**.
+
+Siga o tutorial completo em **[`docs/COMO_ATIVAR_DADOS_REAIS.md`](./docs/COMO_ATIVAR_DADOS_REAIS.md)**.
+
+Resumo do que você vai fazer (~5 min):
+
+1. Criar conta gratuita em [developers.facebook.com](https://developers.facebook.com)
+2. Criar uma "App" (gratuita, sem aprovação necessária)
+3. Pegar o **App ID** e **App Secret**
+4. Gerar **Access Token** abrindo uma URL no navegador
+5. Criar arquivo `.env` no projeto e colar o token
+
+Depois disso, sempre que você rodar `vaipri-ref buscar @x dermatologia`
+(sem `--demo`), vai buscar **anúncios reais** na Meta.
+
+> **Se não quiser fazer agora**, dá pra entregar com `--demo` e incluir
+> na mensagem da VaiPri: *"para testar com dados reais, sigam
+> docs/COMO_ATIVAR_DADOS_REAIS.md (5 min)"*. Mas o ideal é você ter
+> testado os 2 modos antes de entregar.
 
 ---
 
@@ -82,15 +109,35 @@ pytest
 
 ---
 
-## Passo 3 — Rodar os 3 casos de teste (1 minuto)
+## Passo 3 — Rodar os 3 casos de teste (2 minutos)
 
-São os 3 testes que a VaiPri vai rodar pra avaliar.
+São os 3 testes que a VaiPri vai rodar pra avaliar. **Rode os 2 modos
+pra mostrar que ambos funcionam:**
+
+### 3a) Modo DEMO (fixtures, sempre funciona)
 
 ```cmd
 vaipri-ref buscar @clinica.exemplo dermatologia --demo
 vaipri-ref buscar @nutrologo.teste nutrologia --demo
 vaipri-ref buscar @ortopedista.test ortopedia --demo
 ```
+
+### 3b) Modo PRODUÇÃO (Graph API, se configurou o token no Passo 1.5)
+
+```cmd
+vaipri-ref buscar @clinica.exemplo dermatologia
+vaipri-ref buscar @nutrologo.teste nutrologia
+vaipri-ref buscar @ortopedista.test ortopedia
+```
+
+**O que deve aparecer no início do modo produção:**
+
+```
+>> Modo PRODUCAO com Graph API oficial (META_ACCESS_TOKEN OK).
+```
+
+Se aparecer linha amarela em vez disso (`META_ACCESS_TOKEN nao
+configurado`), volte ao Passo 1.5.
 
 **O que você deve ver em cada um:**
 
