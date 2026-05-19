@@ -107,6 +107,7 @@ def buscar_referencias(
                     seguidores=f.seguidores,
                     seguindo=f.seguindo,
                     total_posts=f.total_posts,
+                    posts_ultimos_30_dias=f.posts_ultimos_30_dias,
                     nome_completo=f.nome_completo,
                     bio=f.bio,
                     foto_url=None,
@@ -194,7 +195,7 @@ def buscar_referencias(
             seguindo=perfil.seguindo,
             total_posts=perfil.total_posts,
             engajamento_estimado_percent=engaj,
-            posts_ultimos_30_dias=None,  # nao temos como medir sem login
+            posts_ultimos_30_dias=perfil.posts_ultimos_30_dias,
             bio=perfil.bio,
             nome_completo=perfil.nome_completo,
             foto_url=perfil.foto_url,
@@ -208,7 +209,7 @@ def buscar_referencias(
                 seguidores=perfil.seguidores,
                 engajamento_percent=engaj,
                 bio_menciona_especialidade=bio_menciona,
-                posts_ultimos_30_dias=None,
+                posts_ultimos_30_dias=perfil.posts_ultimos_30_dias,
                 confianca_handle=handle_res.confianca,
             )
         )

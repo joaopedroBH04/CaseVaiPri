@@ -64,6 +64,7 @@ class PerfilIG:
     seguidores: int | None = None
     seguindo: int | None = None
     total_posts: int | None = None
+    posts_ultimos_30_dias: int | None = None
     nome_completo: str | None = None
     bio: str | None = None
     foto_url: str | None = None

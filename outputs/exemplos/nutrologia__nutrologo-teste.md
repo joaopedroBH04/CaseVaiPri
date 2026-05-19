@@ -1,7 +1,7 @@
 # Referencias para `nutrologo.teste` — Nutrologia
 
 - Pais: **BR**
-- Gerado em (UTC): **2026-05-18T23:45:19.658635+00:00**
+- Gerado em (UTC): **2026-05-19T00:03:59.511276+00:00**
 - Candidatos brutos da Ad Library: **12**
 - Filtrados por especialidade errada: **3**
 - Sem anuncio ativo: **0**
@@ -29,8 +29,8 @@
 - **Engajamento estimado**: 1.5%
 - **Posts totais**: 623
 - **Match de especialidade**: True (80% — Fallback heuristico: 2 termos de 'nutrologia' encontrados.)
-- **Score**: **67.4/100**
-  - breakdown: {'volume_anuncios': 11.206896551724139, 'seguidores': 8.693467336683417, 'engajamento': 15.0, 'postagem_recente': 7.5, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
+- **Score**: **74.9/100**
+  - breakdown: {'volume_anuncios': 11.206896551724139, 'seguidores': 8.693467336683417, 'engajamento': 15.0, 'postagem_recente': 15.0, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
 
 ### 2. Dra. Sara Cavalcanti
 
@@ -41,8 +41,8 @@
 - **Engajamento estimado**: 1.5%
 - **Posts totais**: 612
 - **Match de especialidade**: True (80% — Fallback heuristico: 2 termos de 'nutrologia' encontrados.)
-- **Score**: **64.2/100**
-  - breakdown: {'volume_anuncios': 9.482758620689655, 'seguidores': 7.175879396984924, 'engajamento': 15.0, 'postagem_recente': 7.5, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
+- **Score**: **71.7/100**
+  - breakdown: {'volume_anuncios': 9.482758620689655, 'seguidores': 7.175879396984924, 'engajamento': 15.0, 'postagem_recente': 15.0, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
 
 ### 3. Dr. Rafael Pinheiro
 
@@ -53,8 +53,8 @@
 - **Engajamento estimado**: 0.9%
 - **Posts totais**: 890
 - **Match de especialidade**: True (90% — Fallback heuristico: 3 termos de 'nutrologia' encontrados.)
-- **Score**: **63.8/100**
-  - breakdown: {'volume_anuncios': 15.517241379310345, 'seguidores': 15.77889447236181, 'engajamento': 0.0, 'postagem_recente': 7.5, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
+- **Score**: **71.3/100**
+  - breakdown: {'volume_anuncios': 15.517241379310345, 'seguidores': 15.77889447236181, 'engajamento': 0.0, 'postagem_recente': 15.0, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
 
 ### 4. Dra. Tatiana Brito
 
@@ -65,8 +65,8 @@
 - **Engajamento estimado**: 1.5%
 - **Posts totais**: 521
 - **Match de especialidade**: True (90% — Fallback heuristico: 3 termos de 'nutrologia' encontrados.)
-- **Score**: **62.5/100**
-  - breakdown: {'volume_anuncios': 8.620689655172415, 'seguidores': 6.4120603015075375, 'engajamento': 15.0, 'postagem_recente': 7.5, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
+- **Score**: **70.0/100**
+  - breakdown: {'volume_anuncios': 8.620689655172415, 'seguidores': 6.4120603015075375, 'engajamento': 15.0, 'postagem_recente': 15.0, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
 
 ### 5. Dra. Paloma Diniz
 
@@ -77,8 +77,8 @@
 - **Engajamento estimado**: 1.5%
 - **Posts totais**: 489
 - **Match de especialidade**: True (80% — Fallback heuristico: 2 termos de 'nutrologia' encontrados.)
-- **Score**: **61.0/100**
-  - breakdown: {'volume_anuncios': 7.758620689655173, 'seguidores': 5.768844221105528, 'engajamento': 15.0, 'postagem_recente': 7.5, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
+- **Score**: **68.5/100**
+  - breakdown: {'volume_anuncios': 7.758620689655173, 'seguidores': 5.768844221105528, 'engajamento': 15.0, 'postagem_recente': 15.0, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
 
 ### 6. Dr. Henrique Lobo
 
@@ -89,8 +89,8 @@
 - **Engajamento estimado**: 1.5%
 - **Posts totais**: 387
 - **Match de especialidade**: True (70% — Fallback heuristico: 1 termos de 'nutrologia' encontrados.)
-- **Score**: **58.6/100**
-  - breakdown: {'volume_anuncios': 6.0344827586206895, 'seguidores': 5.045226130653266, 'engajamento': 15.0, 'postagem_recente': 7.5, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
+- **Score**: **66.1/100**
+  - breakdown: {'volume_anuncios': 6.0344827586206895, 'seguidores': 5.045226130653266, 'engajamento': 15.0, 'postagem_recente': 15.0, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
 
 ### 7. Dr. Vitor Cardoso
 
@@ -101,8 +101,8 @@
 - **Engajamento estimado**: 1.5%
 - **Posts totais**: 298
 - **Match de especialidade**: True (80% — Fallback heuristico: 2 termos de 'nutrologia' encontrados.)
-- **Score**: **58.5/100**
-  - breakdown: {'volume_anuncios': 6.896551724137931, 'seguidores': 4.150753768844221, 'engajamento': 15.0, 'postagem_recente': 7.5, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
+- **Score**: **66.0/100**
+  - breakdown: {'volume_anuncios': 6.896551724137931, 'seguidores': 4.150753768844221, 'engajamento': 15.0, 'postagem_recente': 15.0, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
 
 ### 8. Dr. Eduardo Macedo
 
@@ -113,8 +113,8 @@
 - **Engajamento estimado**: 1.5%
 - **Posts totais**: 276
 - **Match de especialidade**: True (70% — Fallback heuristico: 1 termos de 'nutrologia' encontrados.)
-- **Score**: **39.9/100**
-  - breakdown: {'volume_anuncios': 4.310344827586207, 'seguidores': 3.0954773869346734, 'engajamento': 15.0, 'postagem_recente': 7.5, 'bio_coerente': 0.0, 'confianca_handle': 10.0}
+- **Score**: **47.4/100**
+  - breakdown: {'volume_anuncios': 4.310344827586207, 'seguidores': 3.0954773869346734, 'engajamento': 15.0, 'postagem_recente': 15.0, 'bio_coerente': 0.0, 'confianca_handle': 10.0}
 
 ### 9. Dra. Carla Yamada
 
@@ -125,5 +125,5 @@
 - **Engajamento estimado**: 1.5%
 - **Posts totais**: 234
 - **Match de especialidade**: True (90% — Fallback heuristico: 3 termos de 'nutrologia' encontrados.)
-- **Score**: **38.3/100**
-  - breakdown: {'volume_anuncios': 3.4482758620689653, 'seguidores': 2.321608040201005, 'engajamento': 15.0, 'postagem_recente': 7.5, 'bio_coerente': 0.0, 'confianca_handle': 10.0}
+- **Score**: **45.8/100**
+  - breakdown: {'volume_anuncios': 3.4482758620689653, 'seguidores': 2.321608040201005, 'engajamento': 15.0, 'postagem_recente': 15.0, 'bio_coerente': 0.0, 'confianca_handle': 10.0}

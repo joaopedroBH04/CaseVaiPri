@@ -46,6 +46,9 @@ $ vaipri-ref buscar @clinica.exemplo dermatologia
 **Comece por:** [`docs/DEFINICAO_DE_PRODUTO.md`](./docs/DEFINICAO_DE_PRODUTO.md).
 Ele responde "o que faz uma boa referencia" e como busco, antes de qualquer codigo.
 
+**Para o Loom (5min):** [`docs/ROTEIRO_LOOM.md`](./docs/ROTEIRO_LOOM.md) — roteiro de
+gravacao bloco a bloco com tempos-alvo, falas e comandos prontos pra copy/paste.
+
 ---
 
 ## Instalacao em 3 passos
@@ -288,3 +291,29 @@ end-to-end em modo demo (3 especialidades).
 ---
 
 Construido em ~2 dias por **Joao Pedro** para a case da VaiPri (Maio/2026).
+
+---
+
+## Entregaveis x enunciado (checklist)
+
+| Item pedido pelo enunciado                                  | Onde |
+| ----------------------------------------------------------- | ---- |
+| Doc de definicao de produto (1-2 paginas)                    | [`docs/DEFINICAO_DE_PRODUTO.md`](./docs/DEFINICAO_DE_PRODUTO.md) |
+| Codigo fonte                                                 | [`src/vaipri_ref/`](./src/vaipri_ref/) |
+| README explicando como rodar                                 | este arquivo |
+| Output gerado para 3 inputs de teste                         | [`outputs/exemplos/`](./outputs/exemplos/) |
+| Loom de ate 5 minutos                                        | [`docs/ROTEIRO_LOOM.md`](./docs/ROTEIRO_LOOM.md) (roteiro pronto para gravar) |
+
+| Input/output pedido                                         | Onde |
+| ----------------------------------------------------------- | ---- |
+| @ Instagram do cliente como input                            | `pipeline.buscar_referencias(handle_cliente=…)` |
+| Especialidade como input                                     | `pipeline.buscar_referencias(especialidade=…)` |
+| @ Instagram da referencia                                    | `Referencia.instagram_handle` |
+| Link direto pros anuncios na Biblioteca                      | `Referencia.biblioteca_anuncios_url` |
+| Seguidores, engajamento, posts recentes                      | `Referencia.metricas.*` |
+| Confirmacao de anuncio ativo agora                           | `Referencia.confirmacao_anuncio_ativo` |
+| Quantidade de anuncios ativos                                | `Referencia.n_anuncios_ativos` |
+| Nao listar perfil sem anuncio                                | `pipeline.py:110-112` |
+| Nao listar perfil de outra especialidade                     | `SpecialtyMatcher` em `ai/specialty_matcher.py` |
+| Lista incompleta com justificativa (nao completar com ruim)  | `Resultado.lista_incompleta` + `justificativa_lista_incompleta` |
+| Extra escolhido: Score 0-100                                 | `scorer.py` + `Referencia.score_breakdown` |

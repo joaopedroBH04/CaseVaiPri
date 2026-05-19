@@ -1,7 +1,7 @@
 # Referencias para `ortopedista.test` — Ortopedia
 
 - Pais: **BR**
-- Gerado em (UTC): **2026-05-18T23:45:20.348710+00:00**
+- Gerado em (UTC): **2026-05-19T00:04:00.288275+00:00**
 - Candidatos brutos da Ad Library: **12**
 - Filtrados por especialidade errada: **2**
 - Sem anuncio ativo: **0**
@@ -25,8 +25,8 @@
 - **Engajamento estimado**: 1.5%
 - **Posts totais**: 634
 - **Match de especialidade**: True (90% — Fallback heuristico: 3 termos de 'ortopedia' encontrados.)
-- **Score**: **70.2/100**
-  - breakdown: {'volume_anuncios': 12.931034482758621, 'seguidores': 9.78894472361809, 'engajamento': 15.0, 'postagem_recente': 7.5, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
+- **Score**: **77.7/100**
+  - breakdown: {'volume_anuncios': 12.931034482758621, 'seguidores': 9.78894472361809, 'engajamento': 15.0, 'postagem_recente': 15.0, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
 
 ### 2. Dra. Luana Aoki
 
@@ -37,8 +37,8 @@
 - **Engajamento estimado**: 1.5%
 - **Posts totais**: 523
 - **Match de especialidade**: True (80% — Fallback heuristico: 2 termos de 'ortopedia' encontrados.)
-- **Score**: **64.2/100**
-  - breakdown: {'volume_anuncios': 9.482758620689655, 'seguidores': 7.165829145728643, 'engajamento': 15.0, 'postagem_recente': 7.5, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
+- **Score**: **71.7/100**
+  - breakdown: {'volume_anuncios': 9.482758620689655, 'seguidores': 7.165829145728643, 'engajamento': 15.0, 'postagem_recente': 15.0, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
 
 ### 3. Dr. Fabricio Otsuka
 
@@ -49,8 +49,8 @@
 - **Engajamento estimado**: 1.5%
 - **Posts totais**: 487
 - **Match de especialidade**: True (80% — Fallback heuristico: 2 termos de 'ortopedia' encontrados.)
-- **Score**: **62.3/100**
-  - breakdown: {'volume_anuncios': 8.620689655172415, 'seguidores': 6.160804020100502, 'engajamento': 15.0, 'postagem_recente': 7.5, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
+- **Score**: **69.8/100**
+  - breakdown: {'volume_anuncios': 8.620689655172415, 'seguidores': 6.160804020100502, 'engajamento': 15.0, 'postagem_recente': 15.0, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
 
 ### 4. Ortotrauma BH
 
@@ -61,8 +61,8 @@
 - **Engajamento estimado**: 1.5%
 - **Posts totais**: 412
 - **Match de especialidade**: True (80% — Fallback heuristico: 2 termos de 'ortopedia' encontrados.)
-- **Score**: **60.7/100**
-  - breakdown: {'volume_anuncios': 7.758620689655173, 'seguidores': 5.396984924623116, 'engajamento': 15.0, 'postagem_recente': 7.5, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
+- **Score**: **68.2/100**
+  - breakdown: {'volume_anuncios': 7.758620689655173, 'seguidores': 5.396984924623116, 'engajamento': 15.0, 'postagem_recente': 15.0, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
 
 ### 5. Dr. Diego Almeida
 
@@ -73,8 +73,8 @@
 - **Engajamento estimado**: 1.5%
 - **Posts totais**: 345
 - **Match de especialidade**: True (70% — Fallback heuristico: 1 termos de 'ortopedia' encontrados.)
-- **Score**: **58.7/100**
-  - breakdown: {'volume_anuncios': 6.896551724137931, 'seguidores': 4.331658291457287, 'engajamento': 15.0, 'postagem_recente': 7.5, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
+- **Score**: **66.2/100**
+  - breakdown: {'volume_anuncios': 6.896551724137931, 'seguidores': 4.331658291457287, 'engajamento': 15.0, 'postagem_recente': 15.0, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
 
 ### 6. Dr. Rodrigo Volpato
 
@@ -85,8 +85,8 @@
 - **Engajamento estimado**: 1.5%
 - **Posts totais**: 312
 - **Match de especialidade**: True (80% — Fallback heuristico: 2 termos de 'ortopedia' encontrados.)
-- **Score**: **57.6/100**
-  - breakdown: {'volume_anuncios': 6.0344827586206895, 'seguidores': 4.040201005025126, 'engajamento': 15.0, 'postagem_recente': 7.5, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
+- **Score**: **65.1/100**
+  - breakdown: {'volume_anuncios': 6.0344827586206895, 'seguidores': 4.040201005025126, 'engajamento': 15.0, 'postagem_recente': 15.0, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
 
 ### 7. Dra. Patricia Mariano
 
@@ -97,8 +97,8 @@
 - **Engajamento estimado**: 1.5%
 - **Posts totais**: 287
 - **Match de especialidade**: True (80% — Fallback heuristico: 2 termos de 'ortopedia' encontrados.)
-- **Score**: **55.8/100**
-  - breakdown: {'volume_anuncios': 5.172413793103448, 'seguidores': 3.1557788944723617, 'engajamento': 15.0, 'postagem_recente': 7.5, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
+- **Score**: **63.3/100**
+  - breakdown: {'volume_anuncios': 5.172413793103448, 'seguidores': 3.1557788944723617, 'engajamento': 15.0, 'postagem_recente': 15.0, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
 
 ### 8. Dra. Tamires Inacio
 
@@ -109,8 +109,8 @@
 - **Engajamento estimado**: 1.5%
 - **Posts totais**: 234
 - **Match de especialidade**: True (70% — Fallback heuristico: 1 termos de 'ortopedia' encontrados.)
-- **Score**: **54.6/100**
-  - breakdown: {'volume_anuncios': 4.310344827586207, 'seguidores': 2.7537688442211055, 'engajamento': 15.0, 'postagem_recente': 7.5, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
+- **Score**: **62.1/100**
+  - breakdown: {'volume_anuncios': 4.310344827586207, 'seguidores': 2.7537688442211055, 'engajamento': 15.0, 'postagem_recente': 15.0, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
 
 ### 9. Dr. Bruno Quezada
 
@@ -121,8 +121,8 @@
 - **Engajamento estimado**: 2.5%
 - **Posts totais**: 178
 - **Match de especialidade**: True (70% — Fallback heuristico: 1 termos de 'ortopedia' encontrados.)
-- **Score**: **52.7/100**
-  - breakdown: {'volume_anuncios': 3.4482758620689653, 'seguidores': 1.7788944723618092, 'engajamento': 15.0, 'postagem_recente': 7.5, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
+- **Score**: **60.2/100**
+  - breakdown: {'volume_anuncios': 3.4482758620689653, 'seguidores': 1.7788944723618092, 'engajamento': 15.0, 'postagem_recente': 15.0, 'bio_coerente': 15.0, 'confianca_handle': 10.0}
 
 ### 10. Dr. Andre Saito
 
@@ -133,5 +133,5 @@
 - **Engajamento estimado**: 1.5%
 - **Posts totais**: 712
 - **Match de especialidade**: True (70% — Fallback heuristico: 1 termos de 'ortopedia' encontrados.)
-- **Score**: **52.3/100**
-  - breakdown: {'volume_anuncios': 11.206896551724139, 'seguidores': 8.592964824120603, 'engajamento': 15.0, 'postagem_recente': 7.5, 'bio_coerente': 0.0, 'confianca_handle': 10.0}
+- **Score**: **59.8/100**
+  - breakdown: {'volume_anuncios': 11.206896551724139, 'seguidores': 8.592964824120603, 'engajamento': 15.0, 'postagem_recente': 15.0, 'bio_coerente': 0.0, 'confianca_handle': 10.0}

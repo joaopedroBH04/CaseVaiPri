@@ -20,7 +20,7 @@ from typing import Iterable
 
 @dataclass
 class FixtureAdvertiser:
-    """Anunciante ficticio. Espelha o shape de _AdvertiserBruto."""
+    """Anunciante ficticio. Espelha o shape de _AdvertiserBruto + perfil IG."""
 
     fb_page_id: str
     fb_page_name: str
@@ -32,6 +32,7 @@ class FixtureAdvertiser:
     total_posts: int
     bio: str
     nome_completo: str
+    posts_ultimos_30_dias: int = 0  # numero de posts publicados nos ultimos 30 dias
 
 
 # -------------------- DERMATOLOGIA --------------------
@@ -48,6 +49,7 @@ DERMATOLOGIA: list[FixtureAdvertiser] = [
         total_posts=1_240,
         bio="Dermatologista | CRM-SP 198765 | RQE 5142 | Melasma, acne, harmonizacao | Agende: bit.ly/dra-ana",
         nome_completo="Dra. Ana Lima",
+        posts_ultimos_30_dias=10,
     ),
     FixtureAdvertiser(
         fb_page_id="1000010002",
@@ -60,6 +62,7 @@ DERMATOLOGIA: list[FixtureAdvertiser] = [
         total_posts=789,
         bio="Clinica de dermatologia estetica | Procedimentos avancados | SP e RJ",
         nome_completo="Lume Dermato",
+        posts_ultimos_30_dias=8,
     ),
     FixtureAdvertiser(
         fb_page_id="1000010003",
@@ -72,6 +75,7 @@ DERMATOLOGIA: list[FixtureAdvertiser] = [
         total_posts=634,
         bio="Dermatologista | Especialista em acne e pele oleosa | CRM 145897",
         nome_completo="Dr. Pedro Salles",
+        posts_ultimos_30_dias=5,
     ),
     FixtureAdvertiser(
         fb_page_id="1000010004",
@@ -84,6 +88,7 @@ DERMATOLOGIA: list[FixtureAdvertiser] = [
         total_posts=523,
         bio="Dermatologista | Harmonizacao facial | Belo Horizonte | CRM-MG 38221",
         nome_completo="Dra. Beatriz Couto",
+        posts_ultimos_30_dias=6,
     ),
     FixtureAdvertiser(
         fb_page_id="1000010005",
@@ -96,6 +101,7 @@ DERMATOLOGIA: list[FixtureAdvertiser] = [
         total_posts=412,
         bio="Dermatologia clinica e estetica | Tratamentos de pele | Dr. Renato Vidal CRM 67234",
         nome_completo="Espaco Derma",
+        posts_ultimos_30_dias=6,
     ),
     FixtureAdvertiser(
         fb_page_id="1000010006",
@@ -108,6 +114,7 @@ DERMATOLOGIA: list[FixtureAdvertiser] = [
         total_posts=387,
         bio="Dermatologista | Acne, melasma e estetica | Curitiba",
         nome_completo="Dra. Mariana Tavares",
+        posts_ultimos_30_dias=3,
     ),
     FixtureAdvertiser(
         fb_page_id="1000010007",
@@ -120,6 +127,7 @@ DERMATOLOGIA: list[FixtureAdvertiser] = [
         total_posts=701,
         bio="Medico esteta | Botox, preenchimento e harmonizacao facial | CRM 89732",
         nome_completo="Dr. Felipe Ribas",
+        posts_ultimos_30_dias=4,
     ),
     FixtureAdvertiser(
         fb_page_id="1000010008",
@@ -132,6 +140,7 @@ DERMATOLOGIA: list[FixtureAdvertiser] = [
         total_posts=812,
         bio="Clinica multi-especialidade | Cardiologia, ortopedia, ginecologia e mais",
         nome_completo="Clinica Beleza Saudavel",
+        posts_ultimos_30_dias=7,
     ),  # nao deve passar no match de dermatologia: clinica generica
     FixtureAdvertiser(
         fb_page_id="1000010009",
@@ -144,6 +153,7 @@ DERMATOLOGIA: list[FixtureAdvertiser] = [
         total_posts=298,
         bio="Cardiologista | Hipertensao | Check up cardiaco",
         nome_completo="Dr. Caio Marcos",
+        posts_ultimos_30_dias=6,
     ),  # cardiologia, nao deve passar
     FixtureAdvertiser(
         fb_page_id="1000010010",
@@ -156,6 +166,7 @@ DERMATOLOGIA: list[FixtureAdvertiser] = [
         total_posts=276,
         bio="Dermatologia funcional | Saude da pele de dentro pra fora | CRM 76234",
         nome_completo="Dra. Helena Oka",
+        posts_ultimos_30_dias=2,
     ),
     FixtureAdvertiser(
         fb_page_id="1000010011",
@@ -168,6 +179,7 @@ DERMATOLOGIA: list[FixtureAdvertiser] = [
         total_posts=1_120,
         bio="Cirurgiao plastico | Rinoplastia, mommy makeover, lipo HD",
         nome_completo="Dr. Joao Brasil",
+        posts_ultimos_30_dias=6,
     ),  # plastica, nao dermato
     FixtureAdvertiser(
         fb_page_id="1000010012",
@@ -180,6 +192,7 @@ DERMATOLOGIA: list[FixtureAdvertiser] = [
         total_posts=234,
         bio="Dermatologista | Tratamento de melasma e manchas | Recife | CRM-PE 18745",
         nome_completo="Dra. Yara Sales",
+        posts_ultimos_30_dias=5,
     ),
     FixtureAdvertiser(
         fb_page_id="1000010013",
@@ -192,6 +205,7 @@ DERMATOLOGIA: list[FixtureAdvertiser] = [
         total_posts=178,
         bio="Estetica avancada | Limpeza de pele profunda | Massagem | Sem medico",
         nome_completo="Studio MM Estetica",
+        posts_ultimos_30_dias=4,
     ),  # sem medico, nao serve
     FixtureAdvertiser(
         fb_page_id="1000010014",
@@ -204,6 +218,7 @@ DERMATOLOGIA: list[FixtureAdvertiser] = [
         total_posts=412,
         bio="Tricologia (dermato do cabelo) | Queda capilar | Microagulhamento | CRM 142398",
         nome_completo="Dr. Lucas Yamamoto",
+        posts_ultimos_30_dias=3,
     ),
     FixtureAdvertiser(
         fb_page_id="1000010015",
@@ -216,6 +231,7 @@ DERMATOLOGIA: list[FixtureAdvertiser] = [
         total_posts=587,
         bio="Dermatologista | Skincare avancado | Sao Paulo",
         nome_completo="Dra. Camila Saito",
+        posts_ultimos_30_dias=5,
     ),
 ]
 
@@ -234,6 +250,7 @@ NUTROLOGIA: list[FixtureAdvertiser] = [
         total_posts=890,
         bio="Nutrologo | Emagrecimento e saude metabolica | Sao Paulo | CRM 178342",
         nome_completo="Dr. Rafael Pinheiro",
+        posts_ultimos_30_dias=8,
     ),
     FixtureAdvertiser(
         fb_page_id="2000020002",
@@ -246,6 +263,7 @@ NUTROLOGIA: list[FixtureAdvertiser] = [
         total_posts=623,
         bio="Nutrologia e emagrecimento | Ozempic, Wegovy, dieta cetogenica",
         nome_completo="Clinica Equilibrio",
+        posts_ultimos_30_dias=7,
     ),
     FixtureAdvertiser(
         fb_page_id="2000020003",
@@ -258,6 +276,7 @@ NUTROLOGIA: list[FixtureAdvertiser] = [
         total_posts=521,
         bio="Nutrologa | Mulher 40+ | Reposicao hormonal e emagrecimento | CRM 87234",
         nome_completo="Dra. Tatiana Brito",
+        posts_ultimos_30_dias=7,
     ),
     FixtureAdvertiser(
         fb_page_id="2000020004",
@@ -270,6 +289,7 @@ NUTROLOGIA: list[FixtureAdvertiser] = [
         total_posts=387,
         bio="Nutrologia esportiva | Hipertrofia | Atletas amadores e profissionais",
         nome_completo="Dr. Henrique Lobo",
+        posts_ultimos_30_dias=4,
     ),
     FixtureAdvertiser(
         fb_page_id="2000020005",
@@ -282,6 +302,7 @@ NUTROLOGIA: list[FixtureAdvertiser] = [
         total_posts=612,
         bio="Nutrologa | Emagrecimento saudavel | Foco em mulheres acima de 30 | CRM 89812",
         nome_completo="Dra. Sara Cavalcanti",
+        posts_ultimos_30_dias=8,
     ),
     FixtureAdvertiser(
         fb_page_id="2000020006",
@@ -294,6 +315,7 @@ NUTROLOGIA: list[FixtureAdvertiser] = [
         total_posts=1_340,
         bio="Lifestyle saudavel | Receitas | Treinos | Nao sou medica, sigo um pra emagrecer",
         nome_completo="Influencer Fit",
+        posts_ultimos_30_dias=6,
     ),  # influencer, nao serve
     FixtureAdvertiser(
         fb_page_id="2000020007",
@@ -306,6 +328,7 @@ NUTROLOGIA: list[FixtureAdvertiser] = [
         total_posts=298,
         bio="Nutrologo | Performance, emagrecimento e longevidade | CRM 142876",
         nome_completo="Dr. Vitor Cardoso",
+        posts_ultimos_30_dias=7,
     ),
     FixtureAdvertiser(
         fb_page_id="2000020008",
@@ -318,6 +341,7 @@ NUTROLOGIA: list[FixtureAdvertiser] = [
         total_posts=712,
         bio="Loja de suplementos | Vitaminas, proteinas, queima-gordura",
         nome_completo="Suplementos Top",
+        posts_ultimos_30_dias=10,
     ),  # marca, nao medico
     FixtureAdvertiser(
         fb_page_id="2000020009",
@@ -330,6 +354,7 @@ NUTROLOGIA: list[FixtureAdvertiser] = [
         total_posts=489,
         bio="Nutrologa | Sindrome metabolica e diabetes | CRM-RJ 65872",
         nome_completo="Dra. Paloma Diniz",
+        posts_ultimos_30_dias=5,
     ),
     FixtureAdvertiser(
         fb_page_id="2000020010",
@@ -342,6 +367,7 @@ NUTROLOGIA: list[FixtureAdvertiser] = [
         total_posts=276,
         bio="Nutrologo | Reposicao hormonal masculina e feminina | Anti-aging",
         nome_completo="Dr. Eduardo Macedo",
+        posts_ultimos_30_dias=4,
     ),
     FixtureAdvertiser(
         fb_page_id="2000020011",
@@ -354,6 +380,7 @@ NUTROLOGIA: list[FixtureAdvertiser] = [
         total_posts=234,
         bio="Nutrologa | Obesidade infantil e adulto | Sao Paulo",
         nome_completo="Dra. Carla Yamada",
+        posts_ultimos_30_dias=1,
     ),
     FixtureAdvertiser(
         fb_page_id="2000020012",
@@ -366,6 +393,7 @@ NUTROLOGIA: list[FixtureAdvertiser] = [
         total_posts=387,
         bio="Estetica e beleza | Tratamentos corporais | Sem medico responsavel",
         nome_completo="Estetica Definitiva",
+        posts_ultimos_30_dias=8,
     ),  # sem medico
 ]
 
@@ -384,6 +412,7 @@ ORTOPEDIA: list[FixtureAdvertiser] = [
         total_posts=634,
         bio="Ortopedista | Especialista em joelho | Lesoes do menisco e LCA | CRM 124567",
         nome_completo="Dr. Marcos Sanches",
+        posts_ultimos_30_dias=6,
     ),
     FixtureAdvertiser(
         fb_page_id="3000030002",
@@ -396,6 +425,7 @@ ORTOPEDIA: list[FixtureAdvertiser] = [
         total_posts=523,
         bio="Ortopedista de coluna | Hernia de disco | Tratamento sem cirurgia | CRM-SP 187653",
         nome_completo="Dra. Luana Aoki",
+        posts_ultimos_30_dias=8,
     ),
     FixtureAdvertiser(
         fb_page_id="3000030003",
@@ -408,6 +438,7 @@ ORTOPEDIA: list[FixtureAdvertiser] = [
         total_posts=412,
         bio="Ortopedia e traumatologia | Belo Horizonte | Atendimento ambulatorial",
         nome_completo="Ortotrauma BH",
+        posts_ultimos_30_dias=7,
     ),
     FixtureAdvertiser(
         fb_page_id="3000030004",
@@ -420,6 +451,7 @@ ORTOPEDIA: list[FixtureAdvertiser] = [
         total_posts=312,
         bio="Ortopedista | Cirurgia de ombro | Tendinite e LesoesEsportivas | CRM 145897",
         nome_completo="Dr. Rodrigo Volpato",
+        posts_ultimos_30_dias=3,
     ),
     FixtureAdvertiser(
         fb_page_id="3000030005",
@@ -432,6 +464,7 @@ ORTOPEDIA: list[FixtureAdvertiser] = [
         total_posts=712,
         bio="Especialista em coluna | Tratamentos minimamente invasivos | Infiltracao",
         nome_completo="Dr. Andre Saito",
+        posts_ultimos_30_dias=8,
     ),
     FixtureAdvertiser(
         fb_page_id="3000030006",
@@ -444,6 +477,7 @@ ORTOPEDIA: list[FixtureAdvertiser] = [
         total_posts=287,
         bio="Ortopedista | Cirurgia de quadril | Artrose | Curitiba | CRM-PR 65821",
         nome_completo="Dra. Patricia Mariano",
+        posts_ultimos_30_dias=3,
     ),
     FixtureAdvertiser(
         fb_page_id="3000030007",
@@ -456,6 +490,7 @@ ORTOPEDIA: list[FixtureAdvertiser] = [
         total_posts=987,
         bio="Personal trainer | Reabilitacao funcional | Sem medico",
         nome_completo="Personal Top Fit",
+        posts_ultimos_30_dias=11,
     ),  # nao medico
     FixtureAdvertiser(
         fb_page_id="3000030008",
@@ -468,6 +503,7 @@ ORTOPEDIA: list[FixtureAdvertiser] = [
         total_posts=487,
         bio="Ortopedista | Joelho e tornozelo | Cirurgia artroscopica | CRM 187234",
         nome_completo="Dr. Fabricio Otsuka",
+        posts_ultimos_30_dias=7,
     ),
     FixtureAdvertiser(
         fb_page_id="3000030009",
@@ -480,6 +516,7 @@ ORTOPEDIA: list[FixtureAdvertiser] = [
         total_posts=345,
         bio="Ortopedista | Pe e tornozelo | Cirurgia minimamente invasiva | CRM 132567",
         nome_completo="Dr. Diego Almeida",
+        posts_ultimos_30_dias=6,
     ),
     FixtureAdvertiser(
         fb_page_id="3000030010",
@@ -492,6 +529,7 @@ ORTOPEDIA: list[FixtureAdvertiser] = [
         total_posts=1_240,
         bio="Hospital especializado em ortopedia | Atendimento 24h | Cirurgia eletiva e urgencia",
         nome_completo="Hospital Centro Ortopedico",
+        posts_ultimos_30_dias=11,
     ),  # hospital, descartar
     FixtureAdvertiser(
         fb_page_id="3000030011",
@@ -504,6 +542,7 @@ ORTOPEDIA: list[FixtureAdvertiser] = [
         total_posts=234,
         bio="Ortopedista esportiva | Lesoes em corrida e crossfit | CRM-DF 18765",
         nome_completo="Dra. Tamires Inacio",
+        posts_ultimos_30_dias=5,
     ),
     FixtureAdvertiser(
         fb_page_id="3000030012",
@@ -516,6 +555,7 @@ ORTOPEDIA: list[FixtureAdvertiser] = [
         total_posts=178,
         bio="Ortopedista | Especialista em maos | Tunel do carpo, sindromes | CRM 154278",
         nome_completo="Dr. Bruno Quezada",
+        posts_ultimos_30_dias=1,
     ),
 ]
 
