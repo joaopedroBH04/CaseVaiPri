@@ -1,7 +1,7 @@
 # Referencias para `clinica.exemplo` — Dermatologia
 
 - Pais: **BR**
-- Gerado em (UTC): **2026-05-19T19:22:36.848312+00:00**
+- Gerado em (UTC): **2026-05-19T20:51:44.158376+00:00**
 - Candidatos brutos da Ad Library: **15**
 - Filtrados por especialidade errada: **4**
 - Sem anuncio ativo: **0**

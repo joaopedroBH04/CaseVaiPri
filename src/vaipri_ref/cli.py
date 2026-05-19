@@ -172,10 +172,30 @@ def _imprimir_sumario(res, paths) -> None:
             )
         )
 
+    # Bloco didatico: como o score e calculado
+    console.print(
+        Panel(
+            (
+                "[bold]Score 0-100 (extra escolhido do enunciado).[/]\n"
+                "[dim]Formula transparente, mesma para todos os candidatos:[/]\n\n"
+                "  25 pts -> volume de anuncios ativos (piso 1, teto 30)\n"
+                "  20 pts -> seguidores Instagram (piso 1k, teto 200k)\n"
+                "  15 pts -> engajamento estimado >= 1%\n"
+                "  15 pts -> postou nos ultimos 30 dias\n"
+                "  15 pts -> bio menciona especialidade / CRM\n"
+                "  10 pts -> confianca alta no handle Instagram\n\n"
+                "[dim]Quando uma metrica nao esta disponivel (ex: IG bloqueado),\n"
+                "aplicamos credito parcial em vez de zerar a parcela.[/]"
+            ),
+            title="[bold cyan]Como o score e calculado[/]",
+            border_style="cyan",
+        )
+    )
+
     table = Table(title=f"Referencias — {res.especialidade.title()} (Top {len(res.referencias)})")
     table.add_column("#", style="bold")
     table.add_column("Instagram", style="cyan")
-    table.add_column("Nome")
+    table.add_column("Nome / Página FB", min_width=22)
     table.add_column("Ads", justify="right")
     table.add_column("Seguidores", justify="right")
     table.add_column("Score", justify="right")
@@ -185,7 +205,7 @@ def _imprimir_sumario(res, paths) -> None:
         table.add_row(
             str(i),
             f"@{ref.instagram_handle}" if ref.instagram_handle else "(via Ad Library)",
-            (ref.nome_exibicao or "")[:32],
+            (ref.nome_exibicao or "")[:40],
             str(ref.n_anuncios_ativos),
             _fmt_int(ref.metricas.seguidores),
             f"{ref.score:.0f}",
@@ -194,13 +214,63 @@ def _imprimir_sumario(res, paths) -> None:
 
     console.print(table)
 
+    # Links Ad Library pra cada referencia — clicaveis no terminal moderno
+    if res.referencias:
+        linhas_links = []
+        for i, ref in enumerate(res.referencias, start=1):
+            ident = f"@{ref.instagram_handle}" if ref.instagram_handle else (ref.nome_exibicao or f"page {ref.fb_page_id}")
+            linhas_links.append(f"  [bold]{i}.[/] {ident[:34]:34s} -> {ref.biblioteca_anuncios_url}")
+        console.print(
+            Panel(
+                "\n".join(linhas_links),
+                title="[bold]Link direto para os anuncios na Meta Ad Library[/]",
+                border_style="blue",
+            )
+        )
+
+    # Score breakdown por referencia — responde "por que ESTA referencia
+    # tem ESSE score". Mostra so as top 5 pra nao poluir.
+    if res.referencias:
+        bd_table = Table(
+            title=f"Breakdown do score — explica nota por referencia (top 5)",
+            show_lines=False,
+        )
+        bd_table.add_column("#", style="bold", width=3)
+        bd_table.add_column("Referencia", style="cyan", min_width=24)
+        bd_table.add_column("Ads", justify="right")
+        bd_table.add_column("Seg.", justify="right")
+        bd_table.add_column("Eng.", justify="right")
+        bd_table.add_column("Post30d", justify="right")
+        bd_table.add_column("Bio", justify="right")
+        bd_table.add_column("Handle", justify="right")
+        bd_table.add_column("Total", justify="right", style="bold")
+
+        for i, ref in enumerate(res.referencias[:5], start=1):
+            bd = ref.score_breakdown or {}
+            ident = f"@{ref.instagram_handle}" if ref.instagram_handle else (ref.nome_exibicao or "?")
+            bd_table.add_row(
+                str(i),
+                ident[:24],
+                f"{bd.get('volume_anuncios', 0):.0f}/25",
+                f"{bd.get('seguidores', 0):.0f}/20",
+                f"{bd.get('engajamento', 0):.0f}/15",
+                f"{bd.get('postagem_recente', 0):.0f}/15",
+                f"{bd.get('bio_coerente', 0):.0f}/15",
+                f"{bd.get('confianca_handle', 0):.0f}/10",
+                f"{ref.score:.0f}",
+            )
+        console.print(bd_table)
+
     console.print(
         Panel(
             "\n".join(
                 [
-                    f"JSON   : {paths['json']}",
+                    f"JSON    : {paths['json']}",
                     f"Markdown: {paths['md']}",
                     f"HTML    : {paths['html']}",
+                    "",
+                    "[bold]Dica:[/] abra o HTML no navegador pra visualizacao",
+                    "completa com link clicavel para cada Ad Library.",
                 ]
             ),
             title="[green]Saidas geradas[/]",

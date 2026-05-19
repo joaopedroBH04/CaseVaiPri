@@ -331,6 +331,27 @@ def _executar(
     if claude.aviso_fatal:
         avisos.append(claude.aviso_fatal)
 
+    # Aviso sobre qualidade quando muitos nomes ficaram genericos ou sem IG.
+    if not modo_demo and top:
+        n_sem_handle = sum(1 for r in top if not r.instagram_handle)
+        n_sem_metricas = sum(
+            1 for r in top
+            if r.metricas.seguidores is None
+        )
+        if n_sem_handle >= max(1, len(top) // 2):
+            avisos.append(
+                f"{n_sem_handle} de {len(top)} referencias estao sem handle Instagram "
+                "auto-resolvido. Use o link da Biblioteca de Anuncios e o nome da Pagina "
+                "para localizar o perfil manualmente. Esse e o trade-off documentado em "
+                "docs/TRADE_OFFS.md: scraping anonimo do IG e bloqueado pela Meta."
+            )
+        if n_sem_metricas >= max(1, len(top) // 2):
+            avisos.append(
+                f"{n_sem_metricas} de {len(top)} referencias estao sem metricas do IG "
+                "(seguidores, engajamento). Para producao real com metricas, integrar "
+                "Apify ou Graph API Business com app verificado."
+            )
+
     resultado = Resultado(
         handle_cliente=handle_cliente_norm,
         especialidade=especialidade_norm,

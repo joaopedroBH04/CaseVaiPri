@@ -93,6 +93,35 @@ class MetaGraphAPI:
     def disponivel(self) -> bool:
         return bool(self.access_token)
 
+    def obter_nome_pagina(self, page_id: str) -> str | None:
+        """Busca o nome publico da pagina FB.
+
+        Este endpoint e' MAIS PERMISSIVO que ads_archive: nao requer
+        App Review. Funciona com qualquer App Access Token valido.
+
+        Util quando o scraping HTTP da Ad Library so trouxe o page_id
+        sem o nome, deixando o relatorio com 'Page 12345...' generico.
+        """
+        if not page_id or not page_id.isdigit():
+            return None
+        url = f"https://graph.facebook.com/{_GRAPH_VERSION}/{page_id}"
+        params = {"fields": "name", "access_token": self.access_token}
+        try:
+            with httpx.Client(timeout=10.0) as client:
+                r = client.get(url, params=params)
+            if r.status_code == 200:
+                nome = (r.json() or {}).get("name")
+                if nome and len(nome) >= 2:
+                    return str(nome).strip()
+            else:
+                logger.debug(
+                    "Graph /page nao trouxe nome para %s (HTTP %d): %s",
+                    page_id, r.status_code, r.text[:120]
+                )
+        except Exception as exc:
+            logger.debug("Graph /page falhou para %s: %s", page_id, exc)
+        return None
+
     def buscar_termo(
         self,
         termo: str,

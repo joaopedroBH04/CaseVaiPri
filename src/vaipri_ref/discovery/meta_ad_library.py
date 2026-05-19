@@ -194,6 +194,27 @@ class MetaAdLibraryScraper:
                     logger.warning("Playwright tambem falhou: %s", exc)
                     resultado = []
 
+        # ============================================================
+        # ENRIQUECIMENTO: substitui nomes genericos por nomes REAIS via
+        # Graph API endpoint /{page_id} (que e' mais permissivo que
+        # ads_archive — funciona sem App Review).
+        # ============================================================
+        if self._graph is not None and resultado:
+            enriquecidos = 0
+            for adv in resultado:
+                # Detecta nome generico do scraper: "Page 12345" quando page_name
+                # nao foi capturado no HTML inicial.
+                if adv.fb_page_name and adv.fb_page_name.startswith("Page "):
+                    nome_real = self._graph.obter_nome_pagina(adv.fb_page_id)
+                    if nome_real:
+                        adv.fb_page_name = nome_real
+                        enriquecidos += 1
+            if enriquecidos:
+                logger.info(
+                    "Termo %r: %d nomes enriquecidos via Graph /page",
+                    termo, enriquecidos
+                )
+
         resultado = resultado[:limite]
         self.cache.set(chave, [r.__dict__ for r in resultado])
         return resultado
