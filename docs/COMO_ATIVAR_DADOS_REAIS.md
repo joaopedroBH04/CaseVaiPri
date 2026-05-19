@@ -50,15 +50,20 @@ Se não estiver logado, vai pedir login antes.
 
 **Já no dashboard, clique em "+ Create App"** (botão verde) e siga:
 
-1. **Use case / Caso de uso**: escolha **"Other"** (Outro)
-   > A Ad Library não está nas categorias pré-definidas, então
-   > "Other" é o caminho.
-2. Clique **"Next"**.
-3. **App Type**: **"Business"** → **"Next"**.
+1. **Use case / Caso de uso**: role a página até o final e selecione
+   **"Crie um app sem um caso de uso"** (último item da lista, ícone
+   de lápis preto).
+   > **Por quê:** a Ad Library API é pública e não exige nenhum caso
+   > de uso específico. Todos os outros (Marketing API, Login do Facebook,
+   > etc.) adicionam permissões que você não precisa. Não confunda com
+   > "Outro" — esse tem aviso "This option is going away soon".
+2. Clique **"Próximo"** / **"Next"**.
+3. **App Type / Tipo de app**: **"Business"** → **"Next"**.
 4. **Nome do app**: qualquer coisa, ex: `vaipri-ref`.
 5. **Email de contato**: o seu.
-6. **Business account**: pode deixar em branco.
-7. Clique **"Create app"** (pode pedir senha do Facebook de novo).
+6. **Business account**: pode deixar em branco / "I don't want to
+   connect a Business Account".
+7. Clique **"Criar app"** (pode pedir senha do Facebook de novo).
 
 > **Se pedir verificação:** Meta às vezes pede confirmar email,
 > adicionar telefone, ou ativar 2FA. Faz tudo isso — leva 2-3 min
