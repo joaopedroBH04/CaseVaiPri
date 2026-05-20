@@ -77,10 +77,16 @@ class ApifyClient:
         ig_actor: str = _DEFAULT_IG_ACTOR,
         timeout_total: float = 180.0,
     ) -> None:
-        if not api_token or not api_token.startswith("apify_api_"):
+        if not api_token or len(api_token.strip()) < 20:
             raise ValueError(
-                "Token Apify invalido. Deve comecar com 'apify_api_'. "
+                "Token Apify invalido (vazio ou muito curto). "
                 "Pegue em apify.com > Settings > Integrations > API tokens."
+            )
+        api_token = api_token.strip()
+        if not api_token.startswith("apify_api_"):
+            logger.warning(
+                "Token Apify nao comeca com 'apify_api_'. Vou tentar mesmo assim, "
+                "mas confira em apify.com > Settings > Integrations se o token esta correto."
             )
         self._cfg = _ApifyConfig(
             api_token=api_token,

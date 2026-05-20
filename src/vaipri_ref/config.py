@@ -60,6 +60,9 @@ class Config:
     meta_access_token: str | None = None
     # Apify (resolve cenarios em que Meta Graph API rejeita ou IG bloqueia)
     apify_api_token: str | None = None
+    # Actor IDs Apify (sobrescreviveis via env caso defaults nao existam mais)
+    apify_ad_library_actor: str = "curious_coder~facebook-ads-library-scraper"
+    apify_ig_actor: str = "apify~instagram-profile-scraper"
 
     @property
     def tem_chave_anthropic(self) -> bool:
@@ -79,14 +82,12 @@ class Config:
     def tem_apify_token(self) -> bool:
         """True se ha um token Apify configurado e nao-placeholder.
 
-        Tokens Apify comecam com 'apify_api_' e tem ~40 chars.
+        Aceita tanto o formato 'apify_api_xxx' quanto tokens sem prefixo
+        (depende de como o usuario copiou da plataforma Apify).
         """
         if not self.apify_api_token:
             return False
-        t = self.apify_api_token.strip()
-        if not t.startswith("apify_api_"):
-            return False
-        return _token_parece_real(t, min_len=30)
+        return _token_parece_real(self.apify_api_token, min_len=20)
 
 
 def _token_parece_real(t: str | None, *, min_len: int = 20) -> bool:
@@ -126,4 +127,12 @@ def carregar(env_file: Path | str | None = None) -> Config:
         verbose=_bool(os.environ.get("VAIPRI_VERBOSE"), default=False),
         meta_access_token=os.environ.get("META_ACCESS_TOKEN"),
         apify_api_token=os.environ.get("APIFY_API_TOKEN"),
+        apify_ad_library_actor=os.environ.get(
+            "APIFY_AD_LIBRARY_ACTOR",
+            "curious_coder~facebook-ads-library-scraper",
+        ),
+        apify_ig_actor=os.environ.get(
+            "APIFY_IG_ACTOR",
+            "apify~instagram-profile-scraper",
+        ),
     )

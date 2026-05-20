@@ -253,16 +253,19 @@ class TestSemChaveClaude:
     def test_pipeline_roda_sem_chave_anthropic(self, cfg_tmp):
         """
         Sem ANTHROPIC_API_KEY, ferramenta deve continuar funcionando
-        com heuristica. Aviso explicito deve aparecer.
+        com heuristica SILENCIOSAMENTE — sem poluir os avisos do usuario
+        final, ja que a chave Anthropic e' opcional.
         """
         assert cfg_tmp.anthropic_api_key is None
         res = buscar_referencias(
             "@x", "dermatologia", config=cfg_tmp, modo_demo=True
         )
-        # tem aviso especifico
+        # NAO deve haver aviso sobre anthropic — a chave e' opcional
+        # e o usuario nao precisa saber disso.
         avisos_txt = " ".join(res.avisos).lower()
-        assert "claude api indisponivel" in avisos_txt or "anthropic" in avisos_txt
-        # ainda assim entrega referencias
+        assert "anthropic" not in avisos_txt
+        assert "claude api indisponivel" not in avisos_txt
+        # Ainda assim entrega referencias normalmente.
         assert len(res.referencias) >= 5
 
 

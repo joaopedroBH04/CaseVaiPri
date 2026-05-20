@@ -1,13 +1,12 @@
 # Referencias para `nutrologo.teste` — Nutrologia
 
 - Pais: **BR**
-- Gerado em (UTC): **2026-05-19T23:55:44.307457+00:00**
+- Gerado em (UTC): **2026-05-20T01:54:20.808222+00:00**
 - Candidatos brutos da Ad Library: **12**
 - Filtrados por especialidade errada: **3**
 - Sem anuncio ativo: **0**
 
 ## Avisos do pipeline
-- Claude API indisponivel (sem ANTHROPIC_API_KEY): validacao de especialidade e geracao de termos usaram heuristicas.
 - Modo DEMO ativo: os perfis listados sao FICTICIOS, gerados para validar o pipeline offline. NAO use os handles em producao.
 
 ## Lista incompleta

@@ -78,6 +78,8 @@ class MetaAdLibraryScraper:
         max_termo_timeout_s: int = 25,
         graph_api_token: str | None = None,
         apify_token: str | None = None,
+        apify_ad_library_actor: str | None = None,
+        apify_ig_actor: str | None = None,
     ) -> None:
         self.cache = cache
         self.country = country
@@ -88,7 +90,12 @@ class MetaAdLibraryScraper:
         self._apify = None
         if apify_token:
             from vaipri_ref.discovery.apify_client import ApifyClient
-            self._apify = ApifyClient(api_token=apify_token)
+            kwargs = {"api_token": apify_token}
+            if apify_ad_library_actor:
+                kwargs["ad_library_actor"] = apify_ad_library_actor
+            if apify_ig_actor:
+                kwargs["ig_actor"] = apify_ig_actor
+            self._apify = ApifyClient(**kwargs)
         # Caminho 1: Graph API oficial — funciona se app tiver permissoes.
         self._graph: "MetaGraphAPI | None" = None
         if graph_api_token:

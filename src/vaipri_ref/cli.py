@@ -300,5 +300,64 @@ def versao() -> None:
     console.print(f"vaipri-ref versao {__version__}")
 
 
+@app.command(name="check")
+def check_config() -> None:
+    """Diagnostica a configuracao atual (chaves, tokens, status)."""
+    cfg = carregar()
+
+    linhas = []
+    # Apify
+    if cfg.apify_api_token:
+        if cfg.tem_apify_token:
+            from vaipri_ref.discovery.apify_client import ApifyClient
+            try:
+                client = ApifyClient(api_token=cfg.apify_api_token)
+                ok, msg = client.validar_token()
+                if ok:
+                    linhas.append(f"[green]✓ APIFY_API_TOKEN[/]: {msg}")
+                else:
+                    linhas.append(f"[red]✗ APIFY_API_TOKEN[/]: {msg}")
+            except Exception as exc:
+                linhas.append(f"[red]✗ APIFY_API_TOKEN[/]: erro ao validar — {exc}")
+        else:
+            linhas.append(
+                f"[yellow]⚠ APIFY_API_TOKEN[/]: configurado mas parece placeholder "
+                f"(começa com '{cfg.apify_api_token[:15]}...'). "
+                f"Token Apify real geralmente começa com 'apify_api_'."
+            )
+    else:
+        linhas.append(
+            "[yellow]⚠ APIFY_API_TOKEN[/]: NAO configurado. "
+            "Configure em .env para dados reais (apify.com — $5 grátis)."
+        )
+
+    # Meta
+    if cfg.tem_meta_token:
+        linhas.append("[green]✓ META_ACCESS_TOKEN[/]: configurado (token aparenta valido).")
+    elif cfg.meta_access_token:
+        linhas.append(f"[yellow]⚠ META_ACCESS_TOKEN[/]: configurado mas parece placeholder.")
+    else:
+        linhas.append("[dim]— META_ACCESS_TOKEN: nao configurado (opcional, Apify e' o caminho principal).[/]")
+
+    # Anthropic (opcional)
+    if cfg.tem_chave_anthropic:
+        linhas.append("[green]✓ ANTHROPIC_API_KEY[/]: configurada (opcional, melhora match).")
+    else:
+        linhas.append("[dim]— ANTHROPIC_API_KEY: nao configurada (opcional).[/]")
+
+    linhas.append("")
+    linhas.append(f"[bold]País:[/] {cfg.country}")
+    linhas.append(f"[bold]Top N:[/] {cfg.top_n}")
+    linhas.append(f"[bold]Max candidatos:[/] {cfg.max_candidatos}")
+
+    console.print(
+        Panel(
+            "\n".join(linhas),
+            title="[bold]Diagnostico de configuracao[/]",
+            border_style="cyan",
+        )
+    )
+
+
 if __name__ == "__main__":  # pragma: no cover
     app()

@@ -1,13 +1,12 @@
 # Referencias para `ortopedista.test` — Ortopedia
 
 - Pais: **BR**
-- Gerado em (UTC): **2026-05-19T23:55:45.346527+00:00**
+- Gerado em (UTC): **2026-05-20T01:54:21.953870+00:00**
 - Candidatos brutos da Ad Library: **12**
 - Filtrados por especialidade errada: **2**
 - Sem anuncio ativo: **0**
 
 ## Avisos do pipeline
-- Claude API indisponivel (sem ANTHROPIC_API_KEY): validacao de especialidade e geracao de termos usaram heuristicas.
 - Modo DEMO ativo: os perfis listados sao FICTICIOS, gerados para validar o pipeline offline. NAO use os handles em producao.
 
 ## Termos de busca usados na Ad Library

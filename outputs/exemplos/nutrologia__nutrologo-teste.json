@@ -2,7 +2,7 @@
   "handle_cliente": "nutrologo.teste",
   "especialidade": "nutrologia",
   "pais": "BR",
-  "gerado_em": "2026-05-19T23:55:44.307457Z",
+  "gerado_em": "2026-05-20T01:54:20.808222Z",
   "referencias": [
     {
       "instagram_handle": "equilibrio.nutro",
@@ -356,7 +356,6 @@
   "lista_incompleta": true,
   "justificativa_lista_incompleta": "Foram encontradas apenas 9 referencias que cumprem TODOS os criterios (anuncio ativo, especialidade nutrologia, perfil acessivel). Conforme orientacao do case, NAO completamos a lista com perfis ruins. Total bruto de candidatos: 12; filtrados por especialidade: 3; sem anuncio ativo: 0.",
   "avisos": [
-    "Claude API indisponivel (sem ANTHROPIC_API_KEY): validacao de especialidade e geracao de termos usaram heuristicas.",
     "Modo DEMO ativo: os perfis listados sao FICTICIOS, gerados para validar o pipeline offline. NAO use os handles em producao."
   ]
 }

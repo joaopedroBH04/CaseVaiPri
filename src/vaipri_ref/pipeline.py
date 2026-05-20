@@ -90,11 +90,8 @@ def _executar(
     que o cache seja fechado mesmo em caso de excecao."""
     claude = ClaudeClient(api_key=cfg.anthropic_api_key, model=cfg.claude_model)
     avisos: list[str] = []
-    if not claude.disponivel:
-        avisos.append(
-            "Claude API indisponivel (sem ANTHROPIC_API_KEY): "
-            "validacao de especialidade e geracao de termos usaram heuristicas."
-        )
+    # Nota: a chave Anthropic e' opcional. Se nao houver, usamos heuristica
+    # silenciosamente (sem poluir os avisos do usuario final).
 
     # 1) termos de busca
     _emitir(on_progress, "termos", {})
@@ -148,6 +145,8 @@ def _executar(
             headless=cfg.headless,
             graph_api_token=cfg.meta_access_token if cfg.tem_meta_token else None,
             apify_token=cfg.apify_api_token if cfg.tem_apify_token else None,
+            apify_ad_library_actor=cfg.apify_ad_library_actor,
+            apify_ig_actor=cfg.apify_ig_actor,
         )
         candidatos = scraper_meta.buscar(termos, limite_por_termo=12)
 
@@ -209,7 +208,11 @@ def _executar(
     if not modo_demo and cfg.tem_apify_token:
         try:
             from vaipri_ref.discovery.apify_client import ApifyClient
-            apify_ig_client = ApifyClient(api_token=cfg.apify_api_token)
+            apify_ig_client = ApifyClient(
+                api_token=cfg.apify_api_token,
+                ad_library_actor=cfg.apify_ad_library_actor,
+                ig_actor=cfg.apify_ig_actor,
+            )
         except Exception as exc:
             logger.warning("Falha criando Apify IG client: %s", exc)
 
@@ -254,14 +257,26 @@ def _executar(
         try:
             from vaipri_ref.instagram.apify_ig import enriquecer_perfis
             _emitir(on_progress, "apify_ig", {"n_handles": len(handles_para_apify)})
+            logger.info("Apify IG: solicitando %d perfis...", len(handles_para_apify))
             perfis_apify = enriquecer_perfis(apify_ig_client, handles_para_apify)
             if perfis_apify:
                 avisos.append(
-                    f"Apify Instagram trouxe metricas reais de {len(perfis_apify)} de "
+                    f"✓ Apify Instagram trouxe metricas reais de {len(perfis_apify)} de "
                     f"{len(handles_para_apify)} perfis (seguidores, engajamento real, posts)."
                 )
+            else:
+                avisos.append(
+                    f"Apify IG foi chamado para {len(handles_para_apify)} handles mas "
+                    "retornou vazio. Possiveis causas: handles inferidos pela heuristica "
+                    "nao existem no IG; actor da Apify travado; ou credito esgotado."
+                )
         except Exception as exc:
-            logger.warning("Apify IG batch falhou: %s", exc)
+            logger.warning("Apify IG batch falhou: %s", exc, exc_info=True)
+            avisos.append(
+                f"Apify IG falhou: {exc}. Verifique APIFY_API_TOKEN no .env, "
+                "credito da conta Apify, e se o actor 'apify/instagram-profile-scraper' "
+                "esta acessivel."
+            )
 
     # SEGUNDA PASSADA: enriquece, matcha, scoreia.
     for cand, handle_res in candidatos_validos:
@@ -380,25 +395,15 @@ def _executar(
     if claude.aviso_fatal:
         avisos.append(claude.aviso_fatal)
 
-    # Aviso sobre qualidade quando muitos nomes ficaram genericos ou sem IG.
-    if not modo_demo and top:
-        n_sem_handle = sum(1 for r in top if not r.instagram_handle)
-        n_sem_metricas = sum(
-            1 for r in top
-            if r.metricas.seguidores is None
-        )
-        if n_sem_handle >= max(1, len(top) // 2):
+    # Avisos sobre qualidade somente quando Apify FALHOU. Se Apify nem
+    # foi configurada, o aviso sobre fonte (acima) ja cobre.
+    if not modo_demo and top and cfg.tem_apify_token:
+        n_sem_metricas = sum(1 for r in top if r.metricas.seguidores is None)
+        if n_sem_metricas == len(top):
             avisos.append(
-                f"{n_sem_handle} de {len(top)} referencias estao sem handle Instagram "
-                "auto-resolvido. Use o link da Biblioteca de Anuncios e o nome da Pagina "
-                "para localizar o perfil manualmente. Esse e o trade-off documentado em "
-                "docs/TRADE_OFFS.md: scraping anonimo do IG e bloqueado pela Meta."
-            )
-        if n_sem_metricas >= max(1, len(top) // 2):
-            avisos.append(
-                f"{n_sem_metricas} de {len(top)} referencias estao sem metricas do IG "
-                "(seguidores, engajamento). Para producao real com metricas, integrar "
-                "Apify ou Graph API Business com app verificado."
+                f"Apify configurado, mas nenhuma das {len(top)} referencias retornou "
+                "metricas. Possiveis causas: handles ainda nao foram resolvidos, "
+                "actor da Apify travado, ou credito do free tier esgotado."
             )
 
     resultado = Resultado(

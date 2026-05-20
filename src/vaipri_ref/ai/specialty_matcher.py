@@ -119,22 +119,51 @@ class SpecialtyMatcher:
 
         # Se a Ad Library retornou este anunciante para uma busca por termo
         # da especialidade, isso ja e evidencia forte que estamos certos.
+        # A confianca varia conforme MULTIPLOS fatores — nao e' fixa em 85% pra todos.
         if termo_busca_origem:
             esp_norm = _norm(especialidade)
             termo_norm = _norm(termo_busca_origem)
             termos_especialidade = _HEURISTICAS_FALLBACK.get(esp_norm, [esp_norm])
-            # Se o termo de busca contem ou e' um dos termos canonicos da
-            # especialidade, aceita com alta confianca.
+            # Procura o termo canonico mais especifico que bate.
+            termo_bateu = None
             for canonico in termos_especialidade:
                 if canonico in termo_norm or termo_norm in canonico:
-                    return ResultadoMatch(
-                        match=True,
-                        confianca=0.85,
-                        justificativa=(
-                            f"Retornado pela Ad Library na busca por {termo_busca_origem!r}, "
-                            f"que e' termo direto de {especialidade!r}."
-                        ),
-                    )
+                    termo_bateu = canonico
+                    break
+            if termo_bateu:
+                # Base: 70%
+                conf = 0.70
+                razoes = [
+                    f"veio da busca '{termo_busca_origem}' (termo direto de {especialidade})"
+                ]
+                # +10% se o nome canonico da especialidade aparece NO TEXTO do perfil
+                if any(
+                    canonico in contexto_norm
+                    for canonico in termos_especialidade[:3]  # principais
+                ):
+                    conf += 0.10
+                    razoes.append("nome do perfil cita a especialidade")
+                # +8% se bio/nome mencionam CRM, RQE ou doutor(a)
+                if any(t in contexto_norm for t in ["crm", "rqe", "dr.", "dra.", " dr ", " dra "]):
+                    conf += 0.08
+                    razoes.append("perfil indica registro medico (CRM/RQE/Dr.)")
+                # -8% se o nome FB foi 'Page XXX...' (info perdida no scraping)
+                if (nome_fb_page or "").startswith("Page ") and not (bio or nome):
+                    conf -= 0.08
+                    razoes.append("nome da pagina nao capturado (penalidade)")
+                # +3% por mais um termo da especialidade aparecendo no texto
+                bate_extra = sum(
+                    1 for c in termos_especialidade if c in contexto_norm
+                )
+                if bate_extra >= 2:
+                    conf += 0.05
+                    razoes.append(f"{bate_extra} termos relacionados aparecem")
+                conf = max(0.55, min(0.97, conf))
+                return ResultadoMatch(
+                    match=True,
+                    confianca=round(conf, 2),
+                    justificativa="; ".join(razoes).capitalize() + ".",
+                )
 
         contexto_textual = "\n".join(
             f"{rotulo}: {valor!r}"

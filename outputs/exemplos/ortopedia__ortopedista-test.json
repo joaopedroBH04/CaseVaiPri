@@ -2,7 +2,7 @@
   "handle_cliente": "ortopedista.test",
   "especialidade": "ortopedia",
   "pais": "BR",
-  "gerado_em": "2026-05-19T23:55:45.346527Z",
+  "gerado_em": "2026-05-20T01:54:21.953870Z",
   "referencias": [
     {
       "instagram_handle": "dr.marcossanches",
@@ -393,7 +393,6 @@
   "lista_incompleta": false,
   "justificativa_lista_incompleta": null,
   "avisos": [
-    "Claude API indisponivel (sem ANTHROPIC_API_KEY): validacao de especialidade e geracao de termos usaram heuristicas.",
     "Modo DEMO ativo: os perfis listados sao FICTICIOS, gerados para validar o pipeline offline. NAO use os handles em producao."
   ]
 }

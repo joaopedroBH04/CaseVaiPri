@@ -1,13 +1,12 @@
 # Referencias para `clinica.exemplo` — Dermatologia
 
 - Pais: **BR**
-- Gerado em (UTC): **2026-05-19T23:55:43.002956+00:00**
+- Gerado em (UTC): **2026-05-20T01:54:19.752864+00:00**
 - Candidatos brutos da Ad Library: **15**
 - Filtrados por especialidade errada: **4**
 - Sem anuncio ativo: **0**
 
 ## Avisos do pipeline
-- Claude API indisponivel (sem ANTHROPIC_API_KEY): validacao de especialidade e geracao de termos usaram heuristicas.
 - Modo DEMO ativo: os perfis listados sao FICTICIOS, gerados para validar o pipeline offline. NAO use os handles em producao.
 
 ## Termos de busca usados na Ad Library
