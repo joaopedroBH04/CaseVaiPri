@@ -182,6 +182,21 @@ def _executar(
     # corta no max_candidatos
     candidatos = candidatos[: cfg.max_candidatos]
 
+    # Refina a contagem REAL de anuncios ativos usando Apify (1 chamada batch).
+    # Sem isso, mostraríamos só os anuncios que apareceram nas buscas por termo,
+    # nao o total da pagina. Usuario reportou divergencia com a Ad Library na UI.
+    if not modo_demo and candidatos and cfg.tem_apify_token:
+        _emitir(on_progress, "ad_library_refine", {"n_paginas": len(candidatos)})
+        candidatos, n_atualizados = scraper_meta.refinar_contagem_ads(candidatos)
+        if n_atualizados:
+            avisos.append(
+                f"✓ Contagem REAL de anuncios atualizada via Apify para "
+                f"{n_atualizados} de {len(candidatos)} candidatos. Agora os "
+                "numeros batem com o que aparece na Biblioteca de Anuncios."
+            )
+        # Reordena por nova contagem (mais ads = mais alto)
+        candidatos = sorted(candidatos, key=lambda c: c.n_anuncios_ativos, reverse=True)
+
     if not candidatos and not modo_demo:
         if cfg.tem_meta_token:
             avisos.append(

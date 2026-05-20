@@ -101,3 +101,68 @@ def buscar_anunciantes(
     logger.info("Apify Ad Library: termo %r -> %d anuncios -> %d paginas",
                 termo, len(items), len(agregado))
     return list(agregado.values())
+
+
+def contar_anuncios_de_paginas(
+    client: ApifyClient,
+    page_ids: list[str],
+    *,
+    country: str = "BR",
+    max_por_pagina: int = 200,
+) -> dict[str, int]:
+    """Conta o TOTAL REAL de anuncios ativos por page_id.
+
+    Necessario porque a busca por termo so' retorna anuncios que mencionam
+    aquele termo — nao o total da pagina. Por exemplo, uma dermato pode
+    ter 25 anuncios ativos mas so' 5 mencionam 'dermatologia'.
+
+    Faz UMA UNICA chamada Apify com URLs especificas de cada pagina
+    (formato `view_all_page_id=...`), agregando os resultados.
+
+    Retorna dict {page_id: n_anuncios_ativos}. Paginas sem anuncios
+    ativos ou nao encontradas nao aparecem no dict.
+    """
+    if not page_ids:
+        return {}
+
+    # Dedup mantendo ordem
+    page_ids = list(dict.fromkeys(page_ids))
+
+    urls = [
+        {
+            "url": (
+                f"https://www.facebook.com/ads/library/"
+                f"?active_status=active&ad_type=all"
+                f"&country={country}&view_all_page_id={pid}"
+                f"&media_type=all"
+            )
+        }
+        for pid in page_ids
+    ]
+
+    run_input = {
+        "urls": urls,
+        "count": max_por_pagina,
+        "scrapeAdDetails": False,  # so contagem, nao precisamos do conteudo
+        "scrapePageAds.activeStatus": "active",
+    }
+
+    try:
+        items = client._run_sync(client._cfg.ad_library_actor, run_input)
+    except ApifyError as exc:
+        logger.warning("Apify contagem por pagina falhou: %s", exc)
+        return {}
+
+    contagem: dict[str, int] = {}
+    for item in items:
+        normalizado = _normalizar_anuncio(item)
+        pid = normalizado.get("page_id")
+        if not pid:
+            continue
+        contagem[pid] = contagem.get(pid, 0) + 1
+
+    logger.info(
+        "Apify contagem por pagina: %d paginas solicitadas, %d com anuncios contados",
+        len(page_ids), len(contagem),
+    )
+    return contagem

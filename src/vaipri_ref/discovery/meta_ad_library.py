@@ -112,6 +112,42 @@ class MetaAdLibraryScraper:
     def usando_apify(self) -> bool:
         return self._apify is not None
 
+    def refinar_contagem_ads(self, candidatos: list[Candidato]) -> tuple[list[Candidato], int]:
+        """Refina o numero de anuncios ativos por candidato usando Apify.
+
+        A busca por termo so' conta os anuncios que MENCIONAM o termo —
+        nao o total da pagina. Aqui chamamos a Apify com URLs especificas
+        de cada page_id pra pegar o numero REAL e atualizar.
+
+        Retorna (candidatos_atualizados, n_atualizados). Se nao tem Apify,
+        retorna os mesmos candidatos sem mudar nada.
+        """
+        if not self._apify or not candidatos:
+            return candidatos, 0
+
+        from vaipri_ref.discovery.apify_ad_library import contar_anuncios_de_paginas
+
+        page_ids = [c.fb_page_id for c in candidatos]
+        try:
+            contagem_real = contar_anuncios_de_paginas(
+                self._apify, page_ids, country=self.country
+            )
+        except Exception as exc:
+            logger.warning("Refinamento de contagem falhou: %s", exc)
+            return candidatos, 0
+
+        atualizados = 0
+        novos = []
+        for cand in candidatos:
+            real = contagem_real.get(cand.fb_page_id)
+            if real is not None and real != cand.n_anuncios_ativos:
+                # Pydantic v2: usa model_copy pra criar versao atualizada
+                novos.append(cand.model_copy(update={"n_anuncios_ativos": real}))
+                atualizados += 1
+            else:
+                novos.append(cand)
+        return novos, atualizados
+
     @property
     def apify_efetiva(self) -> bool:
         return self.stats_apify_ok > 0
