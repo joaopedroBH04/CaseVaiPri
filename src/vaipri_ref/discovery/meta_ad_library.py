@@ -113,39 +113,67 @@ class MetaAdLibraryScraper:
         return self._apify is not None
 
     def refinar_contagem_ads(self, candidatos: list[Candidato]) -> tuple[list[Candidato], int]:
-        """Refina o numero de anuncios ativos por candidato usando Apify.
+        """Refina o numero de anuncios ativos com a contagem OFICIAL da Meta.
 
-        A busca por termo so' conta os anuncios que MENCIONAM o termo —
-        nao o total da pagina. Aqui chamamos a Apify com URLs especificas
-        de cada page_id pra pegar o numero REAL e atualizar.
+        Estrategia dupla pra maximizar precisao (o numero precisa bater
+        com o '~XX resultados' que aparece no Ad Library da Meta):
 
-        Retorna (candidatos_atualizados, n_atualizados). Se nao tem Apify,
-        retorna os mesmos candidatos sem mudar nada.
+        1. **HTML scraping direto** da pagina `view_all_page_id=...`:
+           pega o '~XX resultados' que a Meta exibe no topo. Quando
+           funciona, e o numero MAIS oficial possivel.
+
+        2. **Apify Ad Library com count alto**: pega ate 1000 anuncios
+           por pagina e conta. Funciona em qualquer rede mas custa
+           credito Apify.
+
+        Pega o MAIOR dos dois (mais conservador, evita subcontagem).
+
+        Retorna (candidatos_atualizados, n_atualizados).
         """
-        if not self._apify or not candidatos:
+        if not candidatos:
             return candidatos, 0
-
-        from vaipri_ref.discovery.apify_ad_library import contar_anuncios_de_paginas
 
         page_ids = [c.fb_page_id for c in candidatos]
-        try:
-            contagem_real = contar_anuncios_de_paginas(
-                self._apify, page_ids, country=self.country
-            )
-        except Exception as exc:
-            logger.warning("Refinamento de contagem falhou: %s", exc)
-            return candidatos, 0
 
+        # Fonte 1: HTML scraping (gratuito, mais oficial quando funciona).
+        # Roda primeiro pra ja ter algum numero mesmo se Apify falhar.
+        from vaipri_ref.discovery.ad_library_html import contar_anuncios_via_html_batch
+        try:
+            contagem_html = contar_anuncios_via_html_batch(page_ids, country=self.country)
+        except Exception as exc:
+            logger.debug("HTML scraping falhou no batch: %s", exc)
+            contagem_html = {}
+
+        # Fonte 2: Apify (quando disponivel) com count alto.
+        contagem_apify: dict[str, int] = {}
+        if self._apify:
+            from vaipri_ref.discovery.apify_ad_library import contar_anuncios_de_paginas
+            try:
+                contagem_apify = contar_anuncios_de_paginas(
+                    self._apify, page_ids, country=self.country
+                )
+            except Exception as exc:
+                logger.warning("Apify refinamento falhou: %s", exc)
+
+        # Combina: pega o MAIOR dos dois (Apify e HTML), e nunca menor
+        # que o que ja vinha do scraping inicial (defesa em profundidade).
         atualizados = 0
         novos = []
         for cand in candidatos:
-            real = contagem_real.get(cand.fb_page_id)
-            if real is not None and real != cand.n_anuncios_ativos:
-                # Pydantic v2: usa model_copy pra criar versao atualizada
-                novos.append(cand.model_copy(update={"n_anuncios_ativos": real}))
+            cand_real = cand.n_anuncios_ativos
+            via_apify = contagem_apify.get(cand.fb_page_id, 0)
+            via_html = contagem_html.get(cand.fb_page_id, 0)
+            melhor = max(cand_real, via_apify, via_html)
+            if melhor != cand.n_anuncios_ativos:
+                novos.append(cand.model_copy(update={"n_anuncios_ativos": melhor}))
                 atualizados += 1
             else:
                 novos.append(cand)
+
+        logger.info(
+            "Refinamento de contagem: %d candidatos atualizados (HTML: %d, Apify: %d)",
+            atualizados, len(contagem_html), len(contagem_apify),
+        )
         return novos, atualizados
 
     @property

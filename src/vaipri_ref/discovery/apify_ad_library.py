@@ -108,7 +108,7 @@ def contar_anuncios_de_paginas(
     page_ids: list[str],
     *,
     country: str = "BR",
-    max_por_pagina: int = 200,
+    max_por_pagina: int = 1000,
 ) -> dict[str, int]:
     """Conta o TOTAL REAL de anuncios ativos por page_id.
 
@@ -116,16 +116,16 @@ def contar_anuncios_de_paginas(
     aquele termo — nao o total da pagina. Por exemplo, uma dermato pode
     ter 25 anuncios ativos mas so' 5 mencionam 'dermatologia'.
 
-    Faz UMA UNICA chamada Apify com URLs especificas de cada pagina
-    (formato `view_all_page_id=...`), agregando os resultados.
+    O numero alvo e' o '~XX resultados' que aparece na Ad Library da
+    Meta logo abaixo da foto do anunciante. Pra garantir esse numero,
+    usamos count alto (1000 por URL) no actor da Apify — paginas com
+    ate ~1000 anuncios sao contadas corretamente.
 
-    Retorna dict {page_id: n_anuncios_ativos}. Paginas sem anuncios
-    ativos ou nao encontradas nao aparecem no dict.
+    Retorna dict {page_id: n_anuncios_ativos}.
     """
     if not page_ids:
         return {}
 
-    # Dedup mantendo ordem
     page_ids = list(dict.fromkeys(page_ids))
 
     urls = [
