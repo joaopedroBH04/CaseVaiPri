@@ -179,14 +179,22 @@ class MetaAdLibraryScraper:
     # ------------- caminhos ----------------
 
     def _buscar_termo(self, termo: str, *, limite: int) -> list[_AdvertiserBruto]:
+        # Versao da chave inclui um numero — incrementar quando o formato
+        # de scraping/coleta muda, pra invalidar cache antigo automaticamente.
         chave = self.cache.chave(
-            "ad_library", self.country, termo,
+            "ad_library_v3", self.country, termo,
             bool(self._apify), bool(self._graph),
         )
         cached = self.cache.get(chave)
         if cached is not None:
             try:
-                return [_AdvertiserBruto(**c) for c in cached]
+                cacheado = [_AdvertiserBruto(**c) for c in cached]
+                fonte = "Apify" if self._apify else ("Graph API" if self._graph else "scraping")
+                logger.info(
+                    "Termo %r veio do CACHE (%s) -> %d resultados",
+                    termo, fonte, len(cacheado),
+                )
+                return cacheado
             except Exception:
                 pass
 

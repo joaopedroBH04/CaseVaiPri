@@ -104,17 +104,75 @@ class SpecialtyMatcher:
         contexto_full = " ".join(filter(None, [nome, bio, nome_fb_page]))
         contexto_norm = _norm(contexto_full)
         anti_keywords = [
-            "hospital", "rede de clinicas", "plano de saude", "sus",
-            "marca de", "loja de", "suplemento",
+            # Institucionais
+            "hospital", "rede de clinicas", "plano de saude", "sus", "operadora",
+            # Marcas / lojas / produtos
+            "marca de", "loja de", "loja oficial", "perfil oficial da marca",
+            "comercio", "ecommerce", "e-commerce", "compre online", "shop",
+            "venda online", "produto oficial",
+            # Indústria de cosmeticos e farmacos
+            "cosmetic", "cosmeticos", "skincare brand", "linha de produtos",
+            "drogaria", "farmacia", "drogarias", "drugstore",
+            "suplemento", "vitamina marca",
+            # Não-médicos (nutricionista e profissao separada — CRN, nao CRM)
             "personal trainer", "coach", "influencer", "lifestyle",
-            "sem medico", "nao sou medic",
+            "nutricionista crn",  # so filtra se diz explicitamente "nutricionista CRN"
+            # Auto-declaracoes
+            "sem medico", "nao sou medic", "nao tenho crm", "sem crm",
         ]
         for ex in anti_keywords:
             if ex in contexto_norm:
                 return ResultadoMatch(
                     match=False,
                     confianca=0.85,
-                    justificativa=f"Anti-keyword detectada: {ex!r} (institucional/nao-medico).",
+                    justificativa=f"Filtrado: contem {ex!r} (nao e' medico individual).",
+                )
+
+        # Padrao de marca / nao-medico: nome todo em CAPS sem Dr/Dra (ex: 'BEYOUNG').
+        # So aplica se nao tem evidencia de medico no contexto.
+        if nome_fb_page:
+            nome_sem_pontuacao = re.sub(r"[^A-Za-z]", "", nome_fb_page)
+            if len(nome_sem_pontuacao) >= 5 and nome_sem_pontuacao.isupper():
+                ev_medico = any(
+                    t in contexto_norm
+                    for t in ["dr.", "dra.", " dr ", " dra ", "crm", "rqe", "medic"]
+                )
+                if not ev_medico:
+                    return ResultadoMatch(
+                        match=False,
+                        confianca=0.80,
+                        justificativa=(
+                            f"Nome todo em maiusculas ({nome_fb_page!r}) sem evidencia "
+                            "de medico individual — perfil de marca."
+                        ),
+                    )
+
+        # Quando temos seguidores muito altos (>500k) E nenhuma evidencia de
+        # medico individual, e' muito provavel ser marca/loja. Esse heuristico
+        # foi adicionado depois de SkinCeuticals/Drogaria São Paulo passarem
+        # em testes reais.
+        # (so e' aplicado quando temos bio do IG = vindo da Apify)
+        if bio and len(bio) > 30:
+            bio_norm = _norm(bio)
+            indicios_marca = [
+                "oficial", "linha", "produto", "kit", "compre", "comprar",
+                "envio gratis", "frete gratis", "loja", "site oficial",
+                "cosmetic", "cosmeticos", "skincare", "perfume",
+                "farmacia", "drogaria", "medicamento",
+                "redes sociais", "midias sociais",
+            ]
+            n_indicios = sum(1 for ind in indicios_marca if ind in bio_norm)
+            ev_medico_bio = any(
+                t in bio_norm for t in ["medico", "medica", "crm", "rqe", "dr.", "dra."]
+            )
+            if n_indicios >= 2 and not ev_medico_bio:
+                return ResultadoMatch(
+                    match=False,
+                    confianca=0.80,
+                    justificativa=(
+                        f"Bio com {n_indicios} indicios de marca/loja "
+                        "(linha, kit, comprar, etc) e sem mencao a CRM ou medico."
+                    ),
                 )
 
         # Se a Ad Library retornou este anunciante para uma busca por termo

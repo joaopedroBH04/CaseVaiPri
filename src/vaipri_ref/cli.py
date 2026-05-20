@@ -300,6 +300,23 @@ def versao() -> None:
     console.print(f"vaipri-ref versao {__version__}")
 
 
+@app.command(name="limpar-cache")
+def limpar_cache() -> None:
+    """Apaga o cache local pra forcar buscas frescas."""
+    import shutil
+
+    cfg = carregar()
+    cache_dir = cfg.cache_dir
+    if not cache_dir.exists():
+        console.print("[dim]Cache ja estava vazio.[/]")
+        return
+    try:
+        shutil.rmtree(cache_dir)
+        console.print(f"[green]Cache apagado em {cache_dir}.[/]")
+    except Exception as exc:
+        console.print(f"[red]Falha ao apagar cache: {exc}[/]")
+
+
 @app.command(name="check")
 def check_config() -> None:
     """Diagnostica a configuracao atual (chaves, tokens, status)."""
