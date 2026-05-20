@@ -185,11 +185,6 @@ Detalhes técnicos em [`docs/ARQUITETURA.md`](./docs/ARQUITETURA.md).
 
 ---
 
-## Loom
-
-Roteiro completo de 4m30s em [`docs/ROTEIRO_LOOM.md`](./docs/ROTEIRO_LOOM.md),
-pronto pra gravar bloco por bloco. Inclui falas, comandos e tempo por
-seção.
 
 ---
 
