@@ -35,6 +35,28 @@
 
 ---
 
+## Pergunta provável 2.5 — "Por que escala 0–10 e não 0–100 como o enunciado pediu?"
+
+**Resposta direta (40s, decisão consciente):**
+
+> Escolhi 0–10 com uma decimal (ex: `7.6`) em vez de 0–100. **É o mesmo
+> grão informacional** — resolução de 0.1 equivale a 1/100 do range —
+> mas com leitura humana muito melhor:
+>
+> 1. **0–10 mapeia em rótulos sem ambiguidade.** `7.6` → "Muito boa".
+>    Em 0–100, ver `76` exige mental math pra saber se é bom ou médio.
+>    0–10 dialoga com cabeça de analista (notas de escola, IMDB, Letterboxd).
+> 2. **Em 0–100, diferença entre 73 e 76 é ruído.** O score é heurística
+>    informada, não modelo treinado. Sugerir precisão de 1/100 superestima
+>    o que a fórmula entrega — 0–10 expõe essa realidade com honestidade.
+> 3. **Os pesos somam 10 naturalmente** (2.5+2.0+1.5+1.5+1.5+1.0).
+>    Cada parcela do breakdown bate sem mental math.
+>
+> Quem quiser ver em base 100, multiplica por 10 — equivalente exato.
+> **Decisão documentada em `docs/TRADE_OFFS.md §5`**.
+
+---
+
 ## Pergunta provável 3 — "E se não encontrar 10? Vai inflar a lista?"
 
 **Resposta direta (30s):**

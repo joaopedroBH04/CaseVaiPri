@@ -1,7 +1,7 @@
 # Referencias para `nutrologo.teste` — Nutrologia
 
 - Pais: **BR**
-- Gerado em (UTC): **2026-05-20T06:46:47.671540+00:00**
+- Gerado em (UTC): **2026-05-21T13:30:01.213607+00:00**
 - Candidatos brutos da Ad Library: **12**
 - Filtrados por especialidade errada: **3**
 - Sem anuncio ativo: **0**

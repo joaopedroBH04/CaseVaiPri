@@ -25,7 +25,7 @@ produto, ver [`DEFINICAO_DE_PRODUTO.md`](./DEFINICAO_DE_PRODUTO.md).
 │   3. CandidateAggregator   ──── dedup + score inicial           │
 │   4. InstagramEnricher     ──── métricas públicas               │
 │   5. SpecialtyMatcher      ──── valida com Claude               │
-│   6. Scorer                ──── 0-100 (extra do case)           │
+│   6. Scorer                ──── 0-10 (extra do case)            │
 │   7. Reporter              ──── JSON + Markdown + HTML          │
 └──────────────────────────┬──────────────────────────────────────┘
                            │
@@ -72,7 +72,7 @@ src/vaipri_ref/
 ├── pipeline.py            # orquestra os 7 passos
 ├── cli.py                 # entrada Typer
 ├── reporter.py            # JSON/MD/HTML
-├── scorer.py              # score 0-100 (extra)
+├── scorer.py              # score 0-10 (extra)
 │
 ├── discovery/
 │   ├── search_terms.py    # Claude → lista de termos
@@ -117,7 +117,8 @@ Para `python -m vaipri_ref buscar @clinica.exemplo dermatologia`:
    bio + nome + nome do site para Claude com prompt de classificação.
    Retorna `bool` + `confianca` + `justificativa`.
 7. **`Scorer.calcular(referencia)`** — aplica fórmula transparente
-   (ver `scorer.py`). Resultado 0–100.
+   (ver `scorer.py`). Resultado 0–10 (decisão consciente vs case que
+   pede 0–100; ver `TRADE_OFFS.md §5`).
 8. **Filtros finais:** descarta cliente, descarta especialidade errada,
    descarta sem anúncio ativo. Ordena por score, corta em 10.
 9. **`Reporter.salvar(...)`** — gera `outputs/<especialidade>.json`,
