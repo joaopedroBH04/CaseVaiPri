@@ -216,7 +216,7 @@ nao penalizar perfis com IG bloqueado.
 | Parse de numero (formatos ambig.)  | `test_ig_parser.py::TestParseNumero`          | 12     |
 | Parser Ad Library (vazamento, etc) | `test_ad_library_parser.py`                   | 5      |
 
-**Total: 53 testes especificos de robustez** (de 100 testes verdes na suite completa).
+**Total: 53 testes especificos de robustez** (de 137 testes verdes na suite completa).
 
 ---
 

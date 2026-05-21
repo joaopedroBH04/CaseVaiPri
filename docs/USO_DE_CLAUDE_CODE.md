@@ -191,5 +191,5 @@ Decisoes estrategicas que sao **minhas**, nao do Claude:
 | Robustez          | 29 testes em `tests/test_robustez.py` cobrindo os 3 casos do enunciado     |
 | Defesa de decisoes| `docs/TRADE_OFFS.md` — autocritica + escolhas conscientes                  |
 
-100 testes pytest verdes. 8255 linhas de codigo. 2 commits no git
-contando contribuicoes incrementais. Tudo defendivel.
+137 testes pytest verdes. ~5150 linhas de codigo em 28 arquivos Python.
+28 commits incrementais no git, cada um com diff focado. Tudo defendivel.

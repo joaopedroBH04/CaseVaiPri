@@ -46,7 +46,7 @@ streamlit run app/streamlit_app.py
 | ---------------------------------------------------- | ---------------------------------------------------------- |
 | **1.** Definição de produto **antes** do código       | [`docs/DEFINICAO_DE_PRODUTO.md`](./docs/DEFINICAO_DE_PRODUTO.md) |
 | **2.** Critério para "bom médico" — tese clara        | [`docs/DEFINICAO_DE_PRODUTO.md`](./docs/DEFINICAO_DE_PRODUTO.md) §1 |
-| **3.** Funciona — entrega o esperado                  | `vaipri-ref buscar ...` + [`outputs/exemplos/`](./outputs/exemplos/) + 116 testes pytest |
+| **3.** Funciona — entrega o esperado                  | `vaipri-ref buscar ...` + [`outputs/exemplos/`](./outputs/exemplos/) + 137 testes pytest |
 | **4.** Uso estratégico de Claude Code                 | [`docs/USO_DE_CLAUDE_CODE.md`](./docs/USO_DE_CLAUDE_CODE.md) |
 | **5.** Robustez — input estranho (@ inexistente etc.) | [`docs/ROBUSTEZ.md`](./docs/ROBUSTEZ.md) (53 testes específicos) |
 
@@ -89,9 +89,8 @@ CaseVaiPri/
 │   ├── TRADE_OFFS.md                ← autocrítica + limites
 │   ├── USO_DE_CLAUDE_CODE.md        ← como usei Claude Code estrategicamente
 │   ├── ROBUSTEZ.md                  ← cobertura de inputs estranhos
-│   ├── COMO_ATIVAR_DADOS_REAIS.md   ← tutorial Apify (gratuito)
-│   └── ROTEIRO_LOOM.md              ← script de 4m30s para o vídeo
-├── src/vaipri_ref/                  ← código-fonte (~3000 linhas)
+│   └── COMO_ATIVAR_DADOS_REAIS.md   ← tutorial Apify (gratuito)
+├── src/vaipri_ref/                  ← código-fonte (~5150 linhas)
 │   ├── pipeline.py                  ← orquestrador (7 etapas)
 │   ├── discovery/                   ← Apify Ad Library + Graph + scraping
 │   ├── instagram/                   ← Apify IG + heurística de handle
@@ -101,7 +100,7 @@ CaseVaiPri/
 │   └── cli.py                       ← `vaipri-ref` commands
 ├── app/streamlit_app.py             ← interface web
 ├── outputs/exemplos/                ← 3 inputs de teste pré-gerados
-└── tests/                           ← 116 testes pytest (todos verdes)
+└── tests/                           ← 137 testes pytest (todos verdes)
 ```
 
 ---
@@ -181,7 +180,7 @@ Detalhes técnicos em [`docs/ARQUITETURA.md`](./docs/ARQUITETURA.md).
 - **Streamlit** para interface web
 - **diskcache** para cache local (não persiste entre runs sensíveis)
 - **httpx + tenacity** para HTTP robusto
-- **pytest** para 116 testes automatizados
+- **pytest** para 137 testes automatizados
 
 ---
 

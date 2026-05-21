@@ -152,7 +152,7 @@ e está no mesmo diretório do projeto.
 pytest
 ```
 
-**Esperado**: `116 passed in ~8s`. Se vir falhas, ative o virtualenv
+**Esperado**: `137 passed in ~8s`. Se vir falhas, ative o virtualenv
 de novo e reinstale (`pip install -e .`).
 
 ### 5.2 — Primeira busca (modo demo, instantâneo)
@@ -214,7 +214,7 @@ Você pode **comentar com `#`** ou **apagar a linha** das que não usar.
 | `vaipri-ref limpar-cache` | Apaga cache para forçar busca fresca |
 | `vaipri-ref versao` | Mostra a versão instalada |
 | `streamlit run app/streamlit_app.py` | Sobe a interface web |
-| `pytest` | Roda os 116 testes automatizados |
+| `pytest` | Roda os 137 testes automatizados |
 
 ---
 
